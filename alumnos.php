@@ -41,9 +41,10 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila['nivel'] . "</td>";
         echo "<td>" . $fila['grado'] . "º " . $fila['grupo'] . "</td>";
         echo "<td>
-                            <a href='editar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-warning btn-sm'>Editar</a>
-                            <a href='eliminar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'>Eliminar</a>
-                          </td>";
+        <a href='boleta.php?id=" . $fila['id_alumno'] . "' class='btn btn-info btn-sm text-white'>📄 Boleta</a>
+        <a href='editar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-warning btn-sm'>Editar</a>
+        <a href='eliminar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'>Eliminar</a>
+      </td>";
         echo "</tr>";
     }
 }
