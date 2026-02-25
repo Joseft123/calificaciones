@@ -2,17 +2,17 @@
 session_start();
 // Validar que el usuario haya iniciado sesión
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
-include 'conexion.php';
+include '../includes/conexion.php';
 
 // Obtener la lista de alumnos
 $sql = "SELECT id_alumno, matricula, nombre, apellidos, nivel, grado, grupo FROM alumnos ORDER BY nivel, grado, grupo ASC";
 $resultado = $conexion->query($sql);
 
-include 'header.php';
+include '../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -41,7 +41,7 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila['nivel'] . "</td>";
         echo "<td>" . $fila['grado'] . "º " . $fila['grupo'] . "</td>";
         echo "<td>
-        <a href='boleta.php?id=" . $fila['id_alumno'] . "' class='btn btn-info btn-sm text-white'>📄 Boleta</a>
+        <a href='../calificaciones/boleta.php?id=" . $fila['id_alumno'] . "' class='btn btn-info btn-sm text-white'>📄 Boleta</a>
         <a href='editar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-warning btn-sm'>Editar</a>
         <a href='eliminar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'>Eliminar</a>
       </td>";

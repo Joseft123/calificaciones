@@ -1,16 +1,16 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-include 'conexion.php';
+include '../includes/conexion.php';
 
 // Obtener la lista de materias ordenadas por nivel y grado
 $sql = "SELECT id_materia, clave_materia, nombre_materia, nivel, grado FROM materias ORDER BY nivel, grado ASC";
 $resultado = $conexion->query($sql);
 
-include 'header.php';
+include '../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">

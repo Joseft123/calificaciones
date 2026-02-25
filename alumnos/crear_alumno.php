@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-include 'conexion.php';
-include 'header.php';
+include '../includes/conexion.php';
+include '../includes/header.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $matricula = $conexion->real_escape_string($_POST['matricula']);

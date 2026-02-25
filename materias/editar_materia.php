@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-include 'conexion.php';
-include 'header.php';
+include '../includes/conexion.php';
+include '../includes/header.php';
 
 // Cargar los datos de la materia si recibimos un ID
 if (isset($_GET['id'])) {

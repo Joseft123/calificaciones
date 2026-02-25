@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-include 'conexion.php';
+include '../includes/conexion.php';
 
 // Validar que se reciba el ID del alumno
 if (!isset($_GET['id'])) {
-    echo "<div style='padding:20px; text-align:center;'><h3>No se ha seleccionado ningún alumno.</h3><a href='alumnos.php'>Volver</a></div>";
+    echo "<div style='padding:20px; text-align:center;'><h3>No se ha seleccionado ningún alumno.</h3><a href='../alumnos/alumnos.php'>Volver</a></div>";
     exit();
 }
 
@@ -19,7 +19,7 @@ $sql_alumno = "SELECT matricula, nombre, apellidos, nivel, grado, grupo FROM alu
 $res_alumno = $conexion->query($sql_alumno);
 
 if ($res_alumno->num_rows == 0) {
-    echo "<div style='padding:20px; text-align:center;'><h3>Alumno no encontrado.</h3><a href='alumnos.php'>Volver</a></div>";
+    echo "<div style='padding:20px; text-align:center;'><h3>Alumno no encontrado.</h3><a href='../alumnos/alumnos.php'>Volver</a></div>";
     exit();
 }
 $alumno = $res_alumno->fetch_assoc();

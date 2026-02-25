@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
-include 'conexion.php';
+include '../includes/conexion.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
