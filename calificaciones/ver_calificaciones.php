@@ -2,9 +2,9 @@
 // Iniciar o retomar la sesión existente
 session_start();
 
-// Validar si la variable de sesión 'id_usuario' NO existe
-if (!isset($_SESSION['id_usuario'])) {
-    // Si no existe, redirigimos al usuario a la pantalla de login
+// Validar si la variable de sesión 'id_usuario' o 'id_docente' NO existen
+if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
+    // Si no existe ninguna, redirigimos al usuario a la pantalla de login
     header("Location: ../auth/login.php");
     exit();
 }

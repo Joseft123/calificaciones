@@ -10,30 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password_ingresada = $_POST['password'];
 
-    // Buscar al usuario por su correo
-    $sql = "SELECT id_usuario, nombre, password, rol FROM usuarios WHERE correo = '$correo'";
+    // Buscar al docente por su correo
+    $sql = "SELECT id_docente, nombre, apellidos, password FROM docentes WHERE correo = '$correo'";
     $resultado = $conexion->query($sql);
 
-    // Si el usuario existe
+    // Si el docente existe
     if ($resultado->num_rows == 1) {
         $usuario = $resultado->fetch_assoc();
-
-        // Verificar que sea docente
-        if ($usuario['rol'] !== 'Docente') {
-            echo "<script>
-                    alert('❌ Acceso denegado. Este portal es exclusivo para docentes.'); 
-                    window.location='login_docente.php';
-                  </script>";
-            exit();
-        }
 
         // Verificar la contraseña 
         if (password_verify($password_ingresada, $usuario['password'])) {
 
             // Si la contraseña es correcta, guardamos sus datos en variables de sesión
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
-            $_SESSION['nombre'] = $usuario['nombre'];
-            $_SESSION['rol'] = $usuario['rol'];
+            $_SESSION['id_docente'] = $usuario['id_docente'];
+            $_SESSION['nombre_docente'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
 
             // Redirigir al sistema
             header("Location: ../calificaciones/ver_calificaciones.php");
