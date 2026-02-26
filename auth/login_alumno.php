@@ -93,7 +93,8 @@ if (isset($_SESSION['id_usuario'])) {
     </form>
 
     <div class="text-center mt-4">
-        <a href="login.php" class="text-decoration-none small">👨‍🏫 Soy Docente / Administrativo</a>
+        <a href="login_docente.php" class="text-decoration-none small text-info d-block mb-2">👨‍🏫 Acceso Docentes</a>
+        <a href="login.php" class="text-decoration-none small d-block">🏢 Acceso Administrativo</a>
     </div>
 </div>
 

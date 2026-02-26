@@ -10,7 +10,7 @@ if (isset($_SESSION['id_usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Sistema Escolar</title>
+    <title>Acceso Docentes - Sistema Escolar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { 
@@ -72,10 +72,10 @@ if (isset($_SESSION['id_usuario'])) {
     <button class="theme-toggle-btn" id="btnThemeToggle" title="Cambiar Tema">
         <span id="themeIcon">🌙</span>
     </button>
-    <h3 class="text-center text-primary mb-4">🏢 Portal Administrativo</h3>
-    <p class="text-center text-muted small mb-4">Acceso para Directivos, Coordinadores y Administrativos.</p>
+    <h3 class="text-center text-info mb-4">👨‍🏫 Portal de Docentes</h3>
+    <p class="text-center text-muted small mb-4">Ingresa para gestionar calificaciones.</p>
     
-    <form action="procesar_login.php" method="POST">
+    <form action="procesar_login_docente.php" method="POST">
         <div class="mb-3">
             <label for="correo" class="form-label fw-bold">Correo Electrónico</label>
             <input type="email" class="form-control" id="correo" name="correo" required>
@@ -84,11 +84,11 @@ if (isset($_SESSION['id_usuario'])) {
             <label for="password" class="form-label fw-bold">Contraseña</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100 btn-lg mt-3">Ingresar</button>
+        <button type="submit" class="btn btn-info text-white w-100 btn-lg mt-3">Ingresar</button>
     </form>
     
     <div class="text-center mt-4">
-        <a href="login_docente.php" class="text-decoration-none small text-info d-block mb-2">👨‍🏫 Soy Docente</a>
+        <a href="login.php" class="text-decoration-none small d-block mb-2">🏢 Acceso Administrativo</a>
         <a href="login_alumno.php" class="text-decoration-none small text-success d-block">🎓 Soy Alumno / Consultar Calificaciones</a>
     </div>
 </div>

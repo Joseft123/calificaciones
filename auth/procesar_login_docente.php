@@ -18,17 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($resultado->num_rows == 1) {
         $usuario = $resultado->fetch_assoc();
 
-        // Verificar que NO sea docente
-        if ($usuario['rol'] === 'Docente') {
+        // Verificar que sea docente
+        if ($usuario['rol'] !== 'Docente') {
             echo "<script>
-                    alert('❌ Acceso denegado. Los docentes deben ingresar por su portal.'); 
-                    window.location='login.php';
+                    alert('❌ Acceso denegado. Este portal es exclusivo para docentes.'); 
+                    window.location='login_docente.php';
                   </script>";
             exit();
         }
 
         // Verificar la contraseña 
-        // Nota: El hash que insertamos en el paso anterior corresponde a la contraseña: '123456'
         if (password_verify($password_ingresada, $usuario['password'])) {
 
             // Si la contraseña es correcta, guardamos sus datos en variables de sesión
@@ -45,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Contraseña incorrecta
             echo "<script>
                     alert('❌ Contraseña incorrecta'); 
-                    window.location='login.php';
+                    window.location='login_docente.php';
                   </script>";
         }
     }
@@ -53,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Usuario no encontrado
         echo "<script>
                 alert('❌ El correo no está registrado'); 
-                window.location='login.php';
+                window.location='login_docente.php';
               </script>";
     }
 }
