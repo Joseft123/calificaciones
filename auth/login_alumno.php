@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (isset($_SESSION['id_alumno'])) {
+    header("Location: ../calificaciones/mis_calificaciones.php");
+    exit();
+}
+// Si un admin está logueado, igual puede ver esto o podríamos redirigirlo
 if (isset($_SESSION['id_usuario'])) {
     header("Location: ../calificaciones/ver_calificaciones.php");
     exit();
@@ -10,7 +15,7 @@ if (isset($_SESSION['id_usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Sistema Escolar</title>
+    <title>Acceso Alumnos - Sistema Escolar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { 
@@ -72,22 +77,23 @@ if (isset($_SESSION['id_usuario'])) {
     <button class="theme-toggle-btn" id="btnThemeToggle" title="Cambiar Tema">
         <span id="themeIcon">🌙</span>
     </button>
-    <h3 class="text-center text-primary mb-4">🎓 Sistema Escolar</h3>
+    <h3 class="text-center text-success mb-4">🎓 Portal de Alumnos</h3>
+    <p class="text-center text-muted small mb-4">Consulta tus calificaciones ingresando tus datos.</p>
     
-    <form action="procesar_login.php" method="POST">
+    <form action="procesar_login_alumno.php" method="POST">
         <div class="mb-3">
-            <label for="correo" class="form-label fw-bold">Correo Electrónico</label>
-            <input type="email" class="form-control" id="correo" name="correo" required>
+            <label for="matricula" class="form-label fw-bold">Matrícula</label>
+            <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Ej. MAT-2024-001" required>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <label for="apellidos" class="form-label fw-bold">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Tus apellidos tal como se registraron" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100 btn-lg mt-3">Ingresar</button>
+        <button type="submit" class="btn btn-success w-100 btn-lg mt-3">Ingresar</button>
     </form>
-    
+
     <div class="text-center mt-4">
-        <a href="login_alumno.php" class="text-decoration-none small text-success">🎓 Soy Alumno / Consultar Calificaciones</a>
+        <a href="login.php" class="text-decoration-none small">👨‍🏫 Soy Docente / Administrativo</a>
     </div>
 </div>
 
