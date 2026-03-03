@@ -47,15 +47,18 @@ function txtPDF($texto)
 // --- CLASE EXTENDIDA PARA PDF (HEADER/FOOTER) ---
 class PDF extends FPDF
 {
+    public $configData;
+
     function Header()
     {
+        $c = $this->configData['color_rgb'];
         $this->SetFont('Arial', 'B', 20);
-        $this->SetTextColor(13, 110, 253);
-        $this->Cell(0, 15, txtPDF('SISTEMA ESCOLAR - REPORTE OFICIAL'), 0, 1, 'C');
+        $this->SetTextColor($c[0], $c[1], $c[2]);
+        $this->Cell(0, 15, txtPDF($this->configData['titulo_principal']), 0, 1, 'C');
 
         $this->SetFont('Arial', 'B', 14);
         $this->SetTextColor(50, 50, 50);
-        $this->Cell(0, 8, txtPDF('BOLETA DE CALIFICACIONES'), 0, 1, 'C');
+        $this->Cell(0, 8, txtPDF($this->configData['subtitulo']), 0, 1, 'C');
         $this->Ln(5);
 
         $this->SetDrawColor(200, 200, 200);
@@ -68,15 +71,25 @@ class PDF extends FPDF
     {
         $this->SetY(-30);
 
-        $this->SetDrawColor(0, 0, 0);
-        $this->SetLineWidth(0.3);
-        $this->Line(40, $this->GetY(), 90, $this->GetY());
-        $this->Line(120, $this->GetY(), 170, $this->GetY());
+        if ($this->configData['firmas'][0] !== '') {
+            $this->SetDrawColor(0, 0, 0);
+            $this->SetLineWidth(0.3);
+            $this->Line(40, $this->GetY(), 90, $this->GetY());
+            $this->Line(120, $this->GetY(), 170, $this->GetY());
 
-        $this->Ln(2);
-        $this->SetFont('Arial', '', 9);
-        $this->Cell(105, 5, txtPDF('Firma del Director'), 0, 0, 'C');
-        $this->Cell(30, 5, txtPDF('Firma del Tutor / Académico'), 0, 1, 'C');
+            $this->Ln(2);
+            $this->SetFont('Arial', '', 9);
+            $this->SetTextColor(0, 0, 0);
+            $this->Cell(105, 5, txtPDF($this->configData['firmas'][0]), 0, 0, 'C');
+            $this->Cell(30, 5, txtPDF($this->configData['firmas'][1]), 0, 1, 'C');
+        }
+        else {
+            // Sin líneas de firma para estudiante
+            $this->Ln(2);
+            $this->SetFont('Arial', 'B', 9);
+            $this->SetTextColor(120, 120, 120);
+            $this->Cell(0, 5, txtPDF($this->configData['firmas'][1]), 0, 1, 'C');
+        }
 
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
@@ -85,8 +98,43 @@ class PDF extends FPDF
     }
 }
 
+// Configuración de reporte según ROL
+$rol_reporte = 'admin';
+$config_reporte = [
+    'admin' => [
+        'titulo_principal' => 'SISTEMA ESCOLAR - REPORTE OFICIAL',
+        'subtitulo' => 'BOLETA DE CALIFICACIONES',
+        'color_rgb' => [13, 110, 253], // Azul
+        'firmas' => ['Firma del Director', 'Firma del Tutor / Académico']
+    ],
+    'docente' => [
+        'titulo_principal' => 'DEPARTAMENTO ACADÉMICO',
+        'subtitulo' => 'REPORTE INTERNO DE CALIFICACIONES',
+        'color_rgb' => [25, 135, 84], // Verde
+        'firmas' => ['Sello Docente', 'Firma del Profesor']
+    ],
+    'alumno' => [
+        'titulo_principal' => 'PORTAL DE ALUMNOS',
+        'subtitulo' => 'HISTORIAL ACADÉMICO',
+        'color_rgb' => [111, 66, 193], // Morado
+        'firmas' => ['', 'Este documento es de carácter informativo y no oficial']
+    ]
+];
+
+if (isset($_SESSION['id_usuario'])) {
+    $rol_reporte = 'admin';
+}
+elseif (isset($_SESSION['id_docente'])) {
+    $rol_reporte = 'docente';
+}
+elseif (isset($_SESSION['id_alumno'])) {
+    $rol_reporte = 'alumno';
+}
+$conf = $config_reporte[$rol_reporte];
+
 // --- CREACIÓN DEL DOCUMENTO ---
 $pdf = new PDF();
+$pdf->configData = $conf;
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
@@ -123,10 +171,11 @@ $pdf->Ln(20);
 
 // --- TABLA DE CALIFICACIONES ---
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->SetFillColor(13, 110, 253);
+$c_tabla = $conf['color_rgb'];
+$pdf->SetFillColor($c_tabla[0], $c_tabla[1], $c_tabla[2]);
 
 $pdf->SetTextColor(255, 255, 255);
-$pdf->SetDrawColor(10, 90, 210);
+$pdf->SetDrawColor(max(0, $c_tabla[0] - 30), max(0, $c_tabla[1] - 30), max(0, $c_tabla[2] - 30));
 
 $pdf->Cell(30, 8, txtPDF('Clave'), 1, 0, 'C', true);
 $pdf->Cell(90, 8, txtPDF('Asignatura'), 1, 0, 'L', true);
