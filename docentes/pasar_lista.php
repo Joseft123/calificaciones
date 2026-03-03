@@ -62,22 +62,6 @@ endif; ?>
 </div>
 
 <?php
-// Mostrar mensajes de éxito o error
-if (isset($_GET['msg'])) {
-    if ($_GET['msg'] == 'success') {
-        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> Asistencia guardada correctamente.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
-    }
-    elseif ($_GET['msg'] == 'error') {
-        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> Ocurrió un error al guardar la asistencia.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>';
-    }
-}
-
 // Paso 1: Si no hay materia seleccionada, mostrar grupos
 if ($id_materia_sel === 0):
     $sql_grupos = "SELECT dmg.id_materia, m.nombre_materia, dmg.nivel, dmg.grado, dmg.grupo 

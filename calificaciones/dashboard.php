@@ -110,7 +110,7 @@ include '../includes/header.php';
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Total Alumnos</p>
-                        <h2 class="fw-bold mb-0 text-dark"><?php echo $total_alumnos; ?></h2>
+                        <h2 class="fw-bold mb-0 text-dark counter" data-target="<?php echo $total_alumnos; ?>">0</h2>
                     </div>
                     <div class="icon-box bg-success bg-opacity-10 text-success">
                         <i class="bi bi-people-fill"></i>
@@ -130,7 +130,7 @@ include '../includes/header.php';
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Plantilla Docente</p>
-                        <h2 class="fw-bold mb-0 text-dark"><?php echo $total_docentes; ?></h2>
+                        <h2 class="fw-bold mb-0 text-dark counter" data-target="<?php echo $total_docentes; ?>">0</h2>
                     </div>
                     <div class="icon-box bg-info bg-opacity-10 text-info">
                         <i class="bi bi-person-vcard-fill"></i>
@@ -150,7 +150,7 @@ include '../includes/header.php';
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.5px;">Materias Impartidas</p>
-                        <h2 class="fw-bold mb-0 text-dark"><?php echo $total_materias; ?></h2>
+                        <h2 class="fw-bold mb-0 text-dark counter" data-target="<?php echo $total_materias; ?>">0</h2>
                     </div>
                     <div class="icon-box bg-warning bg-opacity-10 text-warning">
                         <i class="bi bi-journals"></i>
@@ -270,6 +270,32 @@ include '../includes/header.php';
         observer.observe(document.documentElement, {
             attributes: true
         });
+
+        // --- PREMIUM UI/UX: Animated Number Counters ---
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // Mientras más bajo, más lento para números grandes, o usa una velocidad fija divisor
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+
+                // Calcula el incremento (para que todos terminen +- al mismo tiempo)
+                const inc = target / speed;
+
+                if (count < target) {
+                    // Si el salto es menor a 1, suma 1 directamente para asegurar que llegue
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            
+            // Iniciar animación con un ligero retraso para cuadrar con el fade-in
+            setTimeout(updateCount, 400);
+        });
+
     });
 </script>
 

@@ -37,48 +37,70 @@ include '../includes/header.php';
         opacity: 0;
         animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .calendar-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-top: 5px solid #0dcaf0 !important;
-        background-color: var(--bs-body-bg);
+
+    /* Ajustes FullCalendar Premium */
+    #calendar-container {
+        min-height: 600px;
+        font-family: 'Segoe UI', system-ui, sans-serif;
     }
-    .calendar-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.12) !important;
-        border-top-color: #0d6efd !important;
+    .fc-theme-standard .fc-scrollgrid { border-color: rgba(0,0,0,0.1); }
+    .fc .fc-toolbar-title { font-weight: 700; color: #0dcaf0; }
+    .fc .fc-button-primary {
+        background-color: var(--bs-info);
+        border-color: var(--bs-info);
+        transition: all 0.3s ease;
+        border-radius: 8px;
     }
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
+    .fc .fc-button-primary:hover {
+        background-color: #0baccc;
+        border-color: #0baccc;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(13, 202, 240, 0.3);
     }
-    [data-bs-theme="dark"] .calendar-card:hover { box-shadow: 0 12px 24px rgba(0,0,0,0.5) !important; }
-    [data-bs-theme="dark"] .bg-light, [data-bs-theme="dark"] .bg-white {
-        background-color: #1e1e1e !important;
-        color: var(--bs-light) !important;
+    .fc .fc-button-primary:not(:disabled).fc-button-active, 
+    .fc .fc-button-primary:not(:disabled):active {
+        background-color: #087f9c;
+        border-color: #087f9c;
     }
-    .empty-state {
-        background: linear-gradient(to right, #f8f9fa, #e9ecef);
-        border: 2px dashed #ced4da;
-        border-radius: 12px;
+    .fc-event {
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+        padding: 3px 5px;
     }
-    [data-bs-theme="dark"] .empty-state {
-        background: linear-gradient(to right, #2b2b2b, #1e1e1e);
-        border-color: #495057;
+    .fc-event:hover {
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+        z-index: 5 !important;
     }
-    
-    /* Calendario de Cuadrícula Visual */
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
+    .fc-v-event .fc-event-main { color: #fff; font-weight: 500; }
+
+    /* Compatibilidad Dark Theme */
+    [data-bs-theme="dark"] .fc-theme-standard .fc-scrollgrid,
+    [data-bs-theme="dark"] .fc-theme-standard td,
+    [data-bs-theme="dark"] .fc-theme-standard th {
+        border-color: rgba(255,255,255,0.1) !important;
     }
-    .course-time {
-        font-size: 0.9rem;
-        color: #6c757d;
-        font-weight: 500;
+    [data-bs-theme="dark"] .fc-col-header-cell-cushion,
+    [data-bs-theme="dark"] .fc-timegrid-axis-cushion,
+    [data-bs-theme="dark"] .fc-timegrid-slot-label-cushion {
+        color: #adb5bd !important;
     }
-    [data-bs-theme="dark"] .course-time { color: #adb5bd; }
+    [data-bs-theme="dark"] .fc .fc-list-empty {
+        background-color: #1e1e1e;
+        color: #adb5bd;
+    }
+    [data-bs-theme="dark"] .card { background-color: #2b2b2b; }
+    [data-bs-theme="dark"] .bg-light { background-color: #1e1e1e !important; }
 </style>
+
+<!-- Librerías FullCalendar y Tippy.js (Tooltips) -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-info m-0 fw-bold">📅 Mi Calendario Académico</h2>
@@ -86,68 +108,19 @@ include '../includes/header.php';
 
 <div class="card shadow-lg border-0 rounded-4 overflow-hidden animate-fade-in mb-5" style="animation-delay: 0.2s;">
     <div class="card-header bg-info text-white px-4 py-3" style="background: linear-gradient(135deg, #0dcaf0 0%, #055160 100%);">
-        <h5 class="m-0 fw-bold"><i class="bi bi-calendar-event me-2"></i>Asignaturas Impartidas</h5>
+        <h5 class="m-0 fw-bold"><i class="bi bi-calendar-week me-2"></i>Horario Semanal</h5>
     </div>
     <div class="card-body p-4 p-md-5 bg-light">
         
         <?php if (!empty($asignaciones)): ?>
-        <p class="text-muted mb-4 text-center">Aquí se listan las materias que tienes asignadas a impartir este ciclo escolar agrupadas visualmente.</p>
-        
-        <div class="calendar-grid">
-            <?php
-    $delay = 0.3;
-    $colors = ['text-primary', 'text-success', 'text-info', 'text-warning', 'text-danger'];
-
-    foreach ($asignaciones as $index => $asig):
-        $colorClass = $colors[$index % count($colors)];
-        $bgClass = str_replace('text-', 'bg-', $colorClass);
-?>
-                <div class="card h-100 border-0 shadow-sm calendar-card rounded-4 bg-transparent animate-fade-in" style="animation-delay: <?php echo $delay; ?>s;">
-                    <div class="card-body p-4 text-center position-relative overflow-hidden">
-                        
-                        <!-- Ícono decorativo de fondo -->
-                        <i class="bi bi-journal-bookmark position-absolute opacity-10" style="font-size: 8rem; right: -20px; bottom: -20px; z-index: 0;"></i>
-
-                        <div class="position-relative" style="z-index: 1;">
-                            <div class="mb-3 d-inline-block p-3 rounded-circle <?php echo $bgClass; ?> bg-opacity-10">
-                                <i class="bi bi-easel2-fill fs-2 <?php echo $colorClass; ?>"></i>
-                            </div>
-                            
-                            <h5 class="fw-bold mb-1 <?php echo $colorClass; ?>">
-                                <?php echo htmlspecialchars($asig['nombre_materia']); ?>
-                            </h5>
-                            
-                            <div class="course-time mb-3">
-                                <?php echo htmlspecialchars($asig['nivel']); ?>
-                            </div>
-                            
-                            <hr class="w-25 mx-auto text-secondary opacity-25">
-                            
-                            <div class="d-flex justify-content-center align-items-center gap-3">
-                                <div class="badge bg-secondary p-2 rounded-3 shadow-sm">
-                                    <i class="bi bi-mortarboard me-1"></i> <?php echo htmlspecialchars($asig['grado']); ?>º Grado
-                                </div>
-                                <div class="badge bg-dark p-2 rounded-3 shadow-sm">
-                                    <i class="bi bi-people me-1"></i> Grupo <?php echo htmlspecialchars($asig['grupo']); ?>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            <?php
-        $delay += 0.1;
-    endforeach;
-?>
-        </div>
-        
+            <div id='calendar-container'></div>
         <?php
 else: ?>
-        <div class="empty-state text-center p-5 mx-auto animate-fade-in" style="animation-delay: 0.3s; max-width: 600px;">
-            <div style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem;">🗓️</div>
-            <h4 class="text-secondary fw-bold mb-3">Sin asignaturas agendadas</h4>
-            <p class="text-muted mb-0">Actualmente no tienes materias asignadas para impartir en este ciclo escolar.</p>
-        </div>
+            <div class="empty-state text-center p-5 mx-auto animate-fade-in" style="background: linear-gradient(to right, #f8f9fa, #e9ecef); border: 2px dashed #ced4da; border-radius: 12px; max-width: 600px;">
+                <div style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem;">🗓️</div>
+                <h4 class="text-secondary fw-bold mb-3">Sin asignaturas agendadas</h4>
+                <p class="text-muted mb-0">Actualmente no tienes materias asignadas para impartir en este ciclo escolar.</p>
+            </div>
         <?php
 endif; ?>
 
@@ -155,8 +128,125 @@ endif; ?>
 </div>
 
 <?php
+
+// ---------------------------------------------------------
+// GENERADOR DINÁMICO DE EVENTOS MOCK (PARA FULLCALENDAR)
+// Como la DB no tiene campos de horario (Lun 8:00 - 10:00), 
+// generamos eventos recurrentes (semanales) en base a las materias.
+// ---------------------------------------------------------
+
+$eventos_calendario = [];
+$colores_evento = ['#0d6efd', '#198754', '#dc3545', '#fd7e14', '#6f42c1', '#20c997', '#e83e8c'];
+$dias_semana = ['1', '2', '3', '4', '5']; // 1=Lun, 2=Mar, 3=Mie, 4=Jue, 5=Vie
+
+// Hora de inicio ficticia (Empiezan a las 7:00 AM)
+$hora_actual = 7;
+$minuto_actual = 0;
+// Duración por clase: 1 hora y 45 mins. (105 mins) para saltar rápido
+$duracion_min = 105;
+
+
+foreach ($asignaciones as $index => $asig) {
+    // Seleccionar color random fijo por materia
+    $color = $colores_evento[$index % count($colores_evento)];
+
+    // Distribuir cada materia en 2 o 3 días aleatorios fijos por su index
+    $frecuencia = ($index % 2 == 0) ? [1, 3, 5] : [2, 4]; // Lun-Mie-Vie o Mar-Jue
+
+    $hora_str = str_pad($hora_actual, 2, '0', STR_PAD_LEFT);
+    $min_str = str_pad($minuto_actual, 2, '0', STR_PAD_LEFT);
+    $start_time = "{$hora_str}:{$min_str}:00";
+
+    // Calcular hora de fin
+    $minutos_totales = ($hora_actual * 60) + $minuto_actual + $duracion_min;
+    $hora_fin = floor($minutos_totales / 60);
+    $min_fin = $minutos_totales % 60;
+
+    $end_time = str_pad($hora_fin, 2, '0', STR_PAD_LEFT) . ":" . str_pad($min_fin, 2, '0', STR_PAD_LEFT) . ":00";
+
+    $eventos_calendario[] = [
+        'title' => htmlspecialchars($asig['nombre_materia']),
+        'startTime' => $start_time,
+        'endTime' => $end_time,
+        'daysOfWeek' => $frecuencia, // Se repite en estos días de la semana
+        'backgroundColor' => $color,
+        'borderColor' => $color,
+        'extendedProps' => [
+            'nivel' => htmlspecialchars($asig['nivel']),
+            'grado_grupo' => htmlspecialchars($asig['grado']) . 'º ' . htmlspecialchars($asig['grupo'])
+        ]
+    ];
+
+    // Mover bloque de hora para la siguiente materia
+    $minuto_actual += $duracion_min + 15; // +15 min de receso
+    if ($minuto_actual >= 60) {
+        $hora_actual += floor($minuto_actual / 60);
+        $minuto_actual = $minuto_actual % 60;
+    }
+    // Si pasa de las 14hrs, reiniciar al día (simulando que esto afecta ambos LMV y MJ)
+    if ($hora_actual >= 14) {
+        $hora_actual = 7;
+        $minuto_actual = 0;
+    }
+}
+
 $conexion->close();
 ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hasEvents = <?php echo !empty($eventos_calendario) ? 'true' : 'false'; ?>;
+        
+        if (hasEvents) {
+            var calendarEl = document.getElementById('calendar-container');
+            var rawEvents = <?php echo json_encode($eventos_calendario); ?>;
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                locale: 'es', // Español
+                firstDay: 1,  // Lunes
+                hiddenDays: [ 0, 6 ], // Ocultar Sab (6) y Dom (0)
+                slotMinTime: '07:00:00', // Empieza 7am
+                slotMaxTime: '15:00:00', // Termina 3pm
+                allDaySlot: false, // Sin sección "todo el día"
+                expandRows: true,  // Estirar para llenar contenedor
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay,listWeek'
+                },
+                events: rawEvents,
+                
+                // Función renderizada cuando el evento es inyectado
+                eventDidMount: function(info) {
+                    // Configurar Tooltip (Tippy.js) con efecto "Glassmorphism"
+                    tippy(info.el, {
+                        content: `
+                            <div class="text-start" style="font-family:'Segoe UI',sans-serif;">
+                                <strong class="fs-6 d-block border-bottom pb-1 mb-1">${info.event.title}</strong>
+                                <span class="d-block"><i class="bi bi-diagram-3 me-1"></i> ${info.event.extendedProps.nivel}</span>
+                                <span class="d-block"><i class="bi bi-people me-1"></i> Grado: ${info.event.extendedProps.grado_grupo}</span>
+                                <span class="d-block mt-1 text-warning"><i class="bi bi-clock me-1"></i> ${info.timeText}</span>
+                            </div>
+                        `,
+                        allowHTML: true,
+                        animation: 'scale',
+                        theme: 'light-border',
+                        placement: 'top'
+                    });
+                }
+            });
+
+            calendar.render();
+
+            // Refrescar tamaño al cambiar tema (FullCalendar a veces recorta grids por bordes)
+            const observer = new MutationObserver(function() {
+                setTimeout(()=> calendar.updateSize(), 50);
+            });
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
+        }
+    });
+</script>
 
 </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
