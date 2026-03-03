@@ -16,11 +16,11 @@ include '../includes/header.php';
 // Verificar si los datos llegaron a través del formulario (método POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Recibir las variables del formulario
-    $id_alumno = $_POST['id_alumno'];
-    $id_materia = $_POST['id_materia'];
-    $periodo = $_POST['periodo'];
-    $calificacion = $_POST['calificacion'];
+    // Recibir las variables del formulario de forma segura
+    $id_alumno = intval($_POST['id_alumno']);
+    $id_materia = intval($_POST['id_materia']);
+    $periodo = intval($_POST['periodo']);
+    $calificacion = floatval($_POST['calificacion']);
 
     $sql = "INSERT INTO calificaciones (id_alumno, id_materia, periodo, calificacion) VALUES (?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);

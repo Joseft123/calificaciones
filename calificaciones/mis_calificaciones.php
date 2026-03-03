@@ -110,10 +110,12 @@ $total_materias = 0;
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-dark text-center">
-                    <tr>
+        <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark text-center">
+                            <tr>
                         <th>Clave</th>
                         <th>Materia</th>
                         <th>Periodo</th>
@@ -143,8 +145,10 @@ else {
     echo "<tr><td colspan='5' class='text-center py-4'>Aún no tienes calificaciones registradas en el sistema.</td></tr>";
 }
 ?>
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <?php

@@ -119,9 +119,15 @@ include '../includes/header.php';
     }
 </style>
 
-    <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 animate-fade-in" style="animation-delay: 0.1s;">
         <h2 class="text-primary m-0 fw-bold">📊 Historial General de Calificaciones</h2>
-        <a href="calificaciones.php" class="btn btn-success shadow-sm px-4 rounded-pill">➕ Nueva Calificación</a>
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <div class="input-group" style="max-width: 300px;">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Buscar por nombre o materia...">
+            </div>
+            <a href="calificaciones.php" class="btn btn-success shadow-sm px-4 rounded-pill">➕ Nueva Calificación</a>
+        </div>
     </div>
     
     <?php
@@ -210,6 +216,45 @@ else {
 $conexion->close();
 ?>
 
-</div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</div> 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("searchInput");
+        
+        if (searchInput) {
+            searchInput.addEventListener("keyup", function() {
+                const filter = searchInput.value.toLowerCase();
+                const cards = document.querySelectorAll(".student-card");
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    const colContainer = card.closest(".col-md-6");
+                    
+                    if (text.includes(filter)) {
+                        colContainer.style.display = "";
+                    } else {
+                        colContainer.style.display = "none";
+                    }
+                });
+                
+                // Ocultar cabeceras de niveles/grupos vacías
+                const groupCards = document.querySelectorAll(".student-group-card");
+                groupCards.forEach(group => {
+                    const visibleCards = group.querySelectorAll(".col-md-6[style='']").length + group.querySelectorAll(".col-md-6:not([style*='none'])").length;
+                    group.style.display = visibleCards > 0 ? "" : "none";
+                    
+                    // Ocultar nivel (h3 y div padre) si todo el nivel está vacío
+                    const parentNivel = group.closest(".mb-5");
+                    if (parentNivel) {
+                        const visibleGroups = parentNivel.querySelectorAll(".student-group-card:not([style*='none'])").length;
+                        parentNivel.style.display = visibleGroups > 0 ? "" : "none";
+                    }
+                });
+            });
+        }
+    });
+</script>
 </body>
 </html>
