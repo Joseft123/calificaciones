@@ -10,42 +10,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password_ingresada = $_POST['password'];
 
-    // Buscar al docente por su correo
-    $sql = "SELECT id_docente, nombre, apellidos, password FROM docentes WHERE correo = '$correo'";
-    $resultado = $conexion->query($sql);
+    $sql = "SELECT id_docente, nombre, apellidos, password FROM docentes WHERE correo = ?";
+    $stmt = $conexion->prepare($sql);
 
-    // Si el docente existe
-    if ($resultado->num_rows == 1) {
-        $usuario = $resultado->fetch_assoc();
+    if ($stmt) {
+        $stmt->bind_param("s", $correo);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-        // Verificar la contraseña 
-        if (password_verify($password_ingresada, $usuario['password'])) {
+        // Si el docente existe
+        if ($resultado->num_rows == 1) {
+            $usuario = $resultado->fetch_assoc();
 
-            // Si la contraseña es correcta, guardamos sus datos en variables de sesión
-            $_SESSION['id_docente'] = $usuario['id_docente'];
-            $_SESSION['nombre_docente'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
+            // Verificar la contraseña 
+            if (password_verify($password_ingresada, $usuario['password'])) {
 
-            // Redirigir al sistema
-            header("Location: ../calificaciones/ver_calificaciones.php");
-            exit();
+                // Si la contraseña es correcta, guardamos sus datos en variables de sesión
+                $_SESSION['id_docente'] = $usuario['id_docente'];
+                $_SESSION['nombre_docente'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
 
-        }
-        else {
-            // Contraseña incorrecta
-            echo "<script>
+                // Redirigir al sistema
+                header("Location: ../calificaciones/ver_calificaciones.php");
+                exit();
+
+            }
+            else {
+                // Contraseña incorrecta
+                echo "<script>
                     alert('❌ Contraseña incorrecta'); 
                     window.location='login_docente.php';
                   </script>";
+            }
         }
-    }
-    else {
-        // Usuario no encontrado
-        echo "<script>
+        else {
+            // Usuario no encontrado
+            echo "<script>
                 alert('❌ El correo no está registrado'); 
                 window.location='login_docente.php';
               </script>";
+        }
     }
 }
+
 
 $conexion->close();
 ?>

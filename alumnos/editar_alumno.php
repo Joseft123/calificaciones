@@ -24,13 +24,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $grado = intval($_POST['grado']);
     $grupo = $conexion->real_escape_string($_POST['grupo']);
 
-    $sql = "UPDATE alumnos SET matricula='$matricula', nombre='$nombre', apellidos='$apellidos', nivel='$nivel', grado='$grado', grupo='$grupo' WHERE id_alumno=$id_alumno";
+    $sql = "UPDATE alumnos SET matricula=?, nombre=?, apellidos=?, nivel=?, grado=?, grupo=? WHERE id_alumno=?";
+    $stmt = $conexion->prepare($sql);
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<script>window.location='alumnos.php';</script>";
+    if ($stmt) {
+        $stmt->bind_param("ssssssi", $matricula, $nombre, $apellidos, $nivel, $grado, $grupo, $id_alumno);
+        if ($stmt->execute()) {
+            echo "<script>window.location='alumnos.php';</script>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>❌ Error al actualizar: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3'>❌ Error al actualizar: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3'>❌ Error al preparar actualización: " . $conexion->error . "</div>";
     }
 }
 ?>

@@ -14,13 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $rol = $_POST['rol'];
 
-    $sql = "INSERT INTO usuarios (nombre, correo, password, rol) VALUES ('$nombre', '$correo', '$password', '$rol')";
+    $sql = "INSERT INTO usuarios (nombre, correo, password, rol) VALUES (?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<div class='alert alert-success mt-3'>Usuario creado exitosamente. <a href='usuarios.php'>Ver usuarios</a></div>";
+    if ($stmt) {
+        $stmt->bind_param("ssss", $nombre, $correo, $password, $rol);
+        if ($stmt->execute()) {
+            echo "<div class='alert alert-success mt-3'>Usuario creado exitosamente. <a href='usuarios.php'>Ver usuarios</a></div>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>Error al registrar: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3'>Error: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3'>Error al preparar la consulta: " . $conexion->error . "</div>";
     }
 }
 ?>

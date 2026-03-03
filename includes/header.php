@@ -80,6 +80,7 @@ elseif (isset($_SESSION['id_docente'])): ?>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php">Capturar Notas</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php">Mis Alumnos</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mi_calendario.php">Calendario</a></li>
+            <li class="nav-item"><a class="nav-link" href="../docentes/pasar_lista.php">Pasar Lista</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
                 <span class="text-light me-3">👨‍🏫 <?php echo htmlspecialchars($_SESSION['nombre_docente']); ?> (Docente)</span>

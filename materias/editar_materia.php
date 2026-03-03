@@ -22,13 +22,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nivel = $_POST['nivel'];
     $grado = intval($_POST['grado']);
 
-    $sql = "UPDATE materias SET clave_materia='$clave', nombre_materia='$nombre', nivel='$nivel', grado='$grado' WHERE id_materia=$id_materia";
+    $sql = "UPDATE materias SET clave_materia=?, nombre_materia=?, nivel=?, grado=? WHERE id_materia=?";
+    $stmt = $conexion->prepare($sql);
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<script>window.location='materias.php';</script>";
+    if ($stmt) {
+        $stmt->bind_param("ssssi", $clave, $nombre, $nivel, $grado, $id_materia);
+        if ($stmt->execute()) {
+            echo "<script>window.location='materias.php';</script>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>❌ Error al actualizar: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3'>❌ Error al actualizar: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3'>❌ Error al preparar actualización: " . $conexion->error . "</div>";
     }
 }
 ?>

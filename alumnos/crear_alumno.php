@@ -15,14 +15,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $grado = intval($_POST['grado']);
     $grupo = $conexion->real_escape_string($_POST['grupo']);
 
-    $sql = "INSERT INTO alumnos (matricula, nombre, apellidos, nivel, grado, grupo) 
-            VALUES ('$matricula', '$nombre', '$apellidos', '$nivel', '$grado', '$grupo')";
+    $sql = "INSERT INTO alumnos (matricula, nombre, apellidos, nivel, grado, grupo) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Alumno inscrito exitosamente. <a href='alumnos.php' class='alert-link'>Volver a la lista</a></div>";
+    if ($stmt) {
+        $stmt->bind_param("ssssss", $matricula, $nombre, $apellidos, $nivel, $grado, $grupo);
+        if ($stmt->execute()) {
+            echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Alumno inscrito exitosamente. <a href='alumnos.php' class='alert-link'>Volver a la lista</a></div>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al inscribir: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al inscribir: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al preparar la consulta: " . $conexion->error . "</div>";
     }
 }
 ?>

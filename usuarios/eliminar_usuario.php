@@ -11,7 +11,12 @@ if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
     // Evitar que el usuario se elimine a sí mismo
     if ($id != $_SESSION['id_usuario']) {
-        $conexion->query("DELETE FROM usuarios WHERE id_usuario = $id");
+        $stmt = $conexion->prepare("DELETE FROM usuarios WHERE id_usuario = ?");
+        if ($stmt) {
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $stmt->close();
+        }
     }
 }
 header("Location: usuarios.php");

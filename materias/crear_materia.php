@@ -13,14 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nivel = $_POST['nivel'];
     $grado = intval($_POST['grado']);
 
-    $sql = "INSERT INTO materias (clave_materia, nombre_materia, nivel, grado) 
-            VALUES ('$clave', '$nombre', '$nivel', '$grado')";
+    $sql = "INSERT INTO materias (clave_materia, nombre_materia, nivel, grado) VALUES (?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Materia registrada exitosamente. <a href='materias.php' class='alert-link'>Volver a la lista</a></div>";
+    if ($stmt) {
+        $stmt->bind_param("sssi", $clave, $nombre, $nivel, $grado);
+        if ($stmt->execute()) {
+            echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Materia registrada exitosamente. <a href='materias.php' class='alert-link'>Volver a la lista</a></div>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al registrar: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al registrar: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al preparar la consulta: " . $conexion->error . "</div>";
     }
 }
 ?>

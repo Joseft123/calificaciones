@@ -10,8 +10,13 @@ if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
     // Eliminar el registro
-    $sql = "DELETE FROM alumnos WHERE id_alumno = $id";
-    $conexion->query($sql);
+    $sql = "DELETE FROM alumnos WHERE id_alumno = ?";
+    $stmt = $conexion->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
 // Redirigir de vuelta a la lista de alumnos

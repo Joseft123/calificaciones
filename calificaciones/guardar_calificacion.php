@@ -22,30 +22,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $periodo = $_POST['periodo'];
     $calificacion = $_POST['calificacion'];
 
-    // Armar la consulta SQL para insertar el registro
-    $sql = "INSERT INTO calificaciones (id_alumno, id_materia, periodo, calificacion) 
-            VALUES ('$id_alumno', '$id_materia', '$periodo', '$calificacion')";
+    $sql = "INSERT INTO calificaciones (id_alumno, id_materia, periodo, calificacion) VALUES (?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
 
     // Mostrar el resultado dentro del contenedor de Bootstrap
     echo "<div class='mt-4'>";
-
-    if ($conexion->query($sql) === TRUE) {
-        // Mensaje de Éxito
-        echo "<div class='alert alert-success shadow-sm text-center' role='alert'>";
-        echo "<h4 class='alert-heading mb-3'>✅ ¡Calificación guardada con éxito!</h4>";
-        echo "<p>El registro se ha añadido correctamente a la base de datos.</p>";
-        echo "<hr>";
-        echo "<div class='d-flex justify-content-center gap-3 mt-3'>";
-        echo "<a href='calificaciones.php' class='btn btn-success'>Capturar otra calificación</a>";
-        echo "<a href='ver_calificaciones.php' class='btn btn-outline-success'>Ver historial general</a>";
-        echo "</div>";
-        echo "</div>";
-    }
-    else {
-        // Mensaje de Error
+    
+    if ($stmt) {
+        $stmt->bind_param("iisd", $id_alumno, $id_materia, $periodo, $calificacion);
+        if ($stmt->execute()) {
+            // Mensaje de Éxito
+            echo "<div class='alert alert-success shadow-sm text-center' role='alert'>";
+            echo "<h4 class='alert-heading mb-3'>✅ ¡Calificación guardada con éxito!</h4>";
+            echo "<p>El registro se ha añadido correctamente a la base de datos.</p>";
+            echo "<hr>";
+            echo "<div class='d-flex justify-content-center gap-3 mt-3'>";
+            echo "<a href='calificaciones.php' class='btn btn-success'>Capturar otra calificación</a>";
+            echo "<a href='ver_calificaciones.php' class='btn btn-outline-success'>Ver historial general</a>";
+            echo "</div>";
+            echo "</div>";
+        } else {
+            // Mensaje de Error de ejecución
+            echo "<div class='alert alert-danger shadow-sm text-center' role='alert'>";
+            echo "<h4 class='alert-heading mb-3'>❌ Error al guardar</h4>";
+            echo "<p>Hubo un problema al procesar la solicitud: " . $stmt->error . "</p>";
+            echo "<hr>";
+            echo "<a href='calificaciones.php' class='btn btn-danger'>Intentar de nuevo</a>";
+            echo "</div>";
+        }
+        $stmt->close();
+    } else {
+        // Mensaje de Error de preparación
         echo "<div class='alert alert-danger shadow-sm text-center' role='alert'>";
-        echo "<h4 class='alert-heading mb-3'>❌ Error al guardar</h4>";
-        echo "<p>Hubo un problema al procesar la solicitud: " . $conexion->error . "</p>";
+        echo "<h4 class='alert-heading mb-3'>❌ Error del Sistema</h4>";
+        echo "<p>Hubo un problema al preparar la consulta: " . $conexion->error . "</p>";
         echo "<hr>";
         echo "<a href='calificaciones.php' class='btn btn-danger'>Intentar de nuevo</a>";
         echo "</div>";

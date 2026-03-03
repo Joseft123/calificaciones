@@ -22,17 +22,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql = "UPDATE usuarios SET nombre='$nombre', correo='$correo', password='$password', rol='$rol' WHERE id_usuario=$id";
+        $sql = "UPDATE usuarios SET nombre=?, correo=?, password=?, rol=? WHERE id_usuario=?";
+        $stmt = $conexion->prepare($sql);
+        if ($stmt)
+            $stmt->bind_param("ssssi", $nombre, $correo, $password, $rol, $id);
     }
     else {
-        $sql = "UPDATE usuarios SET nombre='$nombre', correo='$correo', rol='$rol' WHERE id_usuario=$id";
+        $sql = "UPDATE usuarios SET nombre=?, correo=?, rol=? WHERE id_usuario=?";
+        $stmt = $conexion->prepare($sql);
+        if ($stmt)
+            $stmt->bind_param("sssi", $nombre, $correo, $rol, $id);
     }
 
-    if ($conexion->query($sql) === TRUE) {
-        echo "<script>window.location='usuarios.php';</script>";
+    if ($stmt) {
+        if ($stmt->execute()) {
+            echo "<script>window.location='usuarios.php';</script>";
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>Error al actualizar: " . $stmt->error . "</div>";
+        }
+        $stmt->close();
     }
     else {
-        echo "<div class='alert alert-danger mt-3'>Error: " . $conexion->error . "</div>";
+        echo "<div class='alert alert-danger mt-3'>Error al preparar actualización: " . $conexion->error . "</div>";
     }
 }
 ?>
