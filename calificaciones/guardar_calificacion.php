@@ -1,4 +1,12 @@
-<?php
+// Iniciar la sesión
+session_start();
+
+// Validar si la variable de sesión 'id_usuario' o 'id_docente' NO existen
+if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
+    header("Location: ../auth/login.php");
+    exit();
+}
+
 // Incluir la conexión a la base de datos
 include '../includes/conexion.php';
 

@@ -2,21 +2,38 @@
 // Iniciar o retomar la sesión existente
 session_start();
 
-// Validar si la variable de sesión 'id_usuario' NO existe
-if (!isset($_SESSION['id_usuario'])) {
-    // Si no existe, redirigimos al usuario a la pantalla de login
+// Validar si la variable de sesión 'id_usuario' o 'id_docente' NO existen
+if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
     header("Location: ../auth/login.php");
     exit();
 }
 // Incluir el archivo de conexión
 include '../includes/conexion.php';
 
-// Consultar los alumnos para el menú desplegable
-$query_alumnos = "SELECT id_alumno, matricula, nombre, apellidos FROM alumnos";
-$result_alumnos = $conexion->query($query_alumnos);
+// Obtener el ID del docente si está logueado
+$id_docente = isset($_SESSION['id_docente']) ? $_SESSION['id_docente'] : null;
 
-// Consultar las materias para el menú desplegable
-$query_materias = "SELECT id_materia, nombre_materia FROM materias";
+if ($id_docente) {
+    // Si es docente, mostrar solo los alumnos de los niveles, grados y grupos que tiene asignados
+    // Además filtramos para asegurar que no se repitan alumnos si están en varias asignaciones (uso de GROUP BY o DISTINCT)
+    $query_alumnos = "SELECT DISTINCT a.id_alumno, a.matricula, a.nombre, a.apellidos 
+                      FROM alumnos a
+                      INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
+                      WHERE dmg.id_docente = $id_docente";
+
+    // Si es docente, mostrar solo las materias que tiene asignadas
+    $query_materias = "SELECT DISTINCT m.id_materia, m.nombre_materia 
+                       FROM materias m
+                       INNER JOIN docente_materia_grupo dmg ON m.id_materia = dmg.id_materia
+                       WHERE dmg.id_docente = $id_docente";
+}
+else {
+    // Si no es docente (es decir, es Director/Admin), mostrar todos
+    $query_alumnos = "SELECT id_alumno, matricula, nombre, apellidos FROM alumnos";
+    $query_materias = "SELECT id_materia, nombre_materia FROM materias";
+}
+
+$result_alumnos = $conexion->query($query_alumnos);
 $result_materias = $conexion->query($query_materias);
 
 // Incluir el diseño principal (menú y apertura del contenedor)

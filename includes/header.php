@@ -59,31 +59,42 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
         
-        <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php">Capturar Notas</a></li>
-        <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php">Historial</a></li>
-        <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php">Alumnos</a></li>
-        <li class="nav-item"><a class="nav-link" href="../materias/materias.php">Materias</a></li>
-        
         <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'Director'): ?>
-        <li class="nav-item"><a class="nav-link text-warning fw-bold" href="../usuarios/usuarios.php">Usuarios</a></li>
-        <?php
-endif; ?>
+            <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php">Capturar Notas</a></li>
+            <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php">Historial</a></li>
+            <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php">Alumnos</a></li>
+            <li class="nav-item"><a class="nav-link" href="../materias/materias.php">Materias</a></li>
+            <li class="nav-item"><a class="nav-link text-warning fw-bold" href="../usuarios/usuarios.php">Usuarios</a></li>
+            
+            <li class="nav-item ms-lg-3 d-flex align-items-center">
+                <span class="text-light me-3">👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($_SESSION['rol']); ?>)</span>
+                <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <a class="btn btn-danger btn-sm" href="../auth/cerrar_sesion.php">Salir</a>
+            </li>
 
-        <?php if (isset($_SESSION['nombre'])): ?>
-        <li class="nav-item ms-lg-3 d-flex align-items-center">
-            <span class="text-light me-3">👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($_SESSION['rol']); ?>)</span>
-            <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
-                <span id="themeIcon">🌙</span>
-            </button>
-            <a class="btn btn-danger btn-sm" href="../auth/cerrar_sesion.php">Salir</a>
-        </li>
+        <?php
+elseif (isset($_SESSION['id_docente'])): ?>
+            <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php">Capturar Notas</a></li>
+            <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php">Mis Alumnos</a></li>
+            <li class="nav-item"><a class="nav-link" href="../docentes/mi_calendario.php">Calendario</a></li>
+
+            <li class="nav-item ms-lg-3 d-flex align-items-center">
+                <span class="text-light me-3">👨‍🏫 <?php echo htmlspecialchars($_SESSION['nombre_docente']); ?> (Docente)</span>
+                <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <a class="btn btn-danger btn-sm" href="../auth/cerrar_sesion.php">Salir</a>
+            </li>
+            
         <?php
 else: ?>
-        <li class="nav-item ms-lg-3 d-flex align-items-center">
-            <button class="btn btn-outline-light btn-sm" id="btnThemeToggle" title="Cambiar Tema">
-                <span id="themeIcon">🌙</span>
-            </button>
-        </li>
+            <li class="nav-item ms-lg-3 d-flex align-items-center">
+                <button class="btn btn-outline-light btn-sm" id="btnThemeToggle" title="Cambiar Tema">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </li>
         <?php
 endif; ?>
       </ul>
