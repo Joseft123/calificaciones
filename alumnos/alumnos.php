@@ -48,7 +48,10 @@ include '../includes/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-primary m-0 fw-bold">👨‍🎓 Gestión de Alumnos</h2>
-    <a href="crear_alumno.php" class="btn btn-success shadow-sm px-4 rounded-pill">➕ Inscribir Alumno</a>
+    <div>
+        <a href="importar_alumnos.php" class="btn btn-outline-primary shadow-sm px-4 rounded-pill me-2">📁 Importar CSV</a>
+        <a href="crear_alumno.php" class="btn btn-success shadow-sm px-4 rounded-pill">➕ Inscribir Alumno</a>
+    </div>
 </div>
 
 <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
