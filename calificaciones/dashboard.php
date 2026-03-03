@@ -42,53 +42,7 @@ if ($res_niveles->num_rows > 0) {
 include '../includes/header.php';
 ?>
 
-<style>
-    /* Animaciones suaves */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    
-    /* Configuración de Tarjetas */
-    .kpi-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 1rem;
-        border: none;
-    }
-    .kpi-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    
-    .icon-box {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        font-size: 1.8rem;
-    }
-
-    /* Compatibilidad Dark Mode */
-    [data-bs-theme="dark"] .kpi-card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    [data-bs-theme="dark"] .kpi-card:hover {
-        box-shadow: 0 10px 20px rgba(0,0,0,0.4) !important;
-    }
-    [data-bs-theme="dark"] .chart-container {
-        background-color: #2b2b2b !important;
-    }
-    [data-bs-theme="dark"] .text-muted {
-        color: #adb5bd !important;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <div>
@@ -190,114 +144,11 @@ include '../includes/header.php';
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        // Función para obtener el color del texto según el tema
-        const getTextColor = () => {
-            return document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#adb5bd' : '#495057';
-        };
-
-        // Datos inyectados desde PHP
-        const chartLabels = <?php echo json_encode($niveles_labels); ?>;
-        const chartData = <?php echo json_encode($niveles_data); ?>;
-
-        const ctx = document.getElementById('nivelesChart').getContext('2d');
-        
-        // Variables de diseño
-        const bgColors = [
-            'rgba(25, 135, 84, 0.8)',  // Success (Primaria)
-            'rgba(13, 110, 253, 0.8)', // Primary (Secundaria)
-            'rgba(255, 193, 7, 0.8)',  // Warning (Preparatoria)
-            'rgba(13, 202, 240, 0.8)'  // Info (Otros)
-        ];
-        const borderColors = [
-            'rgb(25, 135, 84)',
-            'rgb(13, 110, 253)',
-            'rgb(255, 193, 7)',
-            'rgb(13, 202, 240)'
-        ];
-
-        let nivelesChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: chartLabels.length > 0 ? chartLabels : ['Sin datos'],
-                datasets: [{
-                    data: chartData.length > 0 ? chartData : [1],
-                    backgroundColor: chartData.length > 0 ? bgColors : ['rgba(200, 200, 200, 0.2)'],
-                    borderColor: chartData.length > 0 ? borderColors : ['rgba(200, 200, 200, 0.5)'],
-                    borderWidth: 2,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: getTextColor(),
-                            padding: 20,
-                            font: {
-                                size: 14,
-                                family: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
-                            },
-                            usePointStyle: true
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0,0,0,0.8)',
-                        padding: 12,
-                        titleFont: { size: 14 },
-                        bodyFont: { size: 14, weight: 'bold' },
-                        displayColors: false
-                    }
-                }
-            }
-        });
-
-        // Observar cambios de tema (Modo Oscuro/Claro) para actualizar el color de letra en la gráfica
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.attributeName === "data-bs-theme") {
-                    nivelesChart.options.plugins.legend.labels.color = getTextColor();
-                    nivelesChart.update();
-                }
-            });
-        });
-
-        observer.observe(document.documentElement, {
-            attributes: true
-        });
-
-        // --- PREMIUM UI/UX: Animated Number Counters ---
-        const counters = document.querySelectorAll('.counter');
-        const speed = 200; // Mientras más bajo, más lento para números grandes, o usa una velocidad fija divisor
-
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-
-                // Calcula el incremento (para que todos terminen +- al mismo tiempo)
-                const inc = target / speed;
-
-                if (count < target) {
-                    // Si el salto es menor a 1, suma 1 directamente para asegurar que llegue
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 15);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            
-            // Iniciar animación con un ligero retraso para cuadrar con el fade-in
-            setTimeout(updateCount, 400);
-        });
-
-    });
+    // Inyectar datos desde PHP al contexto global de JS para las gráficas
+    window.chartLabels = <?php echo json_encode($niveles_labels); ?>;
+    window.chartData = <?php echo json_encode($niveles_data); ?>;
 </script>
+<script src="../assets/js/dashboard.js"></script>
 
 </body>
 </html>

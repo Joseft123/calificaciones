@@ -13,36 +13,7 @@ $resultado = $conexion->query($sql);
 include '../includes/header.php';
 ?>
 
-<style>
-    /* Animación de entrada suave hacia arriba */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    [data-bs-theme="dark"] .bg-white {
-        background-color: transparent !important;
-    }
-    [data-bs-theme="dark"] .text-dark {
-        color: #f8f9fa !important;
-    }
-    [data-bs-theme="dark"] .badge.bg-light {
-        background-color: #495057 !important;
-        color: #f8f9fa !important;
-        border-color: #6c757d !important;
-    }
-    [data-bs-theme="dark"] .table-hover > tbody > tr:hover > * {
-        background-color: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-primary m-0 fw-bold">📚 Gestión de Materias</h2>
@@ -67,7 +38,7 @@ include '../includes/header.php';
 if ($resultado->num_rows > 0) {
     $delay = 0.3;
     while ($fila = $resultado->fetch_assoc()) {
-        echo "<tr class='animate-fade-in' style='animation-delay: {$delay}s;'>";
+        echo "<tr class='animate-fade-in table-row' style='animation-delay: {$delay}s;'>";
         echo "<td class='px-4'><span class='badge bg-light text-primary border border-primary px-3 py-2 rounded-pill shadow-sm'><i class='bi bi-key-fill text-muted me-1'></i>" . $fila['clave_materia'] . "</span></td>";
         echo "<td class='fw-medium text-dark'><i class='bi bi-journal-bookmark me-2 text-secondary'></i>" . $fila['nombre_materia'] . "</td>";
         echo "<td><span class='badge bg-info text-dark rounded-pill px-3'>" . $fila['nivel'] . "</span></td>";

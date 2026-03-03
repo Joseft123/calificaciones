@@ -21,37 +21,7 @@ $fecha_sel = isset($_GET['fecha']) ? $_GET['fecha'] : date('Y-m-d');
 include '../includes/header.php';
 ?>
 
-<style>
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .group-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        border-left: 4px solid #198754 !important;
-        background-color: var(--bs-body-bg);
-    }
-    .group-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.12) !important;
-        border-left-color: #0d6efd !important; 
-        z-index: 2;
-    }
-    [data-bs-theme="dark"] .group-card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    [data-bs-theme="dark"] .group-card:hover {
-        box-shadow: 0 12px 24px rgba(0,0,0,0.5) !important;
-    }
-    .btn-radio-group .btn {
-        min-width: 45px;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-success m-0 fw-bold">📅 Pasar Lista</h2>
@@ -85,7 +55,7 @@ if ($id_materia_sel === 0):
             $url = "?id_materia={$id_materia}&nivel=" . urlencode($nivel) . "&grado={$grado}&grupo=" . urlencode($grupo);
 ?>
             <div class='col-md-6 col-lg-4 animate-fade-in' style='animation-delay: <?php echo $delay; ?>s;'>
-                <div class='card h-100 border-0 shadow-sm group-card rounded-4 p-3'>
+                <div class='card h-100 border-0 shadow-sm interactive-card border-start border-4 border-success rounded-4 p-3'>
                     <div class='card-body'>
                         <div class='d-flex align-items-center mb-3'>
                             <div class='bg-success bg-opacity-10 text-success rounded-circle p-3 me-3 text-center' style='width: 50px; height: 50px;'>

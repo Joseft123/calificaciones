@@ -1,0 +1,111 @@
+/* Shared Auth Styles */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Background Gradients */
+body.auth-admin {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+body.auth-docente {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+
+body.auth-alumno {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+[data-bs-theme="dark"] body {
+    background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+}
+
+.login-container {
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+[data-bs-theme="light"] .login-container {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+[data-bs-theme="dark"] .login-container {
+    background-color: rgba(30, 30, 30, 0.95);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--bs-light);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+[data-bs-theme="dark"] .theme-toggle-btn {
+    background: var(--bs-dark);
+    border-color: var(--bs-border-color);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.input-group-text {
+    background-color: transparent;
+}
+
+/* Focus colors */
+.form-control:focus {
+    box-shadow: none;
+}
+
+body.auth-admin .form-control:focus {
+    border-color: #0d6efd;
+}
+
+body.auth-docente .form-control:focus {
+    border-color: #0dcaf0;
+}
+
+body.auth-alumno .form-control:focus {
+    border-color: #198754;
+}

@@ -28,73 +28,8 @@ if ($resultado && $resultado->num_rows > 0) {
 include '../includes/header.php';
 ?>
 
-<style>
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    /* Ajustes FullCalendar Premium */
-    #calendar-container {
-        min-height: 600px;
-        font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    .fc-theme-standard .fc-scrollgrid { border-color: rgba(0,0,0,0.1); }
-    .fc .fc-toolbar-title { font-weight: 700; color: #0dcaf0; }
-    .fc .fc-button-primary {
-        background-color: var(--bs-info);
-        border-color: var(--bs-info);
-        transition: all 0.3s ease;
-        border-radius: 8px;
-    }
-    .fc .fc-button-primary:hover {
-        background-color: #0baccc;
-        border-color: #0baccc;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(13, 202, 240, 0.3);
-    }
-    .fc .fc-button-primary:not(:disabled).fc-button-active, 
-    .fc .fc-button-primary:not(:disabled):active {
-        background-color: #087f9c;
-        border-color: #087f9c;
-    }
-    .fc-event {
-        border-radius: 6px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        border: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        cursor: pointer;
-        padding: 3px 5px;
-    }
-    .fc-event:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-        z-index: 5 !important;
-    }
-    .fc-v-event .fc-event-main { color: #fff; font-weight: 500; }
-
-    /* Compatibilidad Dark Theme */
-    [data-bs-theme="dark"] .fc-theme-standard .fc-scrollgrid,
-    [data-bs-theme="dark"] .fc-theme-standard td,
-    [data-bs-theme="dark"] .fc-theme-standard th {
-        border-color: rgba(255,255,255,0.1) !important;
-    }
-    [data-bs-theme="dark"] .fc-col-header-cell-cushion,
-    [data-bs-theme="dark"] .fc-timegrid-axis-cushion,
-    [data-bs-theme="dark"] .fc-timegrid-slot-label-cushion {
-        color: #adb5bd !important;
-    }
-    [data-bs-theme="dark"] .fc .fc-list-empty {
-        background-color: #1e1e1e;
-        color: #adb5bd;
-    }
-    [data-bs-theme="dark"] .card { background-color: #2b2b2b; }
-    [data-bs-theme="dark"] .bg-light { background-color: #1e1e1e !important; }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/calendario.css">
 
 <!-- Librerías FullCalendar y Tippy.js (Tooltips) -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
@@ -194,59 +129,10 @@ $conexion->close();
 ?>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const hasEvents = <?php echo !empty($eventos_calendario) ? 'true' : 'false'; ?>;
-        
-        if (hasEvents) {
-            var calendarEl = document.getElementById('calendar-container');
-            var rawEvents = <?php echo json_encode($eventos_calendario); ?>;
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
-                locale: 'es', // Español
-                firstDay: 1,  // Lunes
-                hiddenDays: [ 0, 6 ], // Ocultar Sab (6) y Dom (0)
-                slotMinTime: '07:00:00', // Empieza 7am
-                slotMaxTime: '15:00:00', // Termina 3pm
-                allDaySlot: false, // Sin sección "todo el día"
-                expandRows: true,  // Estirar para llenar contenedor
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'timeGridWeek,timeGridDay,listWeek'
-                },
-                events: rawEvents,
-                
-                // Función renderizada cuando el evento es inyectado
-                eventDidMount: function(info) {
-                    // Configurar Tooltip (Tippy.js) con efecto "Glassmorphism"
-                    tippy(info.el, {
-                        content: `
-                            <div class="text-start" style="font-family:'Segoe UI',sans-serif;">
-                                <strong class="fs-6 d-block border-bottom pb-1 mb-1">${info.event.title}</strong>
-                                <span class="d-block"><i class="bi bi-diagram-3 me-1"></i> ${info.event.extendedProps.nivel}</span>
-                                <span class="d-block"><i class="bi bi-people me-1"></i> Grado: ${info.event.extendedProps.grado_grupo}</span>
-                                <span class="d-block mt-1 text-warning"><i class="bi bi-clock me-1"></i> ${info.timeText}</span>
-                            </div>
-                        `,
-                        allowHTML: true,
-                        animation: 'scale',
-                        theme: 'light-border',
-                        placement: 'top'
-                    });
-                }
-            });
-
-            calendar.render();
-
-            // Refrescar tamaño al cambiar tema (FullCalendar a veces recorta grids por bordes)
-            const observer = new MutationObserver(function() {
-                setTimeout(()=> calendar.updateSize(), 50);
-            });
-            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
-        }
-    });
+    // Inyectar datos desde PHP al contexto global
+    window.calendarEvents = <?php echo !empty($eventos_calendario) ? json_encode($eventos_calendario) : '[]'; ?>;
 </script>
+<script src="../assets/js/calendario.js"></script>
 
 </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

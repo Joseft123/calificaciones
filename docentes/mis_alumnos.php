@@ -33,53 +33,7 @@ if ($resultado && $resultado->num_rows > 0) {
 include '../includes/header.php';
 ?>
 
-<style>
-    /* Animación de entrada suave hacia arriba */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    .student-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        border-left: 4px solid #198754 !important; /* Verde por defecto para alumnos */
-        background-color: var(--bs-body-bg);
-    }
-    .student-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.12) !important;
-        border-left-color: #0d6efd !important; 
-        z-index: 2;
-    }
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    [data-bs-theme="dark"] .student-card:hover {
-        box-shadow: 0 12px 24px rgba(0,0,0,0.5) !important;
-    }
-    [data-bs-theme="dark"] .bg-light,
-    [data-bs-theme="dark"] .bg-white {
-        background-color: #1e1e1e !important;
-        color: var(--bs-light) !important;
-    }
-    .group-card-header {
-        background: linear-gradient(135deg, #198754 0%, #20c997 100%);
-    }
-    .empty-state {
-        background: linear-gradient(to right, #f8f9fa, #e9ecef);
-        border: 2px dashed #ced4da;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-    [data-bs-theme="dark"] .empty-state {
-        background: linear-gradient(to right, #2b2b2b, #1e1e1e);
-        border-color: #495057;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-success m-0 fw-bold">👨‍🎓 Mis Alumnos</h2>

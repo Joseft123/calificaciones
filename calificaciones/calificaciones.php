@@ -40,54 +40,7 @@ $result_materias = $conexion->query($query_materias);
 include '../includes/header.php';
 ?>
 
-<style>
-    /* Animación de entrada suave hacia arriba */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Clase base para elementos animados */
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    
-    [data-bs-theme="dark"] .bg-light,
-    [data-bs-theme="dark"] .bg-white {
-        background-color: #1e1e1e !important;
-        color: var(--bs-light) !important;
-    }
-    
-    [data-bs-theme="dark"] .form-label.text-secondary {
-        color: #adb5bd !important;
-    }
-    
-    [data-bs-theme="dark"] .form-control,
-    [data-bs-theme="dark"] .form-select {
-        background-color: #2b2b2b;
-        color: #fff;
-        border-color: #495057;
-    }
-
-    [data-bs-theme="dark"] .form-control:focus,
-    [data-bs-theme="dark"] .form-select:focus {
-        background-color: #2b2b2b;
-        color: #fff;
-        border-color: #8db5e3;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
     <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
         <h2 class="text-primary m-0 fw-bold">📝 Registrar Calificación</h2>

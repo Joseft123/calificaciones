@@ -9,36 +9,7 @@ $sql = "SELECT id_usuario, nombre, correo, rol FROM usuarios";
 $resultado = $conexion->query($sql);
 include '../includes/header.php';
 ?>
-<style>
-    /* Animación de entrada suave hacia arriba */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    [data-bs-theme="dark"] .bg-white {
-        background-color: transparent !important;
-    }
-    [data-bs-theme="dark"] .text-dark {
-        color: #f8f9fa !important;
-    }
-    [data-bs-theme="dark"] .badge.bg-light {
-        background-color: #495057 !important;
-        color: #f8f9fa !important;
-        border-color: #6c757d !important;
-    }
-    [data-bs-theme="dark"] .table-hover > tbody > tr:hover > * {
-        background-color: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-primary m-0 fw-bold">👥 Gestión de Usuarios</h2>
     <a href="crear_usuario.php" class="btn btn-success shadow-sm px-4 rounded-pill">➕ Nuevo Usuario</a>
@@ -62,7 +33,7 @@ $delay = 0.3;
 while ($fila = $resultado->fetch_assoc()):
     $rolClass = ($fila['rol'] == 'Director') ? 'bg-danger' : 'bg-primary';
 ?>
-                    <tr class="animate-fade-in" style="animation-delay: <?php echo $delay; ?>s;">
+                    <tr class="animate-fade-in table-row" style="animation-delay: <?php echo $delay; ?>s;">
                         <td class="px-4"><span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">#<?php echo $fila['id_usuario']; ?></span></td>
                         <td class="fw-medium text-dark"><i class="bi bi-person-badge text-secondary me-2"></i><?php echo htmlspecialchars($fila['nombre']); ?></td>
                         <td><a href="mailto:<?php echo htmlspecialchars($fila['correo']); ?>" class="text-decoration-none"><i class="bi bi-envelope-at text-muted me-1"></i><?php echo htmlspecialchars($fila['correo']); ?></a></td>

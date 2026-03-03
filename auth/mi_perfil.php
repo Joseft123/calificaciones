@@ -63,16 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 include '../includes/header.php';
 ?>
 
-<style>
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
 <div class="row justify-content-center animate-fade-in">
     <div class="col-md-6 col-lg-5">

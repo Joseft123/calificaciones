@@ -35,89 +35,7 @@ if ($resultado && $resultado->num_rows > 0) {
 include '../includes/header.php';
 ?>
 
-<style>
-    /* Animación de entrada suave hacia arriba */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Clase base para elementos animados */
-    .animate-fade-in {
-        opacity: 0;
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    /* Efectos hover para las tarjetas de estudiantes */
-    .student-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        border-left: 4px solid transparent !important;
-        background-color: var(--bs-body-bg);
-    }
-    
-    .student-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.12) !important;
-        border-left-color: #0d6efd !important; /* Resalta con un borde azul a la izquierda */
-        z-index: 2;
-    }
-
-    [data-bs-theme="dark"] .card {
-        background-color: #2b2b2b;
-        color: #ffffff;
-    }
-    
-    [data-bs-theme="dark"] .student-card:hover {
-        box-shadow: 0 12px 24px rgba(0,0,0,0.5) !important;
-    }
-    
-    /* Evitar que clases como bg-light y bg-white sobreescriban el dark mode */
-    [data-bs-theme="dark"] .bg-light,
-    [data-bs-theme="dark"] .bg-white {
-        background-color: #1e1e1e !important;
-        color: var(--bs-light) !important;
-    }
-
-    /* Gradiente para los encabezados de grupo */
-    .group-card-header {
-        background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
-    }
-
-    /* Estilo mejorado para los badges (calificaciones) */
-    .grade-badge {
-        font-size: 1.1rem;
-        padding: 0.4em 0.8em;
-        border-radius: 8px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
-    
-    /* Estado vacío interactivo */
-    .empty-state {
-        background: linear-gradient(to right, #f8f9fa, #e9ecef);
-        border: 2px dashed #ced4da;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-    .empty-state:hover {
-        background: #e9ecef;
-        border-color: #adb5bd;
-    }
-    [data-bs-theme="dark"] .empty-state {
-        background: linear-gradient(to right, #2b2b2b, #1e1e1e);
-        border-color: #495057;
-    }
-    [data-bs-theme="dark"] .empty-state:hover {
-        background: #2b2b2b;
-        border-color: #6c757d;
-    }
-</style>
+<link rel="stylesheet" href="../assets/css/components.css">
 
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3 animate-fade-in" style="animation-delay: 0.1s;">
         <h2 class="text-primary m-0 fw-bold">📊 Historial General de Calificaciones</h2>
@@ -219,42 +137,6 @@ $conexion->close();
 </div> 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById("searchInput");
-        
-        if (searchInput) {
-            searchInput.addEventListener("keyup", function() {
-                const filter = searchInput.value.toLowerCase();
-                const cards = document.querySelectorAll(".student-card");
-                
-                cards.forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    const colContainer = card.closest(".col-md-6");
-                    
-                    if (text.includes(filter)) {
-                        colContainer.style.display = "";
-                    } else {
-                        colContainer.style.display = "none";
-                    }
-                });
-                
-                // Ocultar cabeceras de niveles/grupos vacías
-                const groupCards = document.querySelectorAll(".student-group-card");
-                groupCards.forEach(group => {
-                    const visibleCards = group.querySelectorAll(".col-md-6[style='']").length + group.querySelectorAll(".col-md-6:not([style*='none'])").length;
-                    group.style.display = visibleCards > 0 ? "" : "none";
-                    
-                    // Ocultar nivel (h3 y div padre) si todo el nivel está vacío
-                    const parentNivel = group.closest(".mb-5");
-                    if (parentNivel) {
-                        const visibleGroups = parentNivel.querySelectorAll(".student-group-card:not([style*='none'])").length;
-                        parentNivel.style.display = visibleGroups > 0 ? "" : "none";
-                    }
-                });
-            });
-        }
-    });
-</script>
+<script src="../assets/js/search_filter.js"></script>
 </body>
 </html>

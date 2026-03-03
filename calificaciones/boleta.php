@@ -43,20 +43,7 @@ $total_materias = 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boleta de Calificaciones - <?php echo $alumno['matricula']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; padding: 20px; }
-        .boleta-container { background: white; padding: 40px; border-radius: 8px; max-width: 800px; margin: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .escuela-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #007bff; padding-bottom: 20px; }
-        .datos-alumno { margin-bottom: 30px; }
-        .datos-alumno p { margin: 0; font-size: 1.1rem; }
-        
-        /* Estilos para impresión */
-        @media print {
-            body { background-color: white; padding: 0; }
-            .boleta-container { box-shadow: none; max-width: 100%; padding: 0; }
-            .no-print { display: none !important; }
-        }
-    </style>
+<link rel="stylesheet" href="../assets/css/student_portal.css">
 </head>
 <body>
 

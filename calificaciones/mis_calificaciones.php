@@ -40,56 +40,11 @@ $res_asistencias = $conexion->query($sql_asistencias);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Calificaciones - <?php echo htmlspecialchars($alumno['matricula']); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { padding-top: 20px; padding-bottom: 20px; }
-        .boleta-container { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 8px; 
-            max-width: 900px; 
-            margin: auto; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-        }
-        .escuela-header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #198754; padding-bottom: 20px; }
-        .datos-alumno p { margin: 0; font-size: 1.1rem; }
-        [data-bs-theme="light"] body { background-color: #f8f9fa; }
-        [data-bs-theme="dark"] body { background-color: #121212; }
-        [data-bs-theme="dark"] .boleta-container { background-color: #1e1e1e; color: #fff; }
-        [data-bs-theme="dark"] .table { --bs-table-bg: #2c2c2c; --bs-table-color: #fff; }
-        [data-bs-theme="dark"] .table-striped tbody tr:nth-of-type(odd) { --bs-table-accent-bg: #333; }
-        .theme-toggle-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
-        @media print {
-            body { background-color: white; padding: 0; }
-            .boleta-container { box-shadow: none; max-width: 100%; padding: 0; background: white; color: black !important; border: none !important; }
-            .no-print { display: none !important; }
-            .table { color: black !important; }
-            .escuela-header { border-bottom: 2px solid #000; }
-        }
-    </style>
-    <script>
-        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-bs-theme', theme);
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnToggle = document.getElementById('btnThemeToggle');
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (btnToggle) {
-                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
-                themeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-
-                btnToggle.addEventListener('click', () => {
-                    const html = document.documentElement;
-                    const newTheme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-                    html.setAttribute('data-bs-theme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                });
-            }
-        });
-    </script>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/student_portal.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
 </head>
-<body>
+<body class="student-portal">
 
 <div class="container">
     <div class="d-flex justify-content-end mb-3 no-print align-items-center">
@@ -215,5 +170,6 @@ else {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

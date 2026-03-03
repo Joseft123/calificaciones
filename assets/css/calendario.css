@@ -1,0 +1,72 @@
+/* Ajustes FullCalendar Premium */
+#calendar-container {
+    min-height: 600px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.fc .fc-toolbar-title {
+    font-weight: 700;
+    color: #0dcaf0;
+}
+
+.fc .fc-button-primary {
+    background-color: var(--bs-info);
+    border-color: var(--bs-info);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: #0baccc;
+    border-color: #0baccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(13, 202, 240, 0.3);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background-color: #087f9c;
+    border-color: #087f9c;
+}
+
+.fc-event {
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    padding: 3px 5px;
+}
+
+.fc-event:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+    z-index: 5 !important;
+}
+
+.fc-v-event .fc-event-main {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Compatibilidad Dark Theme */
+[data-bs-theme="dark"] .fc-theme-standard .fc-scrollgrid,
+[data-bs-theme="dark"] .fc-theme-standard td,
+[data-bs-theme="dark"] .fc-theme-standard th {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-bs-theme="dark"] .fc-col-header-cell-cushion,
+[data-bs-theme="dark"] .fc-timegrid-axis-cushion,
+[data-bs-theme="dark"] .fc-timegrid-slot-label-cushion {
+    color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .fc .fc-list-empty {
+    background-color: #1e1e1e;
+    color: #adb5bd;
+}

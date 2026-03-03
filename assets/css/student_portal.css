@@ -1,0 +1,76 @@
+/* Estilos para el Portal del Alumno (Boletas, Historial) */
+body.student-portal {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.boleta-container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 900px;
+    margin: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.escuela-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #198754;
+    padding-bottom: 20px;
+}
+
+.datos-alumno p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+[data-bs-theme="light"] body.student-portal {
+    background-color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] body.student-portal {
+    background-color: #121212;
+}
+
+[data-bs-theme="dark"] .boleta-container {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: #2c2c2c;
+    --bs-table-color: #fff;
+}
+
+[data-bs-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
+    --bs-table-accent-bg: #333;
+}
+
+@media print {
+    body {
+        background-color: white;
+        padding: 0;
+    }
+
+    .boleta-container {
+        box-shadow: none;
+        max-width: 100%;
+        padding: 0;
+        background: white;
+        color: black !important;
+        border: none !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .table {
+        color: black !important;
+    }
+
+    .escuela-header {
+        border-bottom: 2px solid #000;
+    }
+}
