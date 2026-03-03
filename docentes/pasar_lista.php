@@ -166,6 +166,9 @@ else:
             <div class="card-body p-4">
                 <form action="guardar_asistencia.php" method="POST">
                     <input type="hidden" name="id_materia" value="<?php echo $id_materia_sel; ?>">
+                    <input type="hidden" name="nivel" value="<?php echo htmlspecialchars($nivel_sel); ?>">
+                    <input type="hidden" name="grado" value="<?php echo $grado_sel; ?>">
+                    <input type="hidden" name="grupo" value="<?php echo htmlspecialchars($grupo_sel); ?>">
                     
                     <div class="row mb-4">
                         <div class="col-md-4">
