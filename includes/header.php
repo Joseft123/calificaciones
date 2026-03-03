@@ -69,6 +69,7 @@ if (session_status() == PHP_SESSION_NONE) {
             
             <li class="nav-item ms-lg-3 d-flex align-items-center">
                 <span class="text-light me-3">👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($_SESSION['rol']); ?>)</span>
+                <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear"></i></a>
                 <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
                     <span id="themeIcon">🌙</span>
                 </button>
@@ -81,9 +82,11 @@ elseif (isset($_SESSION['id_docente'])): ?>
             <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php">Mis Alumnos</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mi_calendario.php">Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/pasar_lista.php">Pasar Lista</a></li>
+            <li class="nav-item"><a class="nav-link" href="../docentes/reporte_asistencia.php">Reporte Asist.</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
                 <span class="text-light me-3">👨‍🏫 <?php echo htmlspecialchars($_SESSION['nombre_docente']); ?> (Docente)</span>
+                <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear"></i></a>
                 <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
                     <span id="themeIcon">🌙</span>
                 </button>

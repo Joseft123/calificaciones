@@ -24,6 +24,14 @@ $res_calif = $conexion->query($sql_calif);
 
 $suma_calificaciones = 0;
 $total_materias = 0;
+
+// Consultar resumen de asistencias
+$sql_asistencias = "SELECT m.nombre_materia, a.fecha, a.estado 
+                    FROM asistencias a 
+                    INNER JOIN materias m ON a.id_materia = m.id_materia 
+                    WHERE a.id_alumno = $id_alumno 
+                    ORDER BY a.fecha DESC, m.nombre_materia ASC";
+$res_asistencias = $conexion->query($sql_asistencias);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,7 +97,8 @@ $total_materias = 0;
         <button class="theme-toggle-btn me-3" id="btnThemeToggle" title="Cambiar Tema">
             <span id="themeIcon">🌙</span>
         </button>
-        <button onclick="window.print()" class="btn btn-outline-primary me-2">🖨️ Imprimir</button>
+        <a href="generar_boleta_pdf.php?id=<?php echo $id_alumno; ?>" target="_blank" class="btn btn-outline-info me-2 shadow-sm rounded-pill">📄 Descargar PDF</a>
+        <button onclick="window.print()" class="btn btn-outline-primary me-2 shadow-sm rounded-pill">🖨️ Imprimir</button>
         <a href="../auth/cerrar_sesion_alumno.php" class="btn btn-danger">Cerrar Sesión</a>
     </div>
 
@@ -155,10 +164,50 @@ else {
 if ($total_materias > 0) {
     $promedio = $suma_calificaciones / $total_materias;
     $clase_promedio = ($promedio < 6) ? 'text-danger' : 'text-success';
-    echo "<h4 class='text-end mt-4'>Promedio General: <span class='fw-bold $clase_promedio fs-3'>" . number_format($promedio, 2) . "</span></h4>";
+    echo "<h4 class='text-end mt-4 mb-5'>Promedio General: <span class='fw-bold $clase_promedio fs-3'>" . number_format($promedio, 2) . "</span></h4>";
 }
 ?>
-        
+
+        <h3 class="text-secondary fw-bold mb-4 mt-5"><i class="bi bi-calendar-check text-primary me-2"></i> Historial de Asistencias</h3>
+        <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.3s;">
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Materia</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+if ($res_asistencias && $res_asistencias->num_rows > 0) {
+    while ($asist = $res_asistencias->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td class='text-center'>" . date('d/m/Y', strtotime($asist['fecha'])) . "</td>";
+        echo "<td>" . htmlspecialchars($asist['nombre_materia']) . "</td>";
+
+        $badge_class = 'bg-success';
+        if ($asist['estado'] === 'Falta')
+            $badge_class = 'bg-danger';
+        if ($asist['estado'] === 'Retardo')
+            $badge_class = 'bg-warning text-dark';
+
+        echo "<td class='text-center'><span class='badge $badge_class rounded-pill px-3'>" . htmlspecialchars($asist['estado']) . "</span></td>";
+        echo "</tr>";
+    }
+}
+else {
+    echo "<tr><td colspan='3' class='text-center py-4 text-muted'>Aún no tienes registros de asistencia.</td></tr>";
+}
+?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div class="text-center mt-5 pt-5 text-muted small no-print">
             <p>Este documento es únicamente de carácter informativo. Para un reporte oficial firmado y sellado acude a la dirección escolar.</p>
         </div>
