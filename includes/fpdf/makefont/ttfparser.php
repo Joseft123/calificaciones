@@ -373,7 +373,7 @@ class TTFParser
 		{
 			$this->glyphs[$id]['ssid'] = count($this->subsettedGlyphs);
 			$this->subsettedGlyphs[] = $id;
-			if(isset($this->glyphs[$id]['components']))
+			if(isset($this->glyphs[$id]['components']) && is_array($this->glyphs[$id]['components']))
 			{
 				foreach($this->glyphs[$id]['components'] as $cid)
 					$this->AddGlyph($cid);
@@ -525,7 +525,7 @@ class TTFParser
 			$glyph = $this->glyphs[$id];
 			fseek($this->f, $tableOffset+$glyph['offset'], SEEK_SET);
 			$glyph_data = $this->Read($glyph['length']);
-			if(isset($glyph['components']))
+			if(isset($glyph['components']) && is_array($glyph['components']))
 			{
 				// Composite glyph
 				foreach($glyph['components'] as $offset=>$cid)
