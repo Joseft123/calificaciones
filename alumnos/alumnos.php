@@ -75,7 +75,7 @@ if ($resultado->num_rows > 0) {
         echo "<td><span class='badge bg-info text-dark rounded-pill px-3'>" . $fila['nivel'] . "</span></td>";
         echo "<td><span class='badge bg-secondary rounded-pill px-3'>" . $fila['grado'] . "º " . $fila['grupo'] . "</span></td>";
         echo "<td class='px-4 text-center'>
-        <a href='../calificaciones/boleta.php?id=" . $fila['id_alumno'] . "' class='btn btn-outline-info btn-sm rounded-circle me-1 shadow-sm' title='Boleta'><i class='bi bi-file-earmark-text'></i></a>
+        <a href='../calificaciones/generar_boleta_pdf.php?id=" . $fila['id_alumno'] . "' target='_blank' class='btn btn-outline-danger btn-sm rounded-circle me-1 shadow-sm' title='Imprimir Boleta PDF'><i class='bi bi-file-earmark-pdf-fill'></i></a>
         <a href='editar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-outline-warning btn-sm rounded-circle me-1 shadow-sm' title='Editar'><i class='bi bi-pencil'></i></a>
         <a href='eliminar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-outline-danger btn-sm rounded-circle shadow-sm' title='Eliminar' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'><i class='bi bi-trash'></i></a>
       </td>";

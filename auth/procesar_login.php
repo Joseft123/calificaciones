@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['rol'] = $usuario['rol'];
 
             // Redirigir al sistema
-            header("Location: ../calificaciones/ver_calificaciones.php");
+            header("Location: ../calificaciones/dashboard.php");
             exit();
 
         }

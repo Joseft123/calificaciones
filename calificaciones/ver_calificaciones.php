@@ -12,7 +12,7 @@ if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
 include '../includes/conexion.php';
 
 // Consulta SQL con INNER JOIN para obtener los nombres en lugar de los IDs
-$sql = "SELECT a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo, 
+$sql = "SELECT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo, 
                m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro 
         FROM calificaciones c 
         INNER JOIN alumnos a ON c.id_alumno = a.id_alumno 
@@ -176,11 +176,9 @@ if (!empty($calificaciones_agrupadas)) {
 
                 echo "</div>"; // Fin card-body
 
-                echo "<div class='card-footer border-top-0 pt-0 pb-3 px-4 bg-transparent'>";
-                echo "<small class='text-body-secondary d-flex align-items-center justify-content-between'>";
-                echo "<span>📅 Registro:</span>";
-                echo "<span class='fw-medium'>{$fecha}</span>";
-                echo "</small>";
+                echo "<div class='card-footer border-top-0 pt-0 pb-3 px-4 bg-transparent d-flex justify-content-between align-items-center'>";
+                echo "<small class='text-body-secondary mb-0'>📅 Registro: <span class='fw-medium'>{$fecha}</span></small>";
+                echo "<a href='generar_boleta_pdf.php?id=" . $cal['id_alumno'] . "' target='_blank' class='btn btn-sm btn-outline-danger py-0 px-2 rounded-3' title='Generar Boleta en PDF'><i class='bi bi-file-pdf-fill me-1'></i>PDF</a>";
                 echo "</div>";
 
                 echo "</div>"; // Fin card estudiante

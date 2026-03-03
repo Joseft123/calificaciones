@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-  session_start();
+    session_start();
 }
 ?>
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="../calificaciones/ver_calificaciones.php">🎓 Sistema Escolar</a>
+    <a class="navbar-brand" href="<?php echo isset($_SESSION['id_docente']) ? '../docentes/mis_alumnos.php' : '../calificaciones/dashboard.php'; ?>">🎓 Sistema Escolar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -60,6 +60,7 @@ if (session_status() == PHP_SESSION_NONE) {
       <ul class="navbar-nav ms-auto align-items-center">
         
         <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'Director'): ?>
+            <li class="nav-item"><a class="nav-link" href="../calificaciones/dashboard.php">Panel</a></li>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php">Capturar Notas</a></li>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php">Historial</a></li>
             <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php">Alumnos</a></li>

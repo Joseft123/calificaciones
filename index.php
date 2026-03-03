@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-if (isset($_SESSION['id_usuario']) || isset($_SESSION['id_docente'])) {
+if (isset($_SESSION['id_usuario'])) {
+    header("Location: calificaciones/dashboard.php");
+}
+elseif (isset($_SESSION['id_docente'])) {
     header("Location: calificaciones/ver_calificaciones.php");
 }
 elseif (isset($_SESSION['id_alumno'])) {
