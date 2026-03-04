@@ -36,6 +36,7 @@ include '../includes/header.php';
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
 <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light-border.css" />
 
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
     <h2 class="text-info m-0 fw-bold">📅 Mi Calendario Académico</h2>

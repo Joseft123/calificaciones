@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 allowHTML: true,
                 animation: 'scale',
                 theme: 'light-border',
-                placement: 'top'
+                placement: 'auto',
+                appendTo: document.body
             });
         }
     });
