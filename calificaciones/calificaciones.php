@@ -13,6 +13,9 @@ include '../includes/conexion.php';
 // Obtener el ID del docente si está logueado
 $id_docente = isset($_SESSION['id_docente']) ? $_SESSION['id_docente'] : null;
 
+// Obtener el id_alumno de la URL si existe para autoseleccionarlo
+$id_selected_alumno = isset($_GET['id_alumno']) ? (int)$_GET['id_alumno'] : '';
+
 if ($id_docente) {
     // Si es docente, mostrar solo los alumnos de los niveles, grados y grupos que tiene asignados
     // Además filtramos para asegurar que no se repitan alumnos si están en varias asignaciones (uso de GROUP BY o DISTINCT)
@@ -60,8 +63,9 @@ include '../includes/header.php';
                         <select name="id_alumno" id="id_alumno" class="form-select form-select-lg shadow-sm" required>
                             <option value="">Selecciona un alumno...</option>
                             <?php while ($row = $result_alumnos->fetch_assoc()): ?>
-                                <option value="<?php echo $row['id_alumno']; ?>">
-                                    <?php echo $row['matricula'] . " - " . $row['nombre'] . " " . $row['apellidos']; ?>
+                                <?php $selected = ($row['id_alumno'] == $id_selected_alumno) ? 'selected' : ''; ?>
+                                <option value="<?php echo $row['id_alumno']; ?>" <?php echo $selected; ?>>
+                                    <?php echo $row['matricula'] . " - " . htmlspecialchars($row['nombre']) . " " . htmlspecialchars($row['apellidos']); ?>
                                 </option>
                             <?php
 endwhile; ?>

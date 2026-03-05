@@ -12,7 +12,7 @@ include '../includes/conexion.php';
 $id_docente = $_SESSION['id_docente'];
 
 // Consulta SQL con INNER JOIN para obtener los alumnos asignados al docente logueado
-$sql = "SELECT DISTINCT a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo 
+$sql = "SELECT DISTINCT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo 
         FROM alumnos a
         INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
         WHERE dmg.id_docente = $id_docente
@@ -79,7 +79,7 @@ if (!empty($alumnos_agrupados)) {
                 echo "</div>";
 
                 echo "<div class='d-grid mt-3'>";
-                echo "<a href='../calificaciones/calificaciones.php' class='btn btn-outline-success btn-sm rounded-pill'>Calificar</a>";
+                echo "<a href='../calificaciones/calificaciones.php?id_alumno=" . $al['id_alumno'] . "' class='btn btn-outline-success btn-sm rounded-pill'>Calificar</a>";
                 echo "</div>";
 
                 echo "</div>"; // Fin card-body
