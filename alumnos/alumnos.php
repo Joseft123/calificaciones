@@ -30,50 +30,78 @@ include '../includes/header.php';
     </div>
 </div>
 
-<div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table id="alumnosTable" class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="py-3 px-4 border-0">Matrícula</th>
-                        <th class="py-3 border-0">Nombre Completo</th>
-                        <th class="py-3 border-0">Nivel</th>
-                        <th class="py-3 border-0">Grado y Grupo</th>
-                        <th class="py-3 px-4 border-0 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
+<?php
 if ($resultado->num_rows > 0) {
-    $delay = 0.3;
+    // 1. Agrupar alumnos
+    $alumnos_agrupados = [];
     while ($fila = $resultado->fetch_assoc()) {
-        echo "<tr class='animate-fade-in table-row' style='animation-delay: {$delay}s;'>";
-        echo "<td class='px-4'><span class='badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm'><i class='bi bi-hash text-muted'></i>" . $fila['matricula'] . "</span></td>";
-        echo "<td class='fw-medium text-dark'>" . $fila['apellidos'] . " " . $fila['nombre'] . "</td>";
-        echo "<td><span class='badge bg-info text-dark rounded-pill px-3'>" . $fila['nivel'] . "</span></td>";
-        echo "<td><span class='badge bg-secondary rounded-pill px-3'>" . $fila['grado'] . "º " . $fila['grupo'] . "</span></td>";
-        echo "<td class='px-4 text-center'>
-        <a href='../calificaciones/generar_boleta_pdf.php?id=" . $fila['id_alumno'] . "' target='_blank' class='btn btn-outline-danger btn-sm rounded-circle me-1 shadow-sm' title='Imprimir Boleta PDF'><i class='bi bi-file-earmark-pdf-fill'></i></a>
-        <a href='editar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-outline-warning btn-sm rounded-circle me-1 shadow-sm' title='Editar'><i class='bi bi-pencil'></i></a>
-        <a href='eliminar_alumno.php?id=" . $fila['id_alumno'] . "' class='btn btn-outline-danger btn-sm rounded-circle shadow-sm' title='Eliminar' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'><i class='bi bi-trash'></i></a>
-      </td>";
-        echo "</tr>";
-        $delay += 0.05;
+        $nivel = $fila['nivel'];
+        $grupo = $fila['grado'] . "º " . $fila['grupo'];
+        $alumnos_agrupados[$nivel][$grupo][] = $fila;
+    }
+
+    $delay = 0.2;
+    // 2. Renderizar por grupos
+    foreach ($alumnos_agrupados as $nivel => $grupos) {
+        echo "<div class='mb-5 animate-fade-in' style='animation-delay: {$delay}s;'>";
+        echo "<h3 class='text-secondary border-bottom pb-2 mb-4 fw-bold'>
+                <span class='text-primary'>Nivel:</span> " . htmlspecialchars($nivel) . "
+              </h3>";
+
+        $delay += 0.15;
+
+        foreach ($grupos as $grupo => $alumnos) {
+            echo "<div class='card mb-4 shadow rounded-4 overflow-hidden animate-fade-in student-group-card' style='animation-delay: {$delay}s; border: none;'>";
+            echo "<div class='card-header group-card-header text-white px-4 py-3' style='background: linear-gradient(135deg, #6610f2 0%, #520dc2 100%);'>";
+            echo "<h5 class='m-0 fw-bold'><i class='bi bi-people-fill me-2'></i>Grupo " . htmlspecialchars($grupo) . "</h5>";
+            echo "</div>";
+            echo "<div class='card-body p-0'>"; // Padding 0 para la tabla
+
+            // Tabla interna por grupo
+            echo "<div class='table-responsive'>";
+            echo "<table class='table table-hover align-middle mb-0 group-table'>";
+            echo "<thead class='table-light text-muted small position-sticky top-0 bg-white' style='z-index: 1;'>
+                    <tr>
+                        <th class='py-3 px-4 fw-semibold border-bottom'>Matrícula</th>
+                        <th class='py-3 fw-semibold border-bottom'>Nombre Completo</th>
+                        <th class='py-3 px-4 fw-semibold border-bottom text-end'>Acciones</th>
+                    </tr>
+                  </thead>";
+            echo "<tbody>";
+
+            $rowDelay = $delay;
+            foreach ($alumnos as $alumno) {
+                echo "<tr class='animate-fade-in' style='animation-delay: {$rowDelay}s;'>";
+                echo "<td class='px-4' style='width: 20%;'><span class='badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm text-monospace'><i class='bi bi-hash text-muted me-1'></i>" . htmlspecialchars($alumno['matricula']) . "</span></td>";
+                echo "<td class='fw-medium text-dark'>" . htmlspecialchars($alumno['apellidos']) . " " . htmlspecialchars($alumno['nombre']) . "</td>";
+                echo "<td class='px-4 text-end' style='width: 25%;'>
+                        <a href='../calificaciones/generar_boleta_pdf.php?id=" . $alumno['id_alumno'] . "' target='_blank' class='btn btn-outline-danger btn-sm rounded-pill shadow-sm me-1' title='Imprimir Boleta PDF'><i class='bi bi-file-earmark-pdf-fill me-1'></i>Boleta</a>
+                        <a href='editar_alumno.php?id=" . $alumno['id_alumno'] . "' class='btn btn-outline-warning btn-sm rounded-circle shadow-sm me-1' title='Editar Perfil'><i class='bi bi-pencil'></i></a>
+                        <a href='eliminar_alumno.php?id=" . $alumno['id_alumno'] . "' class='btn btn-outline-danger btn-sm rounded-circle shadow-sm' title='Dar de Baja' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'><i class='bi bi-trash'></i></a>
+                      </td>";
+                echo "</tr>";
+                $rowDelay += 0.05;
+            }
+
+            echo "</tbody></table></div>"; // Fin tabla
+            echo "</div></div>"; // Fin card grupo
+            $delay += 0.1;
+        }
+        echo "</div>"; // Fin contenedor nivel
     }
 }
 else {
-    echo "<tr><td colspan='5' class='text-center py-5 text-muted'>
-        <div class='fs-1 mb-2'>📭</div>
-        <p class='mb-0 fw-bold'>No hay alumnos inscritos aún.</p>
-    </td></tr>";
+    echo "<div class='empty-state text-center p-5 mx-auto animate-fade-in' style='animation-delay: 0.2s; max-width: 600px;'>
+            <div style='font-size: 4rem; opacity: 0.5; margin-bottom: 1rem;'>📭</div>
+            <h4 class='text-secondary fw-bold mb-3'>No hay alumnos inscritos aún</h4>
+            <p class='text-muted mb-4'>El directorio está vacío. Comienza importando una lista o agregándolos manualmente.</p>
+            <div class='d-flex justify-content-center gap-3'>
+                <a href='importar_alumnos.php' class='btn btn-outline-primary rounded-pill px-4 shadow-sm'>📂 Importar CSV</a>
+                <a href='crear_alumno.php' class='btn btn-primary rounded-pill px-4 shadow-sm'>➕ Inscribir Alumno</a>
+            </div>
+          </div>";
 }
 ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <?php $conexion->close(); ?>
 
