@@ -74,10 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="form-label fw-bold text-secondary">Rol del Usuario</label>
                     <select name="rol" class="form-select form-select-lg shadow-sm" required>
                         <option value="">Selecciona un rol...</option>
-                        <option value="Director">Director</option>
-                        <option value="Coordinador">Coordinador</option>
-                        <option value="Cobranza">Cobranza</option>
-                        <option value="Docente">Docente</option>
+                        <option value="Director">Director (Control Total)</option>
+                        <option value="Coordinador">Coordinador (Gestión Académica)</option>
+                        <option value="Cobranza">Cobranza (Pagos y Finanzas)</option>
                     </select>
                 </div>
             </div>

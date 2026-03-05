@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 ?>
 <!DOCTYPE html>
@@ -32,6 +32,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i class="bi bi-clock-history me-1"></i> Historial</a></li>
             <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php"><i class="bi bi-people-fill me-1"></i> Alumnos</a></li>
             <li class="nav-item"><a class="nav-link" href="../materias/materias.php"><i class="bi bi-book-half me-1"></i> Materias</a></li>
+            <li class="nav-item"><a class="nav-link" href="../docentes/docentes.php"><i class="bi bi-person-video3 me-1"></i> Docentes</a></li>
             <li class="nav-item"><a class="nav-link text-warning fw-bold" href="../usuarios/usuarios.php"><i class="bi bi-person-badge-fill me-1"></i> Usuarios</a></li>
             
             <li class="nav-item ms-lg-3 d-flex align-items-center">
@@ -46,6 +47,7 @@ if (session_status() == PHP_SESSION_NONE) {
         <?php
 elseif (isset($_SESSION['id_docente'])): ?>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php"><i class="bi bi-pencil-square me-1"></i> Capturar Notas</a></li>
+            <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i class="bi bi-clock-history me-1"></i> Historial</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php"><i class="bi bi-person-lines-fill me-1"></i> Mis Alumnos</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mi_calendario.php"><i class="bi bi-calendar-week me-1"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/pasar_lista.php"><i class="bi bi-clipboard-check me-1"></i> Pasar Lista</a></li>

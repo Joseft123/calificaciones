@@ -11,13 +11,27 @@ if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
 // Incluir la conexión a la base de datos
 include '../includes/conexion.php';
 
-// Consulta SQL con INNER JOIN para obtener los nombres en lugar de los IDs
-$sql = "SELECT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo, 
-               m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro 
-        FROM calificaciones c 
-        INNER JOIN alumnos a ON c.id_alumno = a.id_alumno 
-        INNER JOIN materias m ON c.id_materia = m.id_materia 
-        ORDER BY a.nivel ASC, a.grado ASC, a.grupo ASC, a.apellidos ASC, a.nombre ASC, c.fecha_registro DESC";
+if (isset($_SESSION['id_docente'])) {
+    $id_docente = intval($_SESSION['id_docente']);
+    // Consulta filtrada para que el docente solo vea calificaciones de sus propios alumnos
+    $sql = "SELECT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo, 
+                   m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro 
+            FROM calificaciones c 
+            INNER JOIN alumnos a ON c.id_alumno = a.id_alumno 
+            INNER JOIN materias m ON c.id_materia = m.id_materia 
+            INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo AND c.id_materia = dmg.id_materia
+            WHERE dmg.id_docente = $id_docente
+            ORDER BY a.nivel ASC, a.grado ASC, a.grupo ASC, a.apellidos ASC, a.nombre ASC, c.fecha_registro DESC";
+}
+else {
+    // Consulta original sin filtros para el Director
+    $sql = "SELECT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo, 
+                   m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro 
+            FROM calificaciones c 
+            INNER JOIN alumnos a ON c.id_alumno = a.id_alumno 
+            INNER JOIN materias m ON c.id_materia = m.id_materia 
+            ORDER BY a.nivel ASC, a.grado ASC, a.grupo ASC, a.apellidos ASC, a.nombre ASC, c.fecha_registro DESC";
+}
 
 $resultado = $conexion->query($sql);
 

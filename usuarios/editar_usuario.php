@@ -94,13 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="form-label fw-bold text-secondary">Rol del Usuario</label>
                     <select name="rol" class="form-select form-select-lg shadow-sm" required>
                         <option value="Director" <?php if ($usuario['rol'] == 'Director')
-    echo 'selected'; ?>>Director</option>
+    echo 'selected'; ?>>Director (Control Total)</option>
                         <option value="Coordinador" <?php if ($usuario['rol'] == 'Coordinador')
-    echo 'selected'; ?>>Coordinador</option>
+    echo 'selected'; ?>>Coordinador (Gestión Académica)</option>
                         <option value="Cobranza" <?php if ($usuario['rol'] == 'Cobranza')
-    echo 'selected'; ?>>Cobranza</option>
-                        <option value="Docente" <?php if ($usuario['rol'] == 'Docente')
-    echo 'selected'; ?>>Docente</option>
+    echo 'selected'; ?>>Cobranza (Pagos y Finanzas)</option>
                     </select>
                 </div>
             </div>
