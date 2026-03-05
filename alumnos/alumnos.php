@@ -43,22 +43,30 @@ if ($resultado->num_rows > 0) {
     $delay = 0.2;
     // 2. Renderizar por grupos
     foreach ($alumnos_agrupados as $nivel => $grupos) {
+        $nivelIdSafe = preg_replace('/[^A-Za-z0-9\-]/', '', $nivel);
         echo "<div class='mb-5 animate-fade-in' style='animation-delay: {$delay}s;'>";
         echo "<h3 class='text-secondary border-bottom pb-2 mb-4 fw-bold'>
                 <span class='text-primary'>Nivel:</span> " . htmlspecialchars($nivel) . "
               </h3>";
 
         $delay += 0.15;
+        echo "<div class='accordion shadow-sm rounded-4 overflow-hidden' id='accordionNivel{$nivelIdSafe}'>";
 
         foreach ($grupos as $grupo => $alumnos) {
-            echo "<div class='card mb-4 shadow rounded-4 overflow-hidden animate-fade-in student-group-card' style='animation-delay: {$delay}s; border: none;'>";
-            echo "<div class='card-header group-card-header text-white px-4 py-3' style='background: linear-gradient(135deg, #6610f2 0%, #520dc2 100%);'>";
-            echo "<h5 class='m-0 fw-bold'><i class='bi bi-people-fill me-2'></i>Grupo " . htmlspecialchars($grupo) . "</h5>";
-            echo "</div>";
-            echo "<div class='card-body p-0'>"; // Padding 0 para la tabla
+            $grupoIdSafe = preg_replace('/[^A-Za-z0-9\-]/', '', $grupo) . mt_rand(100, 999);
+
+            echo "<div class='accordion-item border-0 mb-3 rounded-4 shadow-sm student-group-card animate-fade-in' style='animation-delay: {$delay}s;'>";
+            echo "<h2 class='accordion-header' id='heading{$grupoIdSafe}'>";
+            echo "<button class='accordion-button collapsed px-4 py-3 fw-bold' type='button' data-bs-toggle='collapse' data-bs-target='#collapse{$grupoIdSafe}' aria-expanded='false' aria-controls='collapse{$grupoIdSafe}' style='background: linear-gradient(135deg, #6610f2 0%, #520dc2 100%); color: white; border-radius: 1rem;'>";
+            echo "<i class='bi bi-people-fill me-2'></i>Grupo " . htmlspecialchars($grupo) . " <span class='badge bg-light text-primary ms-auto rounded-pill px-3 shadow-sm'>" . count($alumnos) . " inscritos</span>";
+            echo "</button>";
+            echo "</h2>";
+
+            echo "<div id='collapse{$grupoIdSafe}' class='accordion-collapse collapse' aria-labelledby='heading{$grupoIdSafe}' data-bs-parent='#accordionNivel{$nivelIdSafe}'>";
+            echo "<div class='accordion-body p-0'>";
 
             // Tabla interna por grupo
-            echo "<div class='table-responsive'>";
+            echo "<div class='table-responsive rounded-bottom-4'>";
             echo "<table class='table table-hover align-middle mb-0 group-table'>";
             echo "<thead class='table-light text-muted small position-sticky top-0 bg-white' style='z-index: 1;'>
                     <tr>
@@ -69,9 +77,8 @@ if ($resultado->num_rows > 0) {
                   </thead>";
             echo "<tbody>";
 
-            $rowDelay = $delay;
             foreach ($alumnos as $alumno) {
-                echo "<tr class='animate-fade-in' style='animation-delay: {$rowDelay}s;'>";
+                echo "<tr>";
                 echo "<td class='px-4' style='width: 20%;'><span class='badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm text-monospace'><i class='bi bi-hash text-muted me-1'></i>" . htmlspecialchars($alumno['matricula']) . "</span></td>";
                 echo "<td class='fw-medium text-dark'>" . htmlspecialchars($alumno['apellidos']) . " " . htmlspecialchars($alumno['nombre']) . "</td>";
                 echo "<td class='px-4 text-end' style='width: 25%;'>
@@ -80,14 +87,13 @@ if ($resultado->num_rows > 0) {
                         <a href='eliminar_alumno.php?id=" . $alumno['id_alumno'] . "' class='btn btn-outline-danger btn-sm rounded-circle shadow-sm' title='Dar de Baja' onclick='return confirm(\"¿Estás seguro de eliminar a este alumno y todo su historial de calificaciones?\");'><i class='bi bi-trash'></i></a>
                       </td>";
                 echo "</tr>";
-                $rowDelay += 0.05;
             }
 
             echo "</tbody></table></div>"; // Fin tabla
-            echo "</div></div>"; // Fin card grupo
+            echo "</div></div></div>"; // Fin collapse, body y accordion-item
             $delay += 0.1;
         }
-        echo "</div>"; // Fin contenedor nivel
+        echo "</div></div>"; // Fin accordion container y nivel
     }
 }
 else {
