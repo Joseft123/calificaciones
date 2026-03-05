@@ -20,32 +20,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $rol = $_POST['rol'];
 
-    if (!empty($_POST['password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql = "UPDATE usuarios SET nombre=?, correo=?, password=?, rol=? WHERE id_usuario=?";
-        $stmt = $conexion->prepare($sql);
-        if ($stmt)
-            $stmt->bind_param("ssssi", $nombre, $correo, $password, $rol, $id);
+    // Verificar si el correo ya existe en OTRO usuario
+    $sql_check = "SELECT id_usuario FROM usuarios WHERE correo = ? AND id_usuario != ?";
+    $stmt_check = $conexion->prepare($sql_check);
+    $stmt_check->bind_param("si", $correo, $id);
+    $stmt_check->execute();
+    $res_check = $stmt_check->get_result();
+
+    if ($res_check->num_rows > 0) {
+        echo "<div class='alert alert-warning mt-3'>El correo electrónico <strong>$correo</strong> ya está en uso por otro usuario.</div>";
     }
     else {
-        $sql = "UPDATE usuarios SET nombre=?, correo=?, rol=? WHERE id_usuario=?";
-        $stmt = $conexion->prepare($sql);
-        if ($stmt)
-            $stmt->bind_param("sssi", $nombre, $correo, $rol, $id);
-    }
-
-    if ($stmt) {
-        if ($stmt->execute()) {
-            echo "<script>window.location='usuarios.php';</script>";
+        if (!empty($_POST['password'])) {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $sql = "UPDATE usuarios SET nombre=?, correo=?, password=?, rol=? WHERE id_usuario=?";
+            $stmt = $conexion->prepare($sql);
+            if ($stmt)
+                $stmt->bind_param("ssssi", $nombre, $correo, $password, $rol, $id);
         }
         else {
-            echo "<div class='alert alert-danger mt-3'>Error al actualizar: " . $stmt->error . "</div>";
+            $sql = "UPDATE usuarios SET nombre=?, correo=?, rol=? WHERE id_usuario=?";
+            $stmt = $conexion->prepare($sql);
+            if ($stmt)
+                $stmt->bind_param("sssi", $nombre, $correo, $rol, $id);
         }
-        $stmt->close();
-    }
-    else {
-        echo "<div class='alert alert-danger mt-3'>Error al preparar actualización: " . $conexion->error . "</div>";
-    }
+
+        if ($stmt) {
+            if ($stmt->execute()) {
+                echo "<script>window.location='usuarios.php';</script>";
+            }
+            else {
+                echo "<div class='alert alert-danger mt-3'>Error al actualizar: " . $stmt->error . "</div>";
+            }
+            $stmt->close();
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>Error al preparar actualización: " . $conexion->error . "</div>";
+        }
+    } // Cierra el else del check de correo
 }
 ?>
 <h2 class="text-primary mb-4">✏️ Editar Usuario</h2>

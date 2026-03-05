@@ -15,22 +15,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $grado = intval($_POST['grado']);
     $grupo = $conexion->real_escape_string($_POST['grupo']);
 
-    $sql = "INSERT INTO alumnos (matricula, nombre, apellidos, nivel, grado, grupo) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conexion->prepare($sql);
+    // Verificar si la matrícula ya existe
+    $sql_check = "SELECT id_alumno FROM alumnos WHERE matricula = ?";
+    $stmt_check = $conexion->prepare($sql_check);
+    $stmt_check->bind_param("s", $matricula);
+    $stmt_check->execute();
+    $res_check = $stmt_check->get_result();
 
-    if ($stmt) {
-        $stmt->bind_param("ssssss", $matricula, $nombre, $apellidos, $nivel, $grado, $grupo);
-        if ($stmt->execute()) {
-            echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Alumno inscrito exitosamente. <a href='alumnos.php' class='alert-link'>Volver a la lista</a></div>";
-        }
-        else {
-            echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al inscribir: " . $stmt->error . "</div>";
-        }
-        $stmt->close();
+    if ($res_check->num_rows > 0) {
+        echo "<div class='alert alert-warning mt-3 shadow-sm'>❌ La matrícula <strong>$matricula</strong> ya está registrada en el sistema.</div>";
     }
     else {
-        echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al preparar la consulta: " . $conexion->error . "</div>";
-    }
+        $sql = "INSERT INTO alumnos (matricula, nombre, apellidos, nivel, grado, grupo) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conexion->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("ssssss", $matricula, $nombre, $apellidos, $nivel, $grado, $grupo);
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success mt-3 shadow-sm'>✅ Alumno inscrito exitosamente. <a href='alumnos.php' class='alert-link'>Volver a la lista</a></div>";
+            }
+            else {
+                echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al inscribir: " . $stmt->error . "</div>";
+            }
+            $stmt->close();
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3 shadow-sm'>❌ Error al preparar la consulta: " . $conexion->error . "</div>";
+        }
+    } // Cierra el else del check de matrícula
 }
 ?>
 

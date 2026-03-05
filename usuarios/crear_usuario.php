@@ -14,22 +14,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $rol = $_POST['rol'];
 
-    $sql = "INSERT INTO usuarios (nombre, correo, password, rol) VALUES (?, ?, ?, ?)";
-    $stmt = $conexion->prepare($sql);
+    // Verificar si el correo ya existe
+    $sql_check = "SELECT id_usuario FROM usuarios WHERE correo = ?";
+    $stmt_check = $conexion->prepare($sql_check);
+    $stmt_check->bind_param("s", $correo);
+    $stmt_check->execute();
+    $res_check = $stmt_check->get_result();
 
-    if ($stmt) {
-        $stmt->bind_param("ssss", $nombre, $correo, $password, $rol);
-        if ($stmt->execute()) {
-            echo "<div class='alert alert-success mt-3'>Usuario creado exitosamente. <a href='usuarios.php'>Ver usuarios</a></div>";
-        }
-        else {
-            echo "<div class='alert alert-danger mt-3'>Error al registrar: " . $stmt->error . "</div>";
-        }
-        $stmt->close();
+    if ($res_check->num_rows > 0) {
+        echo "<div class='alert alert-warning mt-3'>El correo electrónico <strong>$correo</strong> ya está registrado. Por favor, utiliza otro.</div>";
     }
     else {
-        echo "<div class='alert alert-danger mt-3'>Error al preparar la consulta: " . $conexion->error . "</div>";
-    }
+        $sql = "INSERT INTO usuarios (nombre, correo, password, rol) VALUES (?, ?, ?, ?)";
+        $stmt = $conexion->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("ssss", $nombre, $correo, $password, $rol);
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success mt-3'>Usuario creado exitosamente. <a href='usuarios.php'>Ver usuarios</a></div>";
+            }
+            else {
+                echo "<div class='alert alert-danger mt-3'>Error al registrar: " . $stmt->error . "</div>";
+            }
+            $stmt->close();
+        }
+        else {
+            echo "<div class='alert alert-danger mt-3'>Error al preparar la consulta: " . $conexion->error . "</div>";
+        }
+    } // Cierra el else del check de correo
 }
 ?>
 <h2 class="text-primary mb-4">➕ Crear Usuario</h2>
