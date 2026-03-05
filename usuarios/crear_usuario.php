@@ -1,4 +1,3 @@
-// crear_usuario.php (Crear)
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] != 'Director') {
@@ -44,32 +43,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } // Cierra el else del check de correo
 }
 ?>
-<h2 class="text-primary mb-4">➕ Crear Usuario</h2>
-<form action="crear_usuario.php" method="POST" class="shadow-sm p-4 bg-white rounded">
-    <div class="mb-3">
-        <label class="form-label fw-bold">Nombre</label>
-        <input type="text" name="nombre" class="form-control" required>
+<link rel="stylesheet" href="../assets/css/components.css">
+
+<div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+    <h2 class="text-primary m-0 fw-bold">➕ Crear Usuario</h2>
+</div>
+
+<div class="card shadow-lg border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header bg-primary text-white px-4 py-3" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+        <h5 class="m-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Datos del Nuevo Usuario</h5>
     </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Correo</label>
-        <input type="email" name="correo" class="form-control" required>
+    <div class="card-body p-4 p-md-5">
+        <form action="crear_usuario.php" method="POST">
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Nombre de Usuario</label>
+                    <input type="text" name="nombre" class="form-control form-control-lg shadow-sm" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Correo Electrónico</label>
+                    <input type="email" name="correo" class="form-control form-control-lg shadow-sm" placeholder="usuario@escuela.edu" required>
+                </div>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Contraseña</label>
+                    <input type="password" name="password" class="form-control form-control-lg shadow-sm" placeholder="Mínimo 8 caracteres" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Rol del Usuario</label>
+                    <select name="rol" class="form-select form-select-lg shadow-sm" required>
+                        <option value="">Selecciona un rol...</option>
+                        <option value="Director">Director</option>
+                        <option value="Coordinador">Coordinador</option>
+                        <option value="Cobranza">Cobranza</option>
+                        <option value="Docente">Docente</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-5 text-end">
+                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
+                    <i class="bi bi-save me-2"></i> Guardar Usuario
+                </button>
+                <a href="usuarios.php" class="btn btn-outline-secondary btn-lg ms-2 rounded-pill shadow-sm">Cancelar</a>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Contraseña</label>
-        <input type="password" name="password" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Rol</label>
-        <select name="rol" class="form-select" required>
-            <option value="Director">Director</option>
-            <option value="Coordinador">Coordinador</option>
-            <option value="Cobranza">Cobranza</option>
-            <option value="Docente">Docente</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar Usuario</button>
-    <a href="usuarios.php" class="btn btn-secondary">Cancelar</a>
-</form>
+</div>
 </div>
 </body>
 </html>

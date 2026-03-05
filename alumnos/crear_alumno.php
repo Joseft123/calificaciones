@@ -46,52 +46,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<h2 class="text-primary mb-4">➕ Inscribir Nuevo Alumno</h2>
+<link rel="stylesheet" href="../assets/css/components.css">
 
-<form action="crear_alumno.php" method="POST" class="shadow-sm p-4 bg-white rounded border">
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Matrícula</label>
-            <input type="text" name="matricula" class="form-control" required placeholder="Ej. MAT-2026-001">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Nivel Educativo</label>
-            <select name="nivel" class="form-select" required>
-                <option value="">Selecciona un nivel...</option>
-                <option value="Primaria">Primaria</option>
-                <option value="Secundaria">Secundaria</option>
-                <option value="Preparatoria">Preparatoria</option>
-            </select>
-        </div>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+    <h2 class="text-primary m-0 fw-bold">➕ Inscribir Nuevo Alumno</h2>
+</div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Nombre(s)</label>
-            <input type="text" name="nombre" class="form-control" required>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Apellidos</label>
-            <input type="text" name="apellidos" class="form-control" required>
-        </div>
+<div class="card shadow-lg border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header bg-primary text-white px-4 py-3" style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+        <h5 class="m-0 fw-bold"><i class="bi bi-person-badge-fill me-2"></i>Datos del Estudiante</h5>
     </div>
+    <div class="card-body p-4 p-md-5">
+        <form action="crear_alumno.php" method="POST">
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Matrícula</label>
+                    <input type="text" name="matricula" class="form-control form-control-lg shadow-sm" required placeholder="Ej. MAT-2026-001">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Nivel Educativo</label>
+                    <select name="nivel" class="form-select form-select-lg shadow-sm" required>
+                        <option value="">Selecciona un nivel...</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Preparatoria">Preparatoria</option>
+                    </select>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Grado</label>
-            <input type="number" name="grado" class="form-control" min="1" max="6" required placeholder="Ej. 1, 2, 3...">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">Grupo</label>
-            <input type="text" name="grupo" class="form-control" maxlength="5" required placeholder="Ej. A, B, Único...">
-        </div>
-    </div>
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Nombre(s)</label>
+                    <input type="text" name="nombre" class="form-control form-control-lg shadow-sm" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Apellidos</label>
+                    <input type="text" name="apellidos" class="form-control form-control-lg shadow-sm" required>
+                </div>
+            </div>
 
-    <div class="mt-4">
-        <button type="submit" class="btn btn-primary btn-lg">💾 Guardar Alumno</button>
-        <a href="alumnos.php" class="btn btn-secondary btn-lg ms-2">Cancelar</a>
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Grado</label>
+                    <div class="input-group input-group-lg shadow-sm">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-123 text-muted"></i></span>
+                        <input type="number" name="grado" class="form-control border-start-0 ps-0" min="1" max="6" required placeholder="Ej. 1, 2, 3...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Grupo</label>
+                    <div class="input-group input-group-lg shadow-sm">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-alphabet text-muted"></i></span>
+                        <input type="text" name="grupo" class="form-control border-start-0 ps-0 text-uppercase" maxlength="5" required placeholder="Ej. A, B, Único...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 text-end">
+                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
+                    <i class="bi bi-save me-2"></i> Guardar Alumno
+                </button>
+                <a href="alumnos.php" class="btn btn-outline-secondary btn-lg ms-2 rounded-pill shadow-sm">Cancelar</a>
+            </div>
+            
+        </form>
     </div>
-</form>
+</div>
 
 </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

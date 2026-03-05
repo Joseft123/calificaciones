@@ -60,37 +60,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } // Cierra el else del check de correo
 }
 ?>
-<h2 class="text-primary mb-4">✏️ Editar Usuario</h2>
-<form action="editar_usuario.php" method="POST" class="shadow-sm p-4 bg-white rounded">
-    <input type="hidden" name="id_usuario" value="<?php echo $usuario['id_usuario']; ?>">
-    <div class="mb-3">
-        <label class="form-label fw-bold">Nombre</label>
-        <input type="text" name="nombre" class="form-control" value="<?php echo $usuario['nombre']; ?>" required>
+<link rel="stylesheet" href="../assets/css/components.css">
+
+<div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+    <h2 class="text-primary m-0 fw-bold">✏️ Editar Usuario</h2>
+</div>
+
+<div class="card shadow-lg border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
+    <div class="card-header bg-warning text-dark px-4 py-3" style="background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%);">
+        <h5 class="m-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Actualizar Datos del Usuario</h5>
     </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Correo</label>
-        <input type="email" name="correo" class="form-control" value="<?php echo $usuario['correo']; ?>" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Nueva Contraseña (dejar en blanco para no cambiar)</label>
-        <input type="password" name="password" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Rol</label>
-        <select name="rol" class="form-select" required>
-            <option value="Director" <?php if ($usuario['rol'] == 'Director')
+    <div class="card-body p-4 p-md-5">
+        <form action="editar_usuario.php" method="POST">
+            <input type="hidden" name="id_usuario" value="<?php echo $usuario['id_usuario']; ?>">
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Nombre de Usuario</label>
+                    <input type="text" name="nombre" class="form-control form-control-lg shadow-sm" value="<?php echo htmlspecialchars($usuario['nombre']); ?>" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Correo Electrónico</label>
+                    <input type="email" name="correo" class="form-control form-control-lg shadow-sm" value="<?php echo htmlspecialchars($usuario['correo']); ?>" required>
+                </div>
+            </div>
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Nueva Contraseña <small class="text-muted fw-normal">(dejar en blanco para no cambiar)</small></label>
+                    <input type="password" name="password" class="form-control form-control-lg shadow-sm" placeholder="Mínimo 8 caracteres">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-secondary">Rol del Usuario</label>
+                    <select name="rol" class="form-select form-select-lg shadow-sm" required>
+                        <option value="Director" <?php if ($usuario['rol'] == 'Director')
     echo 'selected'; ?>>Director</option>
-            <option value="Coordinador" <?php if ($usuario['rol'] == 'Coordinador')
+                        <option value="Coordinador" <?php if ($usuario['rol'] == 'Coordinador')
     echo 'selected'; ?>>Coordinador</option>
-            <option value="Cobranza" <?php if ($usuario['rol'] == 'Cobranza')
+                        <option value="Cobranza" <?php if ($usuario['rol'] == 'Cobranza')
     echo 'selected'; ?>>Cobranza</option>
-            <option value="Docente" <?php if ($usuario['rol'] == 'Docente')
+                        <option value="Docente" <?php if ($usuario['rol'] == 'Docente')
     echo 'selected'; ?>>Docente</option>
-        </select>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-5 text-end">
+                <button type="submit" class="btn btn-warning btn-lg px-5 rounded-pill shadow fw-bold">
+                    <i class="bi bi-arrow-repeat me-2"></i> Actualizar Usuario
+                </button>
+                <a href="usuarios.php" class="btn btn-outline-secondary btn-lg ms-2 rounded-pill shadow-sm">Cancelar</a>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Actualizar</button>
-    <a href="usuarios.php" class="btn btn-secondary">Cancelar</a>
-</form>
+</div>
 </div>
 </body>
 </html>
