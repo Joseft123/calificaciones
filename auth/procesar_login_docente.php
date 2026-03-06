@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['nombre_docente'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
 
                 // Redirigir al sistema
-                header("Location: ../calificaciones/ver_calificaciones.php");
+                header("Location: ../docentes/dashboard.php");
                 exit();
 
             }

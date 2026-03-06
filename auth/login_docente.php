@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['id_usuario'])) {
-    header("Location: ../calificaciones/ver_calificaciones.php");
+if (isset($_SESSION['id_docente'])) {
+    header("Location: ../docentes/dashboard.php");
     exit();
 }
 ?>

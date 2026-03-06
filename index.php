@@ -5,7 +5,7 @@ if (isset($_SESSION['id_usuario'])) {
     header("Location: calificaciones/dashboard.php");
 }
 elseif (isset($_SESSION['id_docente'])) {
-    header("Location: calificaciones/ver_calificaciones.php");
+    header("Location: docentes/dashboard.php");
 }
 elseif (isset($_SESSION['id_alumno'])) {
     header("Location: calificaciones/mis_calificaciones.php");

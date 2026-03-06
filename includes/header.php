@@ -46,6 +46,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
         <?php
 elseif (isset($_SESSION['id_docente'])): ?>
+            <li class="nav-item"><a class="nav-link" href="../docentes/dashboard.php"><i class="bi bi-speedometer2 me-1"></i> Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php"><i class="bi bi-pencil-square me-1"></i> Capturar Notas</a></li>
             <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i class="bi bi-clock-history me-1"></i> Historial</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php"><i class="bi bi-person-lines-fill me-1"></i> Mis Alumnos</a></li>
