@@ -53,8 +53,9 @@ if (!empty($alumnos_agrupados)) {
 
         foreach ($grupos as $grupo => $alumnos) {
             echo "<div class='card mb-4 shadow rounded-4 overflow-hidden animate-fade-in' style='animation-delay: {$delay}s; border: none;'>";
-            echo "<div class='card-header group-card-header text-white px-4 py-3'>";
+            echo "<div class='card-header group-card-header text-white px-4 py-3 d-flex justify-content-between align-items-center'>";
             echo "<h5 class='m-0 fw-bold'><i class='bi bi-people-fill me-2'></i>Grupo " . htmlspecialchars($grupo) . "</h5>";
+            echo "<a href='exportar_lista_grupo.php?nivel=" . urlencode($nivel) . "&grado=" . $alumnos[0]['grado'] . "&grupo=" . urlencode($alumnos[0]['grupo']) . "' class='btn btn-sm btn-light text-success fw-bold rounded-pill border-0 shadow-sm'><i class='bi bi-filetype-csv me-1'></i>Descargar CSV</a>";
             echo "</div>";
             echo "<div class='card-body p-4'>";
             echo "<div class='row g-4'>";
@@ -78,8 +79,9 @@ if (!empty($alumnos_agrupados)) {
                 echo "<div class='small mb-2'><i class='bi bi-card-text opacity-75 me-2'></i><strong>Matrícula:</strong> " . htmlspecialchars($al['matricula']) . "</div>";
                 echo "</div>";
 
-                echo "<div class='d-grid mt-3'>";
-                echo "<a href='../calificaciones/calificaciones.php?id_alumno=" . $al['id_alumno'] . "' class='btn btn-outline-success btn-sm rounded-pill'>Calificar</a>";
+                echo "<div class='d-grid gap-2 mt-3'>";
+                echo "<a href='perfil_alumno.php?id_alumno=" . $al['id_alumno'] . "' class='btn btn-light btn-sm rounded-pill text-primary fw-bold shadow-sm'><i class='bi bi-person-lines-fill me-1'></i>Ver Perfil</a>";
+                echo "<a href='../calificaciones/calificaciones.php?id_alumno=" . $al['id_alumno'] . "' class='btn btn-outline-success btn-sm rounded-pill'>✚ Calificar</a>";
                 echo "</div>";
 
                 echo "</div>"; // Fin card-body
