@@ -94,23 +94,27 @@ include '../includes/header.php';
                             <tr>
                                 <td class="ps-4 fw-medium text-secondary">#<?php echo $ciclo['id_ciclo']; ?></td>
                                 <td class="fw-bold text-dark"><?php echo htmlspecialchars($ciclo['nombre_ciclo']); ?></td>
-                                <td><?php echo date('d/m/Y', strtotime($ciclo['fecha_inicio'])); ?></td>
-                                <td><?php echo date('d/m/Y', strtotime($ciclo['fecha_fin'])); ?></td>
+                                <td><?php echo !empty($ciclo['fecha_inicio']) ? date('d/m/Y', strtotime($ciclo['fecha_inicio'])) : '<span class="text-muted">-</span>'; ?></td>
+                                <td><?php echo !empty($ciclo['fecha_fin']) ? date('d/m/Y', strtotime($ciclo['fecha_fin'])) : '<span class="text-muted">-</span>'; ?></td>
                                 <td class="text-center">
                                     <?php if ($es_activo): ?>
                                         <span class="badge bg-success rounded-pill px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i>Activo Actual</span>
-                                    <?php        else: ?>
+                                    <?php
+        else: ?>
                                         <span class="badge bg-secondary bg-opacity-25 text-secondary rounded-pill px-3 py-2"><i class="bi bi-archive-fill me-1"></i>Histórico / Inactivo</span>
-                                    <?php        endif; ?>
+                                    <?php
+        endif; ?>
                                 </td>
                                 <td class="text-end pe-4">
                                     <?php if (!$es_activo): ?>
                                         <a href="activar_ciclo.php?id=<?php echo $ciclo['id_ciclo']; ?>" class="btn btn-sm btn-outline-success rounded-pill" onclick="return confirm('¿Estás seguro? ESTO MOVERÁ TODA LA ESCUELA A ESTE NUEVO CICLO y el actual pasará al archivo histórico.');">
                                             <i class="bi bi-power me-1"></i>Activar
                                         </a>
-                                    <?php        else: ?>
+                                    <?php
+        else: ?>
                                         <button class="btn btn-sm btn-light text-success fw-bold rounded-pill border-0" disabled><i class="bi bi-check-lg me-1"></i>En Curso</button>
-                                    <?php        endif; ?>
+                                    <?php
+        endif; ?>
                                 </td>
                             </tr>
                         <?php
