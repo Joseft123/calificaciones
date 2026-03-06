@@ -7,8 +7,10 @@ if (!isset($_SESSION['id_docente'])) {
 }
 
 include '../includes/conexion.php';
+include '../includes/funciones_ciclo.php';
 
 $id_docente = intval($_SESSION['id_docente']);
+$id_ciclo = getCicloActivo($conexion);
 
 if (!isset($_GET['id_alumno']) || !is_numeric($_GET['id_alumno'])) {
     die("ID de alumno no válido.");
@@ -19,8 +21,8 @@ $id_alumno = intval($_GET['id_alumno']);
 // 1. Validar que el alumno pertenezca a un grupo que imparte el docente y traer sus datos
 $sql_alumno = "SELECT DISTINCT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo 
                FROM alumnos a
-               INNER JOIN docente_materia_grupo dmg OaN a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
-               WHERE dmg.id_docente = $id_docente AND a.id_alumno = $id_alumno
+               INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
+               WHERE dmg.id_docente = $id_docente AND a.id_alumno = $id_alumno AND dmg.id_ciclo = $id_ciclo
                LIMIT 1";
 
 $res_alumno = $conexion->query($sql_alumno);
@@ -37,6 +39,7 @@ $sql_materias_docente = "SELECT m.id_materia, m.nombre_materia
                          FROM materias m
                          INNER JOIN docente_materia_grupo dmg ON m.id_materia = dmg.id_materia
                          WHERE dmg.id_docente = $id_docente 
+                         AND dmg.id_ciclo = $id_ciclo
                          AND dmg.nivel = '{$alumno['nivel']}' 
                          AND dmg.grado = {$alumno['grado']} 
                          AND dmg.grupo = '{$alumno['grupo']}'";
@@ -57,7 +60,7 @@ if (!empty($ids_materias)) {
     $ids_in = implode(',', $ids_materias);
     $sql_asist = "SELECT estado, COUNT(*) as total 
                   FROM asistencias 
-                  WHERE id_docente = $id_docente AND id_alumno = $id_alumno AND id_materia IN ($ids_in)
+                  WHERE id_docente = $id_docente AND id_alumno = $id_alumno AND id_materia IN ($ids_in) AND id_ciclo = $id_ciclo
                   GROUP BY estado";
     $res_asist = $conexion->query($sql_asist);
     if ($res_asist && $res_asist->num_rows > 0) {
@@ -74,7 +77,7 @@ if (!empty($ids_materias)) {
     $sql_notas = "SELECT c.periodo, c.calificacion, c.fecha_registro, m.nombre_materia 
                   FROM calificaciones c
                   INNER JOIN materias m ON c.id_materia = m.id_materia
-                  WHERE c.id_alumno = $id_alumno AND c.id_materia IN ($ids_in)
+                  WHERE c.id_alumno = $id_alumno AND c.id_materia IN ($ids_in) AND c.id_ciclo = $id_ciclo
                   ORDER BY m.nombre_materia ASC, c.periodo ASC";
     $res_notas = $conexion->query($sql_notas);
     if ($res_notas && $res_notas->num_rows > 0) {
