@@ -1,5 +1,5 @@
 <?php
-include 'includes/conexion.php';
+include '../includes/conexion.php';
 
 echo "<h2>Actualizando Base de Datos para Ciclos Escolares...</h2>";
 
@@ -14,8 +14,7 @@ $sql_tabla = "CREATE TABLE IF NOT EXISTS ciclos_escolares (
 
 if ($conexion->query($sql_tabla)) {
     echo "✅ Tabla ciclos_escolares creada o ya existía.<br>";
-}
-else {
+} else {
     echo "❌ Error tabla ciclos: " . $conexion->error . "<br>";
 }
 
@@ -24,8 +23,7 @@ $res_ciclos = $conexion->query("SELECT * FROM ciclos_escolares");
 if ($res_ciclos->num_rows == 0) {
     if ($conexion->query("INSERT INTO ciclos_escolares (nombre_ciclo, estatus) VALUES ('Ciclo 2024-2025', 'Activo')")) {
         echo "✅ Ciclo base '2024-2025' creado y marcado como activo.<br>";
-    }
-    else {
+    } else {
         echo "❌ Error al crear ciclo base: " . $conexion->error . "<br>";
     }
 }
@@ -36,8 +34,7 @@ $res_column1 = $conexion->query("SHOW COLUMNS FROM docente_materia_grupo LIKE 'i
 if ($res_column1->num_rows == 0) {
     if ($conexion->query("ALTER TABLE docente_materia_grupo ADD id_ciclo INT DEFAULT 1 AFTER id_materia")) {
         echo "✅ Columna id_ciclo agregada a docente_materia_grupo.<br>";
-    }
-    else {
+    } else {
         echo "❌ Error en docente_materia_grupo: " . $conexion->error . "<br>";
     }
 }
@@ -47,8 +44,7 @@ $res_column2 = $conexion->query("SHOW COLUMNS FROM calificaciones LIKE 'id_ciclo
 if ($res_column2->num_rows == 0) {
     if ($conexion->query("ALTER TABLE calificaciones ADD id_ciclo INT DEFAULT 1 AFTER id_materia")) {
         echo "✅ Columna id_ciclo agregada a calificaciones.<br>";
-    }
-    else {
+    } else {
         echo "❌ Error en calificaciones: " . $conexion->error . "<br>";
     }
 }
@@ -58,8 +54,7 @@ $res_column3 = $conexion->query("SHOW COLUMNS FROM asistencias LIKE 'id_ciclo'")
 if ($res_column3->num_rows == 0) {
     if ($conexion->query("ALTER TABLE asistencias ADD id_ciclo INT DEFAULT 1 AFTER id_materia")) {
         echo "✅ Columna id_ciclo agregada a asistencias.<br>";
-    }
-    else {
+    } else {
         echo "❌ Error en asistencias: " . $conexion->error . "<br>";
     }
 }

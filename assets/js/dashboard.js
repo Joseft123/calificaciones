@@ -73,6 +73,93 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(document.documentElement, { attributes: true });
     }
 
+    // Gráfica de Promedios por Nivel (Bar Chart)
+    const ctxPromediosEl = document.getElementById('promediosChart');
+    if (ctxPromediosEl && typeof window.promediosData !== 'undefined') {
+        const ctxPromedios = ctxPromediosEl.getContext('2d');
+
+        // Colores para las barras
+        const barBgColors = [
+            'rgba(25, 135, 84, 0.7)',  // Success
+            'rgba(13, 110, 253, 0.7)', // Primary
+            'rgba(255, 193, 7, 0.7)',  // Warning
+            'rgba(13, 202, 240, 0.7)', // Info
+            'rgba(111, 66, 193, 0.7)'  // Purple
+        ];
+
+        let promediosChart = new Chart(ctxPromedios, {
+            type: 'bar',
+            data: {
+                labels: window.promediosLabels.length > 0 ? window.promediosLabels : ['Sin datos'],
+                datasets: [{
+                    label: 'Promedio General',
+                    data: window.promediosData.length > 0 ? window.promediosData : [0],
+                    backgroundColor: window.promediosData.length > 0 ? barBgColors : ['rgba(200, 200, 200, 0.2)'],
+                    borderRadius: 6,
+                    borderWidth: 0,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: {
+                            color: 'rgba(150, 150, 150, 0.1)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: getTextColor(),
+                            font: { family: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: getTextColor(),
+                            font: { family: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif", weight: 'bold' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // No necesitamos leyenda para una sola métrica
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 14, weight: 'bold' },
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                return 'Promedio: ' + context.parsed.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Actualizar colores si cambia el tema
+        const observerPromedios = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.attributeName === "data-bs-theme") {
+                    promediosChart.options.scales.x.ticks.color = getTextColor();
+                    promediosChart.options.scales.y.ticks.color = getTextColor();
+                    promediosChart.update();
+                }
+            });
+        });
+        observerPromedios.observe(document.documentElement, { attributes: true });
+    }
+
     // Animated Number Counters
     const counters = document.querySelectorAll('.counter');
     const MathSpeed = 200;
