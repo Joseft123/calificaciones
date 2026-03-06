@@ -32,8 +32,10 @@ if (session_status() == PHP_SESSION_NONE) {
             <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i class="bi bi-clock-history me-1"></i> Historial</a></li>
             <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php"><i class="bi bi-people-fill me-1"></i> Alumnos</a></li>
             <li class="nav-item"><a class="nav-link" href="../materias/materias.php"><i class="bi bi-book-half me-1"></i> Materias</a></li>
+            <li class="nav-item"><a class="nav-link text-primary fw-bold" href="../ciclos/index.php"><i class="bi bi-calendar-range me-1"></i> Ciclos</a></li>
             <li class="nav-item"><a class="nav-link" href="../docentes/docentes.php"><i class="bi bi-person-video3 me-1"></i> Docentes</a></li>
             <li class="nav-item"><a class="nav-link text-warning fw-bold" href="../usuarios/usuarios.php"><i class="bi bi-person-badge-fill me-1"></i> Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link text-info fw-bold" href="../comunicados/index.php"><i class="bi bi-megaphone-fill me-1"></i> Avisos</a></li>
             
             <li class="nav-item ms-lg-3 d-flex align-items-center">
                 <span class="text-light me-3">👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($_SESSION['rol']); ?>)</span>

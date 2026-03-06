@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id_alumno'] = $alumno['id_alumno'];
             $_SESSION['nombre_alumno'] = $alumno['nombre'] . ' ' . $alumno['apellidos'];
 
-            // Redirigir a sus calificaciones
-            header("Location: ../calificaciones/mis_calificaciones.php");
+            // Redirigir a su nuevo dashboard
+            header("Location: ../alumnos/dashboard.php");
             exit();
 
         }

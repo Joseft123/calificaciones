@@ -43,6 +43,13 @@ if ($res_niveles->num_rows > 0) {
     }
 }
 
+// 5. Avisos Recientes
+$sql_avisos = "SELECT c.titulo, c.mensaje, c.destinatario, c.fecha_publicacion, u.nombre AS autor 
+               FROM comunicados c
+               INNER JOIN usuarios u ON c.id_autor = u.id_usuario
+               ORDER BY c.fecha_publicacion DESC LIMIT 3";
+$res_avisos = $conexion->query($sql_avisos);
+
 include '../includes/header.php';
 ?>
 
@@ -161,9 +168,55 @@ include '../includes/header.php';
     </div>
 </div>
 
-<!-- Sección de Gráficas -->
+<!-- Sección Principal Inferior -->
 <div class="row g-4 animate-fade-in" style="animation-delay: 0.7s;">
-    <div class="col-lg-8 mx-auto">
+    
+    <!-- Tablón de Anuncios -->
+    <div class="col-lg-5">
+        <div class="card shadow rounded-4 border-0 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold m-0"><i class="bi bi-megaphone-fill text-info me-2"></i>Avisos Recientes</h5>
+                <a href="../comunicados/index.php" class="btn btn-sm btn-outline-info rounded-pill">Ver todos</a>
+            </div>
+            <div class="card-body p-4">
+                <?php if ($res_avisos && $res_avisos->num_rows > 0): ?>
+                    <div class="d-flex flex-column gap-3">
+                        <?php while ($aviso = $res_avisos->fetch_assoc()):
+        $badge = 'bg-primary';
+        if ($aviso['destinatario'] == 'Docentes')
+            $badge = 'bg-info';
+        if ($aviso['destinatario'] == 'Alumnos')
+            $badge = 'bg-success';
+?>
+                            <div class="p-3 border rounded-4 bg-light">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="fw-bold text-dark m-0"><?php echo htmlspecialchars($aviso['titulo']); ?></h6>
+                                    <span class="badge <?php echo $badge; ?> rounded-pill text-xs px-2"><?php echo htmlspecialchars($aviso['destinatario']); ?></span>
+                                </div>
+                                <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    <?php echo htmlspecialchars($aviso['mensaje']); ?>
+                                </p>
+                                <div class="small text-body-secondary d-flex justify-content-between">
+                                    <span><i class="bi bi-person-fill me-1"></i><?php echo htmlspecialchars($aviso['autor']); ?></span>
+                                    <span><?php echo date('d/m/Y', strtotime($aviso['fecha_publicacion'])); ?></span>
+                                </div>
+                            </div>
+                        <?php
+    endwhile; ?>
+                    </div>
+                <?php
+else: ?>
+                    <div class="text-center p-4">
+                        <p class="text-muted mb-0">No hay avisos recientes publicados.</p>
+                    </div>
+                <?php
+endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Gráficas -->
+    <div class="col-lg-7">
         <div class="card shadow rounded-4 border-0 chart-container">
             <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
                 <h5 class="fw-bold m-0"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Distribución de Alumnos por Nivel</h5>

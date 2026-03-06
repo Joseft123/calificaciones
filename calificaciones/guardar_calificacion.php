@@ -10,6 +10,7 @@ if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
 
 // Incluir la conexión a la base de datos
 include '../includes/conexion.php';
+include '../includes/funciones_ciclo.php';
 
 // Incluir el diseño principal (menú y apertura del contenedor)
 include '../includes/header.php';
@@ -78,10 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_permiso->close();
     }
 
-    // 3. Duplicate Grade Check (Update instead of Insert)
-    $sql_check = "SELECT id_calificacion FROM calificaciones WHERE id_alumno = ? AND id_materia = ? AND periodo = ?";
+    // Obtener el ID del ciclo activo
+    $id_ciclo_actual = getCicloActivo($conexion);
+
+    // 3. Duplicate Grade Check (Update instead of Insert) en EL MISMO CICLO
+    $sql_check = "SELECT id_calificacion FROM calificaciones WHERE id_alumno = ? AND id_materia = ? AND periodo = ? AND id_ciclo = ?";
     $stmt_check = $conexion->prepare($sql_check);
-    $stmt_check->bind_param("iii", $id_alumno, $id_materia, $periodo);
+    $stmt_check->bind_param("iiii", $id_alumno, $id_materia, $periodo, $id_ciclo_actual);
     $stmt_check->execute();
     $res_check = $stmt_check->get_result();
 
@@ -109,11 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else {
         // INSERT (Nueva)
-        $sql_insert = "INSERT INTO calificaciones (id_alumno, id_materia, periodo, calificacion) VALUES (?, ?, ?, ?)";
+        $sql_insert = "INSERT INTO calificaciones (id_alumno, id_materia, periodo, calificacion, id_ciclo) VALUES (?, ?, ?, ?, ?)";
         $stmt_insert = $conexion->prepare($sql_insert);
 
         if ($stmt_insert) {
-            $stmt_insert->bind_param("iiid", $id_alumno, $id_materia, $periodo, $calificacion);
+            $stmt_insert->bind_param("iiidi", $id_alumno, $id_materia, $periodo, $calificacion, $id_ciclo_actual);
             if ($stmt_insert->execute()) {
                 mostrarMensajeExito("¡Calificación guardada con éxito!", "El registro se ha añadido correctamente a la base de datos.");
             }

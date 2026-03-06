@@ -14,16 +14,22 @@ $sql_alumno = "SELECT matricula, nombre, apellidos, nivel, grado, grupo FROM alu
 $res_alumno = $conexion->query($sql_alumno);
 $alumno = $res_alumno->fetch_assoc();
 
-// Consultar calificaciones
-$sql_calif = "SELECT m.clave_materia, m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro 
+// Consultar calificaciones agrupadas por ciclo
+$sql_calif = "SELECT m.clave_materia, m.nombre_materia, c.periodo, c.calificacion, c.fecha_registro,
+                     ce.nombre_ciclo, ce.id_ciclo
               FROM calificaciones c 
               INNER JOIN materias m ON c.id_materia = m.id_materia 
+              INNER JOIN ciclos_escolares ce ON c.id_ciclo = ce.id_ciclo
               WHERE c.id_alumno = $id_alumno 
-              ORDER BY c.periodo ASC, m.nombre_materia ASC";
+              ORDER BY ce.id_ciclo DESC, c.periodo ASC, m.nombre_materia ASC";
 $res_calif = $conexion->query($sql_calif);
 
-$suma_calificaciones = 0;
-$total_materias = 0;
+$calificaciones_por_ciclo = [];
+if ($res_calif && $res_calif->num_rows > 0) {
+    while ($fila = $res_calif->fetch_assoc()) {
+        $calificaciones_por_ciclo[$fila['nombre_ciclo']][] = $fila;
+    }
+}
 
 // Consultar resumen de asistencias
 $sql_asistencias = "SELECT m.nombre_materia, a.fecha, a.estado 
@@ -32,6 +38,7 @@ $sql_asistencias = "SELECT m.nombre_materia, a.fecha, a.estado
                     WHERE a.id_alumno = $id_alumno 
                     ORDER BY a.fecha DESC, m.nombre_materia ASC";
 $res_asistencias = $conexion->query($sql_asistencias);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -52,15 +59,15 @@ $res_asistencias = $conexion->query($sql_asistencias);
         <button class="theme-toggle-btn me-3" id="btnThemeToggle" title="Cambiar Tema">
             <span id="themeIcon">🌙</span>
         </button>
+        <a href="../alumnos/dashboard.php" class="btn btn-outline-secondary me-2 shadow-sm rounded-pill"><i class="bi bi-house-door-fill me-1"></i>Volver al Escritorio</a>
         <a href="generar_boleta_pdf.php?id=<?php echo $id_alumno; ?>" target="_blank" class="btn btn-outline-info me-2 shadow-sm rounded-pill">📄 Descargar PDF</a>
         <button onclick="window.print()" class="btn btn-outline-primary me-2 shadow-sm rounded-pill">🖨️ Imprimir</button>
-        <a href="../auth/cerrar_sesion_alumno.php" class="btn btn-danger">Cerrar Sesión</a>
     </div>
 
     <div class="boleta-container border">
         <div class="escuela-header">
             <h2 class="text-success fw-bold text-uppercase">SISTEMA ESCOLAR</h2>
-            <h4>Portal de Alumnos - Mis Calificaciones</h4>
+            <h4>Historial Detallado - Portal de Alumnos</h4>
         </div>
 
         <div class="datos-alumno row mb-4">
@@ -74,54 +81,65 @@ $res_asistencias = $conexion->query($sql_asistencias);
             </div>
         </div>
 
-        <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-dark text-center">
-                            <tr>
-                        <th>Clave</th>
-                        <th>Materia</th>
-                        <th>Periodo</th>
-                        <th>Calificación</th>
-                        <th class="no-print">Fecha Registro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-if ($res_calif && $res_calif->num_rows > 0) {
-    while ($fila = $res_calif->fetch_assoc()) {
-        $suma_calificaciones += $fila['calificacion'];
-        $total_materias++;
-
-        echo "<tr>";
-        echo "<td class='text-center'>" . htmlspecialchars($fila['clave_materia']) . "</td>";
-        echo "<td>" . htmlspecialchars($fila['nombre_materia']) . "</td>";
-        echo "<td class='text-center'>" . htmlspecialchars($fila['periodo']) . "</td>";
-
-        $color = ($fila['calificacion'] < 6) ? 'text-danger fw-bold' : 'text-success fw-bold';
-        echo "<td class='text-center $color fs-5'>" . htmlspecialchars($fila['calificacion']) . "</td>";
-        echo "<td class='text-center text-muted small no-print'>" . date('d/m/Y', strtotime($fila['fecha_registro'])) . "</td>";
-        echo "</tr>";
-    }
-}
-else {
-    echo "<tr><td colspan='5' class='text-center py-4'>Aún no tienes calificaciones registradas en el sistema.</td></tr>";
-}
+        <?php if (!empty($calificaciones_por_ciclo)): ?>
+            <?php foreach ($calificaciones_por_ciclo as $nombre_ciclo => $calificaciones):
+        $suma_ciclo = 0;
+        $total_ciclo = 0;
 ?>
-                        </tbody>
-                    </table>
+                <h4 class="text-secondary fw-bold mb-3 mt-5 border-bottom pb-2">
+                    <i class="bi bi-calendar-range text-success me-2"></i> <?php echo htmlspecialchars($nombre_ciclo); ?>
+                </h4>
+                
+                <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in mb-3">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Materia</th>
+                                        <th>Periodo</th>
+                                        <th>Calificación</th>
+                                        <th class="no-print">Fecha Registro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($calificaciones as $fila):
+            $suma_ciclo += $fila['calificacion'];
+            $total_ciclo++;
+?>
+                                        <tr>
+                                            <td class='text-center'><?php echo htmlspecialchars($fila['clave_materia']); ?></td>
+                                            <td><?php echo htmlspecialchars($fila['nombre_materia']); ?></td>
+                                            <td class='text-center'><?php echo htmlspecialchars($fila['periodo']); ?></td>
+                                            <?php $color = ($fila['calificacion'] < 6) ? 'text-danger fw-bold' : 'text-success fw-bold'; ?>
+                                            <td class='text-center <?php echo $color; ?> fs-5'><?php echo htmlspecialchars($fila['calificacion']); ?></td>
+                                            <td class='text-center text-muted small no-print'><?php echo date('d/m/Y', strtotime($fila['fecha_registro'])); ?></td>
+                                        </tr>
+                                    <?php
+        endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <?php
-if ($total_materias > 0) {
-    $promedio = $suma_calificaciones / $total_materias;
-    $clase_promedio = ($promedio < 6) ? 'text-danger' : 'text-success';
-    echo "<h4 class='text-end mt-4 mb-5'>Promedio General: <span class='fw-bold $clase_promedio fs-3'>" . number_format($promedio, 2) . "</span></h4>";
-}
+                <?php
+        if ($total_ciclo > 0) {
+            $promedio_ciclo = $suma_ciclo / $total_ciclo;
+            $clase_promedio = ($promedio_ciclo < 6) ? 'text-danger' : 'text-success';
+            echo "<div class='text-end mb-4'>Promedio del Ciclo: <span class='fw-bold $clase_promedio fs-4'>" . number_format($promedio_ciclo, 2) . "</span></div>";
+        }
 ?>
+            <?php
+    endforeach; ?>
+        <?php
+else: ?>
+            <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in text-center p-5">
+                <p class="text-muted">Aún no tienes calificaciones registradas en el sistema.</p>
+            </div>
+        <?php
+endif; ?>
 
         <h3 class="text-secondary fw-bold mb-4 mt-5"><i class="bi bi-calendar-check text-primary me-2"></i> Historial de Asistencias</h3>
         <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.3s;">

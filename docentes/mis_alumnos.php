@@ -8,14 +8,16 @@ if (!isset($_SESSION['id_docente'])) {
 }
 
 include '../includes/conexion.php';
+include '../includes/funciones_ciclo.php';
 
 $id_docente = $_SESSION['id_docente'];
+$id_ciclo_actual = getCicloActivo($conexion);
 
-// Consulta SQL con INNER JOIN para obtener los alumnos asignados al docente logueado
+// Consulta SQL con INNER JOIN para obtener los alumnos asignados al docente logueado EN EL CICLO ACTUAL
 $sql = "SELECT DISTINCT a.id_alumno, a.matricula, a.nombre, a.apellidos, a.nivel, a.grado, a.grupo 
         FROM alumnos a
         INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
-        WHERE dmg.id_docente = $id_docente
+        WHERE dmg.id_docente = $id_docente AND dmg.id_ciclo = $id_ciclo_actual
         ORDER BY a.nivel ASC, a.grado ASC, a.grupo ASC, a.apellidos ASC";
 
 $resultado = $conexion->query($sql);
