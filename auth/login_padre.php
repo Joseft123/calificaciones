@@ -6,10 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Padres - Sistema Escolar</title>
     <!-- Bootstrap 5 CSS -->
+    <link rel="manifest" href="/calificaciones/manifest.json">
+    <meta name="theme-color" content="#198754">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/main.css"> <!-- Para soporte de Dark Mode y estilos globales -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/calificaciones/sw.js');
+            });
+        }
+    </script>
     <style>
         body {
             background: linear-gradient(135deg, #198754 0%, #157347 100%);
@@ -119,8 +128,8 @@
                                 <div class="input-group shadow-sm">
                                     <span class="input-group-text border-end-0 text-muted"><i
                                             class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control border-start-0 ps-0"
-                                        id="correo" name="correo" required placeholder="correo@ejemplo.com">
+                                    <input type="email" class="form-control border-start-0 ps-0" id="correo"
+                                        name="correo" required placeholder="correo@ejemplo.com">
                                 </div>
                             </div>
 
@@ -130,16 +139,16 @@
                                 <div class="input-group shadow-sm">
                                     <span class="input-group-text border-end-0 text-muted"><i
                                             class="bi bi-lock"></i></span>
-                                    <input type="password"
-                                        class="form-control border-start-0 ps-0 border-end-0"
+                                    <input type="password" class="form-control border-start-0 ps-0 border-end-0"
                                         id="password" name="password" required placeholder="••••••••">
-                                    <button class="btn border border-start-0 rounded-end text-muted shadow-none" type="button"
-                                        onclick="togglePassword()"><i class="bi bi-eye-fill"></i></button>
+                                    <button class="btn border border-start-0 rounded-end text-muted shadow-none"
+                                        type="button" onclick="togglePassword()"><i class="bi bi-eye-fill"></i></button>
                                 </div>
                             </div>
 
                             <div class="d-grid mb-3 mt-4">
-                                <button type="submit" class="btn btn-login text-white shadow-sm">Ingresar al Portal</button>
+                                <button type="submit" class="btn btn-login text-white shadow-sm">Ingresar al
+                                    Portal</button>
                             </div>
 
                         </form>
