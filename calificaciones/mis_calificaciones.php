@@ -60,8 +60,6 @@ $res_asistencias = $conexion->query($sql_asistencias);
             <span id="themeIcon">🌙</span>
         </button>
         <a href="../alumnos/dashboard.php" class="btn btn-outline-secondary me-2 shadow-sm rounded-pill"><i class="bi bi-house-door-fill me-1"></i>Volver al Escritorio</a>
-        <a href="generar_boleta_pdf.php?id=<?php echo $id_alumno; ?>" target="_blank" class="btn btn-outline-info me-2 shadow-sm rounded-pill">📄 Descargar PDF</a>
-        <button onclick="window.print()" class="btn btn-outline-primary me-2 shadow-sm rounded-pill">🖨️ Imprimir</button>
     </div>
 
     <div class="boleta-container border">
