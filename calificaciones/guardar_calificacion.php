@@ -59,28 +59,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Obtener el ID del ciclo activo
+    $id_ciclo_actual = getCicloActivo($conexion);
+
     // 2. IDOR Protection (Teacher only grades their students)
     if (isset($_SESSION['id_docente'])) {
         $id_docente = $_SESSION['id_docente'];
         $sql_permiso = "SELECT 1 FROM alumnos a 
                         INNER JOIN docente_materia_grupo dmg 
                         ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo 
-                        WHERE a.id_alumno = ? AND dmg.id_materia = ? AND dmg.id_docente = ?";
+                        WHERE a.id_alumno = ? AND dmg.id_materia = ? AND dmg.id_docente = ? AND dmg.id_ciclo = ?";
 
         $stmt_permiso = $conexion->prepare($sql_permiso);
-        $stmt_permiso->bind_param("iii", $id_alumno, $id_materia, $id_docente);
+        $stmt_permiso->bind_param("iiii", $id_alumno, $id_materia, $id_docente, $id_ciclo_actual);
         $stmt_permiso->execute();
         $res_permiso = $stmt_permiso->get_result();
 
         if ($res_permiso->num_rows === 0) {
-            mostrarMensajeError("No tienes permisos para calificar a este alumno en esta materia.");
+            mostrarMensajeError("No tienes permisos para calificar a este alumno en esta materia en el ciclo actual.");
             exit();
         }
         $stmt_permiso->close();
     }
-
-    // Obtener el ID del ciclo activo
-    $id_ciclo_actual = getCicloActivo($conexion);
 
     // 3. Duplicate Grade Check (Update instead of Insert) en EL MISMO CICLO
     $sql_check = "SELECT id_calificacion FROM calificaciones WHERE id_alumno = ? AND id_materia = ? AND periodo = ? AND id_ciclo = ?";

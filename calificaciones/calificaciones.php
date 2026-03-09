@@ -9,9 +9,11 @@ if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
 }
 // Incluir el archivo de conexión
 include '../includes/conexion.php';
+include '../includes/funciones_ciclo.php';
 
 // Obtener el ID del docente si está logueado
 $id_docente = isset($_SESSION['id_docente']) ? $_SESSION['id_docente'] : null;
+$id_ciclo_actual = getCicloActivo($conexion);
 
 // Obtener el id_alumno de la URL si existe para autoseleccionarlo
 $id_selected_alumno = isset($_GET['id_alumno']) ? (int)$_GET['id_alumno'] : '';
@@ -22,13 +24,13 @@ if ($id_docente) {
     $query_alumnos = "SELECT DISTINCT a.id_alumno, a.matricula, a.nombre, a.apellidos 
                       FROM alumnos a
                       INNER JOIN docente_materia_grupo dmg ON a.nivel = dmg.nivel AND a.grado = dmg.grado AND a.grupo = dmg.grupo
-                      WHERE dmg.id_docente = $id_docente";
+                      WHERE dmg.id_docente = $id_docente AND dmg.id_ciclo = $id_ciclo_actual";
 
     // Si es docente, mostrar solo las materias que tiene asignadas
     $query_materias = "SELECT DISTINCT m.id_materia, m.nombre_materia 
                        FROM materias m
                        INNER JOIN docente_materia_grupo dmg ON m.id_materia = dmg.id_materia
-                       WHERE dmg.id_docente = $id_docente";
+                       WHERE dmg.id_docente = $id_docente AND dmg.id_ciclo = $id_ciclo_actual";
 }
 else {
     // Si no es docente (es decir, es Director/Admin), mostrar todos
