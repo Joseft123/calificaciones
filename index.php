@@ -108,6 +108,11 @@ $redirect_url = "auth/login.php";
             z-index: -1;
             filter: blur(30px);
         }
+
+        .fade-out {
+            opacity: 0 !important;
+            transition: opacity 0.5s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -125,6 +130,12 @@ $redirect_url = "auth/login.php";
     <div class="loading-text">Iniciando...</div>
 
     <script>
+        setTimeout(() => {
+            document.querySelector('.scene').classList.add('fade-out');
+            document.querySelector('.loading-text').classList.add('fade-out');
+            document.querySelector('.glow').classList.add('fade-out');
+        }, 1700); // Inicia el fade-out a los 1.7s
+
         setTimeout(() => {
             window.location.href = "<?php echo $redirect_url; ?>";
         }, 2200); // 2.2 segundos de animación antes de redirigir

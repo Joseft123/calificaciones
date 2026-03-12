@@ -28,4 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
             themeIcon.innerHTML = getIconHTML(newTheme);
         });
     }
+
+    // 3D Tilt Effect for Login Container
+    const loginContainer = document.querySelector('.login-container');
+    if (loginContainer) {
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            loginContainer.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Reset transform when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            loginContainer.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+            loginContainer.style.transition = 'transform 0.5s ease';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            loginContainer.style.transition = 'transform 0.1s ease-out, box-shadow 0.1s ease-out';
+        });
+    }
 });
