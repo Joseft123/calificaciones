@@ -79,8 +79,8 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
 
 <body class="bg-body-tertiary">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto">
+        <div class="container-fluid px-2">
             <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>

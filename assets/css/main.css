@@ -22,19 +22,56 @@ body.fade-out {
     100% { opacity: 0; transform: translateY(-10px); }
 }
 
-/* --- PREMIUM UI/UX: Glassmorphism Navbar --- */
-.glass-navbar {
+/* --- PREMIUM UI/UX: Floating Glassmorphism Navbar --- */
+.floating-nav {
+    margin: 15px auto;
+    border-radius: 50px !important;
+    padding: 0.5rem 1.5rem !important;
+    max-width: 95%;
     background: rgba(13, 110, 253, 0.85) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
     position: sticky;
-    top: 0;
+    top: 15px;
     z-index: 1050;
+    transition: all 0.3s ease;
 }
-[data-bs-theme="dark"] .glass-navbar {
-    background: rgba(33, 37, 41, 0.85) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+[data-bs-theme="dark"] .floating-nav {
+    background: rgba(30, 41, 59, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Tema Verde (Padres/Alumnos) */
+.floating-nav-success {
+    background: rgba(25, 135, 84, 0.85) !important;
+}
+[data-bs-theme="dark"] .floating-nav-success {
+    background: rgba(20, 83, 45, 0.85) !important;
+}
+
+/* Nav Link Micro-interactions */
+.floating-nav .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.floating-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.floating-nav .nav-link.active,
+.floating-nav .nav-link:active {
+    background: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
 }
 
 /* --- PREMIUM UI/UX: Micro-interactions & Glows --- */

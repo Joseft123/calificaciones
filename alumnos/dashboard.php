@@ -64,32 +64,38 @@ $res_avisos = $conexion->query($sql_avisos);
 
     <div class="container py-4">
 
-        <!-- Navbar Superior -->
-        <div class="d-flex justify-content-between mb-4 align-items-center bg-body p-3 rounded-4 shadow-sm animate-fade-in"
-            style="animation-delay: 0.1s;">
-            <div class="d-flex align-items-center">
-                <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3"
-                    style="width: 45px; height: 45px; font-size: 1.5rem;">
-                    🎓
-                </div>
-                <div>
-                    <h5 class="m-0 fw-bold text-body">Portal del Alumno</h5>
-                    <span
-                        class="text-muted small"><?php echo htmlspecialchars($alumno['nivel'] . ' | ' . $alumno['grado'] . 'º ' . $alumno['grupo']); ?></span>
+        <!-- Navbar Superior Estilo Floating -->
+        <nav class="navbar navbar-expand-lg navbar-dark floating-nav mx-auto mb-4 bg-white border shadow-sm">
+            <div class="container-fluid px-2">
+                <div class="d-flex align-items-center w-100 justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3"
+                            style="width: 45px; height: 45px; font-size: 1.5rem;">
+                            🎓
+                        </div>
+                        <div>
+                            <h5 class="m-0 fw-bold text-success">Portal del Alumno</h5>
+                            <span class="text-secondary small fw-medium"><?php echo htmlspecialchars($alumno['nivel'] . ' | ' . $alumno['grado'] . 'º ' . $alumno['grupo']); ?></span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center">
+                        <span class="me-3 fw-bold text-dark d-none d-md-inline">👋 Hola,
+                            <?php echo htmlspecialchars($alumno['nombre']); ?></span>
+                        <a href="../auth/mi_perfil.php" class="btn btn-outline-success btn-sm rounded-circle me-2 shadow-sm" title="Mi Perfil">
+                            <i class="bi bi-person-gear"></i>
+                        </a>
+                        <button class="btn btn-outline-secondary btn-sm rounded-circle shadow-sm me-2" id="btnThemeToggle"
+                            title="Cambiar Tema" style="width: 32px; height: 32px; padding: 0;">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                        <a href="../auth/cerrar_sesion_alumno.php"
+                            class="btn btn-sm btn-danger rounded-pill px-3 shadow-sm"><i
+                                class="bi bi-box-arrow-right me-1"></i>Salir</a>
+                    </div>
                 </div>
             </div>
-            <div>
-                <span class="me-3 fw-bold text-success d-none d-md-inline">👋 Hola,
-                    <?php echo htmlspecialchars($alumno['nombre']); ?></span>
-                <button class="btn btn-outline-secondary btn-sm rounded-circle shadow-sm me-2" id="btnThemeToggle"
-                    title="Cambiar Tema" style="width: 32px; height: 32px; padding: 0;">
-                    <span id="themeIcon">🌙</span>
-                </button>
-                <a href="../auth/cerrar_sesion_alumno.php"
-                    class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm"><i
-                        class="bi bi-box-arrow-right me-1"></i>Salir</a>
-            </div>
-        </div>
+        </nav>
 
         <div class="row g-4 mb-4">
 

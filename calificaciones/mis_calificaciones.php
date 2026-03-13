@@ -54,14 +54,25 @@ $res_asistencias = $conexion->query($sql_asistencias);
 <body class="student-portal">
 
 <div class="container">
-    <div class="d-flex justify-content-end mb-3 no-print align-items-center">
-        <span class="me-3 fw-bold text-success">👤 <?php echo htmlspecialchars($_SESSION['nombre_alumno']); ?></span>
-        <a class="btn btn-outline-success btn-sm me-2 rounded-pill shadow-sm" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i> Mi Perfil</a>
-        <button class="theme-toggle-btn me-3" id="btnThemeToggle" title="Cambiar Tema">
-            <span id="themeIcon">🌙</span>
-        </button>
-        <a href="../auth/cerrar_sesion.php" class="btn btn-outline-danger btn-sm shadow-sm rounded-pill"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
-    </div>
+        <!-- Navbar Superior Estilo Floating -->
+        <nav class="navbar navbar-expand-lg floating-nav mx-auto mb-4 bg-white border shadow-sm no-print">
+            <div class="container-fluid px-2">
+                <div class="d-flex align-items-center w-100 justify-content-between">
+                    <a href="dashboard.php" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm"><i class="bi bi-arrow-left me-1"></i> Dashboard</a>
+                    
+                    <div class="d-flex align-items-center">
+                        <span class="me-3 fw-bold text-success d-none d-md-inline">👤 <?php echo htmlspecialchars($_SESSION['nombre_alumno']); ?></span>
+                        <a href="../auth/mi_perfil.php" class="btn btn-outline-success btn-sm rounded-circle me-2 shadow-sm" title="Mi Perfil">
+                            <i class="bi bi-person-gear"></i>
+                        </a>
+                        <button class="theme-toggle-btn btn btn-outline-secondary btn-sm rounded-circle shadow-sm me-2" id="btnThemeToggle" title="Cambiar Tema" style="width: 32px; height: 32px; padding: 0;">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                        <a href="../auth/cerrar_sesion_alumno.php" class="btn btn-sm btn-danger rounded-pill px-3 shadow-sm"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
     <div class="boleta-container border">
         <div class="escuela-header">

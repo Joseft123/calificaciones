@@ -62,8 +62,8 @@ if (session_status() == PHP_SESSION_NONE) {
     }
   }
   ?>
-  <nav class="navbar navbar-expand-lg navbar-dark glass-navbar shadow-sm">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark floating-nav mx-auto">
+    <div class="container-fluid px-2">
       <a class="navbar-brand"
         href="<?php echo isset($_SESSION['id_docente']) ? '../docentes/mis_alumnos.php' : '../calificaciones/dashboard.php'; ?>">🎓
         Sistema Escolar</a>

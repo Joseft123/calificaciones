@@ -75,8 +75,8 @@ $res_asistencias = $conexion->query($sql_asistencias);
 
 <body class="bg-body-tertiary">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto">
+        <div class="container-fluid px-2">
             <a class="navbar-brand fw-bold" href="dashboard.php"><i class="bi bi-arrow-left me-2"></i>Regresar al
                 Resumen</a>
             <ul class="navbar-nav ms-auto align-items-center">
