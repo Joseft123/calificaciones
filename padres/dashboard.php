@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Validar inicio de sesión del Padre
+// Validar inicio de sesiÃ³n del Padre
 if (!isset($_SESSION['id_padre'])) {
     header("Location: ../auth/login_padre.php");
     exit();
@@ -13,7 +13,7 @@ include '../includes/funciones_ciclo.php';
 $id_padre = intval($_SESSION['id_padre']);
 $id_ciclo_actual = getCicloActivo($conexion);
 
-// Obtener cantidad de mensajes no leídos
+// Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
 $res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
 if ($res_unread) {
@@ -90,7 +90,7 @@ $res_avisos = $conexion->query($sql_avisos);
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -109,6 +109,7 @@ $res_avisos = $conexion->query($sql_avisos);
                         <span class="text-light me-3 fw-medium">👋 Hola,
                             <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
+                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
                         <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
@@ -129,7 +130,7 @@ $res_avisos = $conexion->query($sql_avisos);
                 <div class="row align-items-center position-relative" style="z-index: 2;">
                     <div class="col-md-8">
                         <h1 class="display-6 fw-bold mb-2">Resumen Familiar</h1>
-                        <p class="fs-5 opacity-75 mb-0">Bienvenido al espacio de seguimiento académico. Aquí puedes ver
+                        <p class="fs-5 opacity-75 mb-0">Bienvenido al espacio de seguimiento acadÃ©mico. AquÃ­ puedes ver
                             el progreso de tus hijos durante el ciclo escolar y revisar anuncios importantes de la
                             escuela.</p>
                     </div>
@@ -177,7 +178,7 @@ $res_avisos = $conexion->query($sql_avisos);
                                             <span
                                                 class="badge bg-info text-dark rounded-pill px-3 py-2 fw-normal fs-6 shadow-sm ms-1"><i
                                                     class="bi bi-people-fill me-1"></i>
-                                                <?php echo $hijo['grado'] . 'º ' . $hijo['grupo']; ?>
+                                                <?php echo $hijo['grado'] . 'Âº ' . $hijo['grupo']; ?>
                                             </span>
                                         </div>
 
@@ -227,7 +228,7 @@ $res_avisos = $conexion->query($sql_avisos);
                         <div class="card-body p-5 text-center">
                             <i class="bi bi-person-x text-muted opacity-50 mb-3" style="font-size: 4rem;"></i>
                             <h4 class="text-body fw-bold">No tienes alumnos asociados</h4>
-                            <p class="text-muted mb-0">Comunícate en Dirección Escolar para que la administración asocie a
+                            <p class="text-muted mb-0">ComunÃ­cate en DirecciÃ³n Escolar para que la administraciÃ³n asocie a
                                 tus hijos con tu cuenta familiar.</p>
                         </div>
                     </div>

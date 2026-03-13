@@ -56,10 +56,11 @@ $res_asistencias = $conexion->query($sql_asistencias);
 <div class="container">
     <div class="d-flex justify-content-end mb-3 no-print align-items-center">
         <span class="me-3 fw-bold text-success">👤 <?php echo htmlspecialchars($_SESSION['nombre_alumno']); ?></span>
+        <a class="btn btn-outline-success btn-sm me-2 rounded-pill shadow-sm" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i> Mi Perfil</a>
         <button class="theme-toggle-btn me-3" id="btnThemeToggle" title="Cambiar Tema">
             <span id="themeIcon">🌙</span>
         </button>
-        <a href="../alumnos/dashboard.php" class="btn btn-outline-secondary me-2 shadow-sm rounded-pill"><i class="bi bi-house-door-fill me-1"></i>Volver al Escritorio</a>
+        <a href="../auth/cerrar_sesion.php" class="btn btn-outline-danger btn-sm shadow-sm rounded-pill"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
     </div>
 
     <div class="boleta-container border">

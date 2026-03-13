@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Validar inicio de sesión del Padre
+// Validar inicio de sesiÃ³n del Padre
 if (!isset($_SESSION['id_padre'])) {
     header("Location: ../auth/login_padre.php");
     exit();
@@ -11,7 +11,7 @@ include '../includes/conexion.php';
 
 $id_padre = intval($_SESSION['id_padre']);
 
-// Obtener cantidad de mensajes no leídos
+// Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
 $res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
 if ($res_unread) {
@@ -51,7 +51,7 @@ $resultado_inbox = $stmt->get_result();
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -71,6 +71,7 @@ $resultado_inbox = $stmt->get_result();
                         <span class="text-light me-3 fw-medium">👋 Hola,
                             <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
+                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
                         <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
@@ -114,9 +115,9 @@ $resultado_inbox = $stmt->get_result();
                                         onclick="window.location='leer_mensaje.php?id=<?php echo $msg['id_mensaje']; ?>'">
                                         <td class="ps-4 text-center text-success">
                                             <?php if ($msg['leido'] == 0): ?>
-                                                <i class="bi bi-envelope-fill fs-5" title="No Leído"></i>
+                                                <i class="bi bi-envelope-fill fs-5" title="No LeÃ­do"></i>
                                             <?php else: ?>
-                                                <i class="bi bi-envelope-open text-muted fs-5" title="Leído"></i>
+                                                <i class="bi bi-envelope-open text-muted fs-5" title="LeÃ­do"></i>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -147,7 +148,7 @@ $resultado_inbox = $stmt->get_result();
                                     <td colspan="5" class="text-center text-muted p-5">
                                         <i class="bi bi-mailbox display-4 d-block opacity-50 mb-3 text-success"></i>
                                         <h5 class="text-body fw-bold">No tienes mensajes nuevos</h5>
-                                        <p class="mb-0">Aquí aparecerán las comunicaciones oficiales de los maestros de tus
+                                        <p class="mb-0">AquÃ­ aparecerÃ¡n las comunicaciones oficiales de los maestros de tus
                                             hijos.</p>
                                     </td>
                                 </tr>

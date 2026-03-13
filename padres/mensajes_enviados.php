@@ -2,7 +2,7 @@
 session_start();
 include '../includes/conexion.php';
 
-// Validar inicio de sesión del Padre
+// Validar inicio de sesiÃ³n del Padre
 if (!isset($_SESSION['id_padre'])) {
     header("Location: ../auth/login_padre.php");
     exit();
@@ -10,7 +10,7 @@ if (!isset($_SESSION['id_padre'])) {
 
 $id_padre = intval($_SESSION['id_padre']);
 
-// Obtener cantidad de mensajes no leídos
+// Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
 $res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
 if ($res_unread) {
@@ -50,7 +50,7 @@ $resultado_outbox = $stmt->get_result();
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -69,6 +69,7 @@ $resultado_outbox = $stmt->get_result();
                         <span class="text-light me-3 fw-medium">👋 Hola,
                             <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
+                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
                         <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
@@ -100,7 +101,7 @@ $resultado_outbox = $stmt->get_result();
                                 <th class="ps-4 py-3" style="width: 50px;"></th>
                                 <th class="py-3">Para (Maestro)</th>
                                 <th class="py-3">Asunto</th>
-                                <th class="py-3">Fecha de Envío</th>
+                                <th class="py-3">Fecha de EnvÃ­o</th>
                                 <th class="text-center pe-4 py-3">Estatus</th>
                             </tr>
                         </thead>
@@ -132,7 +133,7 @@ $resultado_outbox = $stmt->get_result();
                                         <td class="text-center pe-4">
                                             <?php if ($msg['leido'] == 1): ?>
                                                 <span class="badge bg-success rounded-pill px-3"><i
-                                                        class="bi bi-check2-all me-1"></i>Leído</span>
+                                                        class="bi bi-check2-all me-1"></i>LeÃ­do</span>
                                             <?php else: ?>
                                                 <span class="badge bg-secondary rounded-pill px-3"><i
                                                         class="bi bi-check2 me-1"></i>Enviado</span>
@@ -145,8 +146,8 @@ $resultado_outbox = $stmt->get_result();
                                     <td colspan="5" class="text-center text-muted p-5">
                                         <i class="bi bi-send-x display-4 d-block opacity-50 mb-3 text-success"></i>
                                         <h5 class="text-body fw-bold">No has enviado mensajes</h5>
-                                        <p class="mb-0">Tus comunicaciones enviadas directamente a los docentes aparecerán
-                                            aquí.</p>
+                                        <p class="mb-0">Tus comunicaciones enviadas directamente a los docentes aparecerÃ¡n
+                                            aquÃ­.</p>
                                     </td>
                                 </tr>
                             <?php endif; ?>

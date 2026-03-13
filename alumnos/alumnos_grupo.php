@@ -56,7 +56,7 @@ include '../includes/header.php';
 <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table id="alumnosTable" class="table table-hover align-middle mb-0">
+            <table id="alumnosTable" class="table table-hover align-middle mb-0 datatable">
                 <thead class="table-dark">
                     <tr>
                         <th class="py-3 px-4 border-0" style="width: 15%;">Matrícula</th>

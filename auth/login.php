@@ -4,6 +4,8 @@ if (isset($_SESSION['id_usuario'])) {
     header("Location: ../calificaciones/ver_calificaciones.php");
     exit();
 }
+include_once '../includes/csrf.php';
+$csrf_token = generar_token_csrf();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -46,6 +48,7 @@ if (isset($_SESSION['id_usuario'])) {
         </div>
 
         <form action="procesar_login.php" method="POST">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
             <div class="mb-4">
                 <label for="correo" class="form-label fw-bold text-secondary ps-1">Correo Electrónico</label>
                 <div class="input-group input-group-lg shadow-sm">

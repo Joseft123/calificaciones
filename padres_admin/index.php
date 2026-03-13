@@ -36,7 +36,7 @@ include '../includes/header.php';
 <div class="card shadow-sm border-0 rounded-4 animate-fade-in" style="animation-delay: 0.1s;">
     <div class="card-body p-4">
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
+            <table class="table table-hover align-middle datatable">
                 <thead class="table-light">
                     <tr>
                         <th>Nombre Completo</th>

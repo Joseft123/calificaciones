@@ -17,7 +17,7 @@ include '../includes/header.php';
 <div class="card shadow border-0 rounded-4 overflow-hidden animate-fade-in" style="animation-delay: 0.2s;">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-hover align-middle mb-0 datatable">
                 <thead class="table-dark">
                     <tr>
                         <th class="py-3 px-4 border-0">ID</th>

@@ -16,11 +16,11 @@ if ($id_mensaje === 0) {
     exit();
 }
 
-// Obtener cantidad de mensajes no leídos
+// Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
 $res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
 if ($res_unread) {
-    // Si estamos abriendo un mensaje y es para nosotros y no está leído, descontamos 1 (porque se marcará como leído ahora)
+    // Si estamos abriendo un mensaje y es para nosotros y no estÃ¡ leÃ­do, descontamos 1 (porque se marcarÃ¡ como leÃ­do ahora)
     $unread_mensajes_padre = $res_unread->fetch_assoc()['total'];
 }
 
@@ -75,10 +75,10 @@ if ($resultado->num_rows === 0) {
 $msg = $resultado->fetch_assoc();
 $es_inbox = ($msg['id_destinatario'] == $id_padre && $msg['tipo_destinatario'] == 'Padre');
 
-// Marcar como leído si es un mensaje de entrada
+// Marcar como leÃ­do si es un mensaje de entrada
 if ($es_inbox && $msg['leido'] == 0) {
     $conexion->query("UPDATE mensajes SET leido = 1 WHERE id_mensaje = $id_mensaje");
-    // Actualizar el contador de no leídos ya que este se acaba de mostrar
+    // Actualizar el contador de no leÃ­dos ya que este se acaba de mostrar
     if ($unread_mensajes_padre > 0)
         $unread_mensajes_padre--;
 }
@@ -100,7 +100,7 @@ if ($es_inbox && $msg['leido'] == 0) {
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -119,6 +119,7 @@ if ($es_inbox && $msg['leido'] == 0) {
                         <span class="text-light me-3 fw-medium">👋 Hola,
                             <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
+                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
                         <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
@@ -220,7 +221,7 @@ if ($es_inbox && $msg['leido'] == 0) {
                                 <div class="mb-4">
                                     <textarea name="respuesta_texto" class="form-control rounded-4 shadow-sm p-4 border-0"
                                         rows="5"
-                                        placeholder="Escribe tu respuesta aquí. El maestro la recibirá en su buzón."
+                                        placeholder="Escribe tu respuesta aquÃ­. El maestro la recibirÃ¡ en su buzÃ³n."
                                         required></textarea>
                                 </div>
                                 <div class="text-end">
@@ -242,7 +243,7 @@ if ($es_inbox && $msg['leido'] == 0) {
     <script src="../assets/js/main.js"></script>
 
     <script>
-        // Validación Bootstrap
+        // ValidaciÃ³n Bootstrap
         (() => {
             'use strict'
             const forms = document.querySelectorAll('.needs-validation')

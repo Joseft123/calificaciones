@@ -1,20 +1,43 @@
 <?php
 session_start();
-if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente'])) {
+if (!isset($_SESSION['id_usuario']) && !isset($_SESSION['id_docente']) && !isset($_SESSION['id_padre']) && !isset($_SESSION['id_alumno'])) {
     header("Location: login.php");
     exit();
 }
 
 include '../includes/conexion.php';
+include_once '../includes/csrf.php';
+$csrf_token = generar_token_csrf();
 $msg = '';
 $msg_type = '';
 
-$is_admin = isset($_SESSION['id_usuario']);
-$table = $is_admin ? 'usuarios' : 'docentes';
-$id_col = $is_admin ? 'id_usuario' : 'id_docente';
-$id_val = $is_admin ? $_SESSION['id_usuario'] : $_SESSION['id_docente'];
+$table = '';
+$id_col = '';
+$id_val = 0;
+
+if (isset($_SESSION['id_usuario'])) {
+    $table = 'usuarios';
+    $id_col = 'id_usuario';
+    $id_val = $_SESSION['id_usuario'];
+} elseif (isset($_SESSION['id_docente'])) {
+    $table = 'docentes';
+    $id_col = 'id_docente';
+    $id_val = $_SESSION['id_docente'];
+} elseif (isset($_SESSION['id_padre'])) {
+    $table = 'padres';
+    $id_col = 'id_padre';
+    $id_val = $_SESSION['id_padre'];
+} elseif (isset($_SESSION['id_alumno'])) {
+    $table = 'alumnos';
+    $id_col = 'id_alumno';
+    $id_val = $_SESSION['id_alumno'];
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_POST['csrf_token']) || !validar_token_csrf($_POST['csrf_token'])) {
+        die("Error CSRF: Petición inválida o expirada.");
+    }
+
     $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
@@ -83,6 +106,7 @@ endif; ?>
             </div>
             <div class="card-body p-4">
                 <form action="mi_perfil.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                     <div class="mb-4">
                         <label class="form-label fw-bold text-secondary">Contraseña Actual</label>
                         <div class="input-group">
@@ -109,7 +133,14 @@ endif; ?>
 
                     <div class="d-grid gap-2 mt-2">
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm"><i class="bi bi-save me-1"></i> Actualizar Contraseña</button>
-                        <a href="../index.php" class="btn btn-light border text-secondary rounded-pill">Cancelar</a>
+                        <?php
+                            $cancel_url = '../index.php';
+                            if (isset($_SESSION['id_usuario'])) $cancel_url = '../calificaciones/dashboard.php';
+                            if (isset($_SESSION['id_docente'])) $cancel_url = '../docentes/dashboard.php';
+                            if (isset($_SESSION['id_padre'])) $cancel_url = '../padres/dashboard.php';
+                            if (isset($_SESSION['id_alumno'])) $cancel_url = '../calificaciones/mis_calificaciones.php';
+                        ?>
+                        <a href="<?php echo htmlspecialchars($cancel_url); ?>" class="btn btn-light border text-secondary rounded-pill">Cancelar</a>
                     </div>
                 </form>
             </div>

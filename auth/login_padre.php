@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION['id_padre'])) {
+    header("Location: ../padres/dashboard.php");
+    exit();
+}
+include_once '../includes/csrf.php';
+$csrf_token = generar_token_csrf();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -122,6 +131,7 @@
                         <?php endif; ?>
 
                         <form action="autenticar_padre.php" method="POST" class="needs-validation" novalidate>
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                             <div class="mb-3">
                                 <label for="correo" class="form-label fw-medium text-body-secondary small">Correo
                                     Electrónico</label>

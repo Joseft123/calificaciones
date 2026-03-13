@@ -12,6 +12,12 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
+// Establecer charset
+$conexion->set_charset("utf8mb4");
+
+// Incluir protección CSRF
+include_once __DIR__ . '/csrf.php';
+
 // Puedes descomentar la siguiente línea temporalmente para comprobar que funciona:
 // echo "¡Conexión exitosa a la base de datos!";
 ?>

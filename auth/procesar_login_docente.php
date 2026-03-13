@@ -6,6 +6,9 @@ session_start();
 include '../includes/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_POST['csrf_token']) || !validar_token_csrf($_POST['csrf_token'])) {
+        die("Error CSRF: Petición inválida o expirada.");
+    }
     // Escapar el correo para mayor seguridad
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password_ingresada = $_POST['password'];
