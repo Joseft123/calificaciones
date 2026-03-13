@@ -9,7 +9,10 @@ include '../includes/header.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $resultado = $conexion->query("SELECT * FROM docentes WHERE id_docente = $id");
+    $stmt_doc = $conexion->prepare("SELECT * FROM docentes WHERE id_docente = ?");
+    $stmt_doc->bind_param("i", $id);
+    $stmt_doc->execute();
+    $resultado = $stmt_doc->get_result();
     $docente = $resultado->fetch_assoc();
 }
 

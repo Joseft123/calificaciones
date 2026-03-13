@@ -69,7 +69,10 @@ $es_inbox = ($msg['id_destinatario'] == $id_docente && $msg['tipo_destinatario']
 
 // Marcar como leído si es un mensaje de entrada
 if ($es_inbox && $msg['leido'] == 0) {
-    $conexion->query("UPDATE mensajes SET leido = 1 WHERE id_mensaje = $id_mensaje");
+    $stmt_upd = $conexion->prepare("UPDATE mensajes SET leido = 1 WHERE id_mensaje = ?");
+    $stmt_upd->bind_param("i", $id_mensaje);
+    $stmt_upd->execute();
+    $stmt_upd->close();
 }
 
 include '../includes/header.php';

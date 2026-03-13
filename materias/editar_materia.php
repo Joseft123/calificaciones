@@ -10,7 +10,10 @@ include '../includes/header.php';
 // Cargar los datos de la materia si recibimos un ID
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $resultado = $conexion->query("SELECT * FROM materias WHERE id_materia = $id");
+    $stmt_mat = $conexion->prepare("SELECT * FROM materias WHERE id_materia = ?");
+    $stmt_mat->bind_param("i", $id);
+    $stmt_mat->execute();
+    $resultado = $stmt_mat->get_result();
     $materia = $resultado->fetch_assoc();
 }
 

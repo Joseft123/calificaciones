@@ -10,7 +10,10 @@ include '../includes/header.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $resultado = $conexion->query("SELECT * FROM usuarios WHERE id_usuario = $id");
+    $stmt_usu = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuario = ?");
+    $stmt_usu->bind_param("i", $id);
+    $stmt_usu->execute();
+    $resultado = $stmt_usu->get_result();
     $usuario = $resultado->fetch_assoc();
 }
 

@@ -18,7 +18,10 @@ if ($id_mensaje === 0) {
 
 // Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
-$res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
+$stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Padre' AND leido = 0");
+$stmt_unread->bind_param("i", $id_padre);
+$stmt_unread->execute();
+$res_unread = $stmt_unread->get_result();
 if ($res_unread) {
     // Si estamos abriendo un mensaje y es para nosotros y no estÃ¡ leÃ­do, descontamos 1 (porque se marcarÃ¡ como leÃ­do ahora)
     $unread_mensajes_padre = $res_unread->fetch_assoc()['total'];
@@ -77,7 +80,10 @@ $es_inbox = ($msg['id_destinatario'] == $id_padre && $msg['tipo_destinatario'] =
 
 // Marcar como leÃ­do si es un mensaje de entrada
 if ($es_inbox && $msg['leido'] == 0) {
-    $conexion->query("UPDATE mensajes SET leido = 1 WHERE id_mensaje = $id_mensaje");
+    $stmt_upd = $conexion->prepare("UPDATE mensajes SET leido = 1 WHERE id_mensaje = ?");
+    $stmt_upd->bind_param("i", $id_mensaje);
+    $stmt_upd->execute();
+    $stmt_upd->close();
     // Actualizar el contador de no leÃ­dos ya que este se acaba de mostrar
     if ($unread_mensajes_padre > 0)
         $unread_mensajes_padre--;

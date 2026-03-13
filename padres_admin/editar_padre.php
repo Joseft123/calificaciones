@@ -37,8 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         if ($conexion->query($sql_update)) {
-            // Actualizar la relación de alumnos: Borrar y volver a insertar
-            $conexion->query("DELETE FROM padre_alumno WHERE id_padre = $id_padre");
+            $stmt_del = $conexion->prepare("DELETE FROM padre_alumno WHERE id_padre = ?");
+            $stmt_del->bind_param("i", $id_padre);
+            $stmt_del->execute();
+            $stmt_del->close();
 
             if (!empty($alumnos_seleccionados)) {
                 $stmt = $conexion->prepare("INSERT INTO padre_alumno (id_padre, id_alumno, parentesco) VALUES (?, ?, ?)");

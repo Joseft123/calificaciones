@@ -10,7 +10,10 @@ include '../includes/header.php';
 // Cargar los datos del alumno si recibimos un ID
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $resultado = $conexion->query("SELECT * FROM alumnos WHERE id_alumno = $id");
+    $stmt_alu = $conexion->prepare("SELECT * FROM alumnos WHERE id_alumno = ?");
+    $stmt_alu->bind_param("i", $id);
+    $stmt_alu->execute();
+    $resultado = $stmt_alu->get_result();
     $alumno = $resultado->fetch_assoc();
 }
 

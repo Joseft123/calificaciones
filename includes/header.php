@@ -56,7 +56,10 @@ if (session_status() == PHP_SESSION_NONE) {
   $unread_mensajes_docente = 0;
   if (isset($_SESSION['id_docente']) && isset($conexion)) {
     $id_doc = intval($_SESSION['id_docente']);
-    $res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_doc AND tipo_destinatario = 'Docente' AND leido = 0");
+    $stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Docente' AND leido = 0");
+    $stmt_unread->bind_param("i", $id_doc);
+    $stmt_unread->execute();
+    $res_unread = $stmt_unread->get_result();
     if ($res_unread) {
       $unread_mensajes_docente = $res_unread->fetch_assoc()['total'];
     }

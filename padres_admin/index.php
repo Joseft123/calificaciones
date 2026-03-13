@@ -11,8 +11,10 @@ include '../includes/conexion.php';
 
 // Manejo de eliminación
 if (isset($_GET['eliminar'])) {
-    $id_eliminar = intval($_GET['eliminar']);
-    $conexion->query("DELETE FROM padres WHERE id_padre = $id_eliminar");
+    $stmt_del = $conexion->prepare("DELETE FROM padres WHERE id_padre = ?");
+    $stmt_del->bind_param("i", $id_eliminar);
+    $stmt_del->execute();
+    $stmt_del->close();
     header("Location: index.php?msg=eliminado");
     exit();
 }

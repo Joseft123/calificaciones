@@ -15,7 +15,10 @@ $id_ciclo_actual = getCicloActivo($conexion);
 
 // Obtener cantidad de mensajes no leÃ­dos
 $unread_mensajes_padre = 0;
-$res_unread = $conexion->query("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = $id_padre AND tipo_destinatario = 'Padre' AND leido = 0");
+$stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Padre' AND leido = 0");
+$stmt_unread->bind_param("i", $id_padre);
+$stmt_unread->execute();
+$res_unread = $stmt_unread->get_result();
 if ($res_unread) {
     $unread_mensajes_padre = $res_unread->fetch_assoc()['total'];
 }
