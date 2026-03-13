@@ -78,7 +78,14 @@ include '../includes/header.php';
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" class="text-center text-muted py-4">No hay padres o tutores registrados en el sistema.</td></tr>
+                        <tr><td colspan="5" class="text-center py-5 text-muted">
+                            <div class="mb-3">
+                                <i class="bi bi-people-fill text-success" style="font-size: 4rem; opacity: 0.5;"></i>
+                            </div>
+                            <h5 class="fw-bold text-body">Directorio de padres vacío</h5>
+                            <p class="mb-3">No hay padres o tutores registrados en el sistema.</p>
+                            <a href="crear_padre.php" class="btn btn-success rounded-pill btn-sm px-4">Registrar Nuevo Tutor</a>
+                        </td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>

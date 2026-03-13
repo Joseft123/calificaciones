@@ -48,9 +48,13 @@ while ($fila = $resultado->fetch_assoc()):
 endwhile;
 if ($resultado->num_rows == 0) {
     echo "<tr><td colspan='5' class='text-center py-5 text-muted'>
-                            <div class='fs-1 mb-2'>🚫</div>
-                            <p class='mb-0 fw-bold'>No hay usuarios registrados aún.</p>
-                        </td></tr>";
+        <div class='mb-3'>
+            <i class='bi bi-people text-primary' style='font-size: 4rem; opacity: 0.5;'></i>
+        </div>
+        <h5 class='fw-bold text-body'>Aún no hay usuarios</h5>
+        <p class='mb-3'>Comienza registrando a tu equipo administrativo o coordinadores.</p>
+        <a href='crear_usuario.php' class='btn btn-primary rounded-pill btn-sm px-4'>Crear Primer Usuario</a>
+    </td></tr>";
 }
 ?>
                 </tbody>

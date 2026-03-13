@@ -53,8 +53,12 @@ if ($resultado->num_rows > 0) {
 }
 else {
     echo "<tr><td colspan='5' class='text-center py-5 text-muted'>
-        <div class='fs-1 mb-2'>📚</div>
-        <p class='mb-0 fw-bold'>No hay materias registradas aún.</p>
+        <div class='mb-3'>
+            <i class='bi bi-journal-x text-success' style='font-size: 4rem; opacity: 0.5;'></i>
+        </div>
+        <h5 class='fw-bold text-body'>Listado de materias vacío</h5>
+        <p class='mb-3'>No hay materias curriculares registradas en el sistema.</p>
+        <a href='crear_materia.php' class='btn btn-success rounded-pill btn-sm px-4'>Agregar Primera Materia</a>
     </td></tr>";
 }
 ?>

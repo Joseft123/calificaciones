@@ -83,10 +83,13 @@ if ($resultado->num_rows > 0) {
 }
 else {
     echo "<tr><td colspan='3' class='text-center py-5 text-muted'>
-                            <div class='fs-1 mb-2'>📭</div>
-                            <p class='mb-0 fw-bold'>Este grupo está vacío.</p>
-                            <a href='crear_alumno.php' class='btn btn-outline-primary btn-sm mt-3 rounded-pill'>Inscribir el primer alumno</a>
-                        </td></tr>";
+        <div class='mb-3'>
+            <i class='bi bi-inbox text-primary' style='font-size: 4rem; opacity: 0.5;'></i>
+        </div>
+        <h5 class='fw-bold text-body'>Este grupo está vacío</h5>
+        <p class='mb-3'>No hay alumnos inscritos en este nivel y grado.</p>
+        <a href='crear_alumno.php' class='btn btn-primary rounded-pill btn-sm px-4'>Inscribir el Primer Alumno</a>
+    </td></tr>";
 }
 ?>
                 </tbody>

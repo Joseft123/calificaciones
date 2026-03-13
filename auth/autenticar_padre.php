@@ -9,8 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password = $_POST['password'];
 
-    $sql = "SELECT id_padre, nombre, apellidos, password FROM padres WHERE correo = '$correo'";
-    $resultado = $conexion->query($sql);
+    $sql = "SELECT id_padre, nombre, apellidos, password, foto_perfil FROM padres WHERE correo = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
     if ($resultado && $resultado->num_rows == 1) {
         $usuario = $resultado->fetch_assoc();
@@ -20,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id_padre'] = $usuario['id_padre'];
             $_SESSION['nombre_padre'] = $usuario['nombre'];
             $_SESSION['apellidos_padre'] = $usuario['apellidos'];
+            $_SESSION['foto_perfil'] = $usuario['foto_perfil'];
 
             // Redirigir al dashboard del padre
             header("Location: ../padres/dashboard.php");

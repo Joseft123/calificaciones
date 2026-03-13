@@ -48,10 +48,13 @@ endwhile;
 
 if ($resultado->num_rows == 0) {
     echo "<tr><td colspan='4' class='text-center py-5 text-muted'>
-                            <div class='fs-1 mb-2'>👨‍🏫</div>
-                            <p class='mb-0 fw-bold'>No hay maestros registrados en la base de datos.</p>
-                            <a href='crear_docente.php' class='btn btn-outline-primary mt-3 rounded-pill btn-sm'>Crear el Primer Docente</a>
-                        </td></tr>";
+        <div class='mb-3'>
+            <i class='bi bi-person-video3 text-primary' style='font-size: 4rem; opacity: 0.5;'></i>
+        </div>
+        <h5 class='fw-bold text-body'>Directorio docente vacío</h5>
+        <p class='mb-3'>No hay maestros registrados en la base de datos.</p>
+        <a href='crear_docente.php' class='btn btn-primary rounded-pill btn-sm px-4'>Crear el Primer Docente</a>
+    </td></tr>";
 }
 ?>
                 </tbody>

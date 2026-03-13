@@ -80,8 +80,15 @@ $res_avisos = $conexion->query($sql_avisos);
                     </div>
                     
                     <div class="d-flex align-items-center">
-                        <span class="me-3 fw-bold text-dark d-none d-md-inline">👋 Hola,
-                            <?php echo htmlspecialchars($alumno['nombre']); ?></span>
+                        <span class="me-3 fw-bold text-dark d-none d-md-flex align-items-center gap-2">
+                            <?php if (!empty($_SESSION['foto_perfil'])): ?>
+                                <img src="../assets/uploads/perfiles/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" 
+                                     alt="Perfil" class="rounded-circle border border-2 border-success shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                            <?php else: ?>
+                                👋 
+                            <?php endif; ?>
+                            Hola, <?php echo htmlspecialchars($alumno['nombre']); ?>
+                        </span>
                         <a href="../auth/mi_perfil.php" class="btn btn-outline-success btn-sm rounded-circle me-2 shadow-sm" title="Mi Perfil">
                             <i class="bi bi-person-gear"></i>
                         </a>

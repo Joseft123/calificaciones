@@ -18,9 +18,20 @@ if (session_status() == PHP_SESSION_NONE) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  
+  <!-- DataTables Buttons Extension -->
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
   <script src="../assets/js/main.js"></script>
   <script>
     $(document).ready(function() {
@@ -30,7 +41,26 @@ if (session_status() == PHP_SESSION_NONE) {
                     "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
                 },
                 "pageLength": 10,
-                "responsive": true
+                "responsive": true,
+                "dom": '<"row mb-3 align-items-center"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6 text-end"f>>rt<"row mt-3 align-items-center"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                "buttons": [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="bi bi-file-earmark-excel-fill me-1"></i> Excel',
+                        className: 'btn btn-success btn-sm rounded-pill shadow-sm px-3'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF',
+                        className: 'btn btn-danger btn-sm rounded-pill shadow-sm px-3 ms-2',
+                        orientation: 'landscape'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="bi bi-printer-fill me-1"></i> Imprimir',
+                        className: 'btn btn-secondary btn-sm rounded-pill shadow-sm px-3 ms-2'
+                    }
+                ]
             });
         }
     });
@@ -99,8 +129,15 @@ if (session_status() == PHP_SESSION_NONE) {
                   class="bi bi-megaphone-fill me-1"></i> Avisos</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
-              <span class="text-light me-3">👤 <?php echo htmlspecialchars($_SESSION['nombre']); ?>
-                (<?php echo htmlspecialchars($_SESSION['rol']); ?>)</span>
+              <span class="text-light me-3 d-flex align-items-center gap-2">
+                <?php if (!empty($_SESSION['foto_perfil'])): ?>
+                    <img src="../assets/uploads/perfiles/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" 
+                         alt="Perfil" class="rounded-circle border border-2 border-primary shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                <?php else: ?>
+                    👤 
+                <?php endif; ?>
+                <?php echo htmlspecialchars($_SESSION['nombre']); ?> (<?php echo htmlspecialchars($_SESSION['rol']); ?>)
+              </span>
               <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i
                   class="bi bi-person-gear"></i></a>
               <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">
@@ -133,8 +170,15 @@ if (session_status() == PHP_SESSION_NONE) {
                   class="bi bi-file-earmark-bar-graph me-1"></i> Reporte Asist.</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
-              <span class="text-light me-3">👨‍🏫 <?php echo htmlspecialchars($_SESSION['nombre_docente']); ?>
-                (Docente)</span>
+              <span class="text-light me-3 d-flex align-items-center gap-2">
+                <?php if (!empty($_SESSION['foto_perfil'])): ?>
+                    <img src="../assets/uploads/perfiles/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" 
+                         alt="Perfil" class="rounded-circle border border-2 border-info shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                <?php else: ?>
+                    👨‍🏫 
+                <?php endif; ?>
+                <?php echo htmlspecialchars($_SESSION['nombre_docente']); ?> (Docente)
+              </span>
               <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i
                   class="bi bi-person-gear"></i></a>
               <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Cambiar Tema">

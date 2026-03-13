@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password_ingresada = $_POST['password'];
 
-    $sql = "SELECT id_usuario, nombre, password, rol FROM usuarios WHERE correo = ?";
+    $sql = "SELECT id_usuario, nombre, password, rol, foto_perfil FROM usuarios WHERE correo = ?";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt) {
@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['nombre'] = $usuario['nombre'];
                 $_SESSION['rol'] = $usuario['rol'];
+                $_SESSION['foto_perfil'] = $usuario['foto_perfil'];
 
                 // Redirigir al sistema
                 header("Location: ../calificaciones/dashboard.php");

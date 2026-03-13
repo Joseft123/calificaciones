@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $conexion->real_escape_string($_POST['correo']);
     $password_ingresada = $_POST['password'];
 
-    $sql = "SELECT id_docente, nombre, apellidos, password FROM docentes WHERE correo = ?";
+    $sql = "SELECT id_docente, nombre, apellidos, password, foto_perfil FROM docentes WHERE correo = ?";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt) {
@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Si la contraseña es correcta, guardamos sus datos en variables de sesión
                 $_SESSION['id_docente'] = $usuario['id_docente'];
                 $_SESSION['nombre_docente'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
+                $_SESSION['foto_perfil'] = $usuario['foto_perfil'];
 
                 // Redirigir al sistema
                 header("Location: ../docentes/dashboard.php");

@@ -109,8 +109,14 @@ $res_avisos = $conexion->query($sql_avisos);
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3 d-flex align-items-center">
-                        <span class="text-light me-3 fw-medium">👋 Hola,
-                            <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
+                        <span class="text-light me-3 fw-medium d-flex align-items-center gap-2">
+                            <?php if (!empty($_SESSION['foto_perfil'])): ?>
+                                <img src="../assets/uploads/perfiles/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" 
+                                     alt="Perfil" class="rounded-circle border border-2 border-white shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                            <?php else: ?>
+                                👋 
+                            <?php endif; ?>
+                            Hola, <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
                         <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
                         <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">

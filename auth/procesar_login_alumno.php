@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $matricula = $conexion->real_escape_string($_POST['matricula']);
     $apellidos = $conexion->real_escape_string($_POST['apellidos']);
 
-    $sql = "SELECT id_alumno, nombre, apellidos FROM alumnos WHERE matricula = ? AND apellidos = ?";
+    $sql = "SELECT id_alumno, nombre, apellidos, foto_perfil FROM alumnos WHERE matricula = ? AND apellidos = ?";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt) {
@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Guardar sesión del alumno
             $_SESSION['id_alumno'] = $alumno['id_alumno'];
             $_SESSION['nombre_alumno'] = $alumno['nombre'] . ' ' . $alumno['apellidos'];
+            $_SESSION['foto_perfil'] = $alumno['foto_perfil'];
 
             // Redirigir a su nuevo dashboard
             header("Location: ../alumnos/dashboard.php");
