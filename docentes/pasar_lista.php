@@ -27,9 +27,24 @@ include '../includes/header.php';
     <h2 class="text-success m-0 fw-bold">📅 Pasar Lista</h2>
     <?php if ($id_materia_sel > 0): ?>
         <a href="pasar_lista.php" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Volver a Grupos</a>
-    <?php
-endif; ?>
+    <?php endif; ?>
 </div>
+
+<?php if (isset($_GET['msg'])): ?>
+    <?php if ($_GET['msg'] === 'success'): ?>
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 animate-fade-in mb-4" role="alert" style="border-left: 5px solid #198754 !important;">
+            <i class="bi bi-check-circle-fill me-2 fs-5 align-middle"></i>
+            <span class="align-middle">¡Asistencia guardada correctamente!</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['msg'] === 'error'): ?>
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 animate-fade-in mb-4" role="alert" style="border-left: 5px solid #dc3545 !important;">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5 align-middle"></i>
+            <span class="align-middle">Ocurrió un error al guardar la asistencia.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
 
 <?php
 // Paso 1: Si no hay materia seleccionada, mostrar grupos

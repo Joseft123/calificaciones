@@ -221,10 +221,16 @@ $res_avisos = $conexion->query($sql_avisos);
                                             </div>
                                         </div>
 
-                                        <div class="d-grid">
+                                        <div class="d-grid gap-2">
                                             <a href="detalle_hijo.php?id=<?php echo $hijo['id_alumno']; ?>"
-                                                class="btn btn-primary rounded-pill fw-medium">
-                                                Ver Calificaciones Detalladas <i class="bi bi-arrow-right-short ms-1"></i>
+                                                class="btn btn-primary rounded-pill fw-medium text-start ps-4">
+                                                <i class="bi bi-journal-text me-2"></i> Calificaciones Detalladas
+                                                <i class="bi bi-arrow-right-short float-end mt-1 fs-5"></i>
+                                            </a>
+                                            <a href="asistencias_hijo.php?id=<?php echo $hijo['id_alumno']; ?>"
+                                                class="btn btn-info text-white rounded-pill fw-medium text-start ps-4">
+                                                <i class="bi bi-calendar2-check-fill me-2"></i> Récord de Asistencia
+                                                <i class="bi bi-arrow-right-short float-end mt-1 fs-5"></i>
                                             </a>
                                         </div>
                                     </div>

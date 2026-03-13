@@ -145,13 +145,18 @@ $res_avisos = $conexion->query($sql_avisos);
 
                 <!-- Botones de Acción -->
                 <div class="d-grid gap-3 animate-fade-in" style="animation-delay: 0.4s;">
+                    <a href="mis_asistencias.php"
+                        class="btn btn-info text-white btn-lg rounded-4 shadow-sm d-flex align-items-center justify-content-between">
+                        <span><i class="bi bi-calendar2-check-fill me-2"></i>Ver Asistencias Detalladas</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                     <a href="../calificaciones/mis_calificaciones.php"
-                        class="btn btn-primary btn-lg rounded-4 shadow-sm d-flex align-items-center justify-content-between">
+                        class="btn btn-primary rounded-4 shadow-sm d-flex align-items-center justify-content-between py-2">
                         <span><i class="bi bi-journal-text me-2"></i>Historial Detallado</span>
                         <i class="bi bi-arrow-right"></i>
                     </a>
                     <a href="../calificaciones/generar_boleta_pdf.php?id=<?php echo $id_alumno; ?>" target="_blank"
-                        class="btn btn-outline-secondary rounded-4 shadow-sm d-flex align-items-center justify-content-between">
+                        class="btn btn-outline-secondary rounded-4 shadow-sm d-flex align-items-center justify-content-between py-2">
                         <span><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Descargar Boleta (PDF)</span>
                         <i class="bi bi-download"></i>
                     </a>
