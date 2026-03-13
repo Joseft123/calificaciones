@@ -308,12 +308,12 @@ $redirect_url = "auth/login.php";
             document.querySelector('.loading-container').classList.add('fade-out');
             document.querySelector('.glow').classList.add('fade-out');
             canvas.classList.add('fade-out');
-        }, 1800); 
+        }, 2200); // Dar suficiente tiempo para ver el 100% y el "¡Listo!" (la barra tarda 2000ms en llenarse)
 
-        // Redirigir según el temporizador configurado
+        // Redirigir asegurando que la animación de fade-out (de 0.5s) termine suavemente
         setTimeout(() => {
             window.location.href = "<?php echo $redirect_url; ?>";
-        }, 2200);
+        }, 2800); 
 
     </script>
 </body>

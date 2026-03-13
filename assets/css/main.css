@@ -62,5 +62,5 @@ body.fade-out {
 
 [data-bs-theme="light"] body { background-color: #f8f9fa; }
 [data-bs-theme="light"] .contenedor-principal { background-color: white; }
-[data-bs-theme="dark"] body { background-color: #121212; }
-[data-bs-theme="dark"] .contenedor-principal { background-color: #1e1e1e; color: #fff; }
+[data-bs-theme="dark"] body { background-color: #0f172a; }
+[data-bs-theme="dark"] .contenedor-principal { background-color: #1e293b; color: #f8fafc; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }

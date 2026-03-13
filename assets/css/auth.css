@@ -46,7 +46,7 @@ body.auth-alumno {
 }
 
 [data-bs-theme="dark"] body {
-    background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+    background: #0f172a;
 }
 
 .login-container {
@@ -84,8 +84,8 @@ body.auth-alumno {
 }
 
 [data-bs-theme="dark"] .login-container {
-    background-color: rgba(30, 30, 30, 0.95);
-    color: #fff;
+    background-color: rgba(30, 41, 59, 0.95);
+    color: #f8fafc;
     border-color: rgba(255, 255, 255, 0.1);
 }
 

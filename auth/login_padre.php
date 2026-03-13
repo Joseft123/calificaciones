@@ -29,7 +29,7 @@
 
         /* Si el modo oscuro global está activo, ajustamos el fondo */
         [data-bs-theme="dark"] body {
-            background: linear-gradient(135deg, #0f5132 0%, #051b11 100%);
+            background: #0f172a;
         }
 
         .login-card {
@@ -41,7 +41,7 @@
         }
 
         [data-bs-theme="dark"] .login-card {
-            background: rgba(33, 37, 41, 0.95);
+            background: rgba(30, 41, 59, 0.95);
         }
 
         .btn-login {
