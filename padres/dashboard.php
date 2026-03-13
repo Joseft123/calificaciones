@@ -118,11 +118,11 @@ $res_avisos = $conexion->query($sql_avisos);
                             <?php endif; ?>
                             Hola, <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
-                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
-                        <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
+                        <a class="btn btn-outline-light btn-sm me-2 rounded-circle premium-icon-btn" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear"></i></a>
+                        <button class="btn btn-outline-light btn-sm me-2 rounded-circle premium-icon-btn" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
-                        <a class="btn btn-danger btn-sm rounded-pill px-3" href="../auth/cerrar_sesion_padre.php"><i
+                        <a class="btn btn-danger btn-sm rounded-pill px-3 d-flex justify-content-center align-items-center" href="../auth/cerrar_sesion_padre.php"><i
                                 class="bi bi-box-arrow-right me-1"></i>Salir</a>
                     </li>
                 </ul>

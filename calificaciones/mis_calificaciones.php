@@ -62,13 +62,13 @@ $res_asistencias = $conexion->query($sql_asistencias);
                     
                     <div class="d-flex align-items-center">
                         <span class="me-3 fw-bold text-success d-none d-md-inline">👤 <?php echo htmlspecialchars($_SESSION['nombre_alumno']); ?></span>
-                        <a href="../auth/mi_perfil.php" class="btn btn-outline-success btn-sm rounded-circle me-2 shadow-sm" title="Mi Perfil">
+                        <a href="../auth/mi_perfil.php" class="btn btn-outline-success btn-sm rounded-circle me-2 shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" title="Mi Perfil">
                             <i class="bi bi-person-gear"></i>
                         </a>
-                        <button class="theme-toggle-btn btn btn-outline-secondary btn-sm rounded-circle shadow-sm me-2" id="btnThemeToggle" title="Cambiar Tema" style="width: 32px; height: 32px; padding: 0;">
+                        <button class="theme-toggle-btn btn btn-outline-secondary btn-sm rounded-circle shadow-sm me-2 premium-icon-btn d-flex justify-content-center align-items-center" id="btnThemeToggle" title="Cambiar Tema">
                             <span id="themeIcon">🌙</span>
                         </button>
-                        <a href="../auth/cerrar_sesion_alumno.php" class="btn btn-sm btn-danger rounded-pill px-3 shadow-sm"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+                        <a href="../auth/cerrar_sesion_alumno.php" class="btn btn-sm btn-danger rounded-pill px-3 shadow-sm d-flex justify-content-center align-items-center"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
                     </div>
                 </div>
             </div>

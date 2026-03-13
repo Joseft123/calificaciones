@@ -107,26 +107,46 @@ if (session_status() == PHP_SESSION_NONE) {
         <ul class="navbar-nav ms-auto align-items-center">
 
           <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'Director'): ?>
-            <li class="nav-item"><a class="nav-link" href="../calificaciones/dashboard.php"><i
-                  class="bi bi-speedometer2 me-1"></i> Panel</a></li>
-            <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php"><i
-                  class="bi bi-pencil-square me-1"></i> Capturar Notas</a></li>
-            <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i
-                  class="bi bi-clock-history me-1"></i> Historial</a></li>
-            <li class="nav-item"><a class="nav-link" href="../alumnos/alumnos.php"><i class="bi bi-people-fill me-1"></i>
-                Alumnos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../materias/materias.php"><i class="bi bi-book-half me-1"></i>
-                Materias</a></li>
-            <li class="nav-item"><a class="nav-link text-primary fw-bold" href="../ciclos/index.php"><i
-                  class="bi bi-calendar-range me-1"></i> Ciclos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../docentes/docentes.php"><i
-                  class="bi bi-person-video3 me-1"></i> Docentes</a></li>
-            <li class="nav-item"><a class="nav-link text-warning fw-bold" href="../usuarios/usuarios.php"><i
-                  class="bi bi-person-badge-fill me-1"></i> Usuarios</a></li>
-            <li class="nav-item"><a class="nav-link text-success fw-bold" href="../padres_admin/index.php"><i
-                  class="bi bi-people-fill me-1"></i> Padres</a></li>
-            <li class="nav-item"><a class="nav-link text-info fw-bold" href="../comunicados/index.php"><i
-                  class="bi bi-megaphone-fill me-1"></i> Avisos</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../calificaciones/dashboard.php">
+                <span class="bg-primary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-speedometer2 small"></i>
+                </span> Panel</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../calificaciones/calificaciones.php">
+                <span class="bg-success text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-pencil-square small"></i>
+                </span> Notas</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../calificaciones/ver_calificaciones.php">
+                <span class="bg-info text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-clock-history small"></i>
+                </span> Historial</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../alumnos/alumnos.php">
+                <span class="bg-warning text-dark rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-people-fill small"></i>
+                </span> Alumnos</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../materias/materias.php">
+                <span class="bg-danger text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-book-half small"></i>
+                </span> Materias</a></li>
+            <li class="nav-item"><a class="nav-link text-primary fw-bold d-flex align-items-center" href="../ciclos/index.php">
+                <span class="bg-primary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-calendar-range small"></i>
+                </span> Ciclos</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/docentes.php">
+                <span class="bg-secondary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-person-video3 small"></i>
+                </span> Docentes</a></li>
+            <li class="nav-item"><a class="nav-link text-warning fw-bold d-flex align-items-center" href="../usuarios/usuarios.php">
+                <span class="bg-warning text-dark rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-person-badge-fill small"></i>
+                </span> Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link text-success fw-bold d-flex align-items-center" href="../padres_admin/index.php">
+                <span class="bg-success text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-people-fill small"></i>
+                </span> Padres</a></li>
+            <li class="nav-item"><a class="nav-link text-info fw-bold d-flex align-items-center" href="../comunicados/index.php">
+                <span class="bg-info text-dark rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-megaphone-fill small"></i>
+                </span> Avisos</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
               <span class="text-light me-3 d-flex align-items-center gap-2">
@@ -148,26 +168,42 @@ if (session_status() == PHP_SESSION_NONE) {
 
             <?php
           elseif (isset($_SESSION['id_docente'])): ?>
-            <li class="nav-item"><a class="nav-link" href="../docentes/dashboard.php"><i
-                  class="bi bi-speedometer2 me-1"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="../calificaciones/calificaciones.php"><i
-                  class="bi bi-pencil-square me-1"></i> Capturar Notas</a></li>
-            <li class="nav-item"><a class="nav-link" href="../calificaciones/ver_calificaciones.php"><i
-                  class="bi bi-clock-history me-1"></i> Historial</a></li>
-            <li class="nav-item"><a class="nav-link" href="../docentes/mis_alumnos.php"><i
-                  class="bi bi-person-lines-fill me-1"></i> Mis Alumnos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../docentes/mi_calendario.php"><i
-                  class="bi bi-calendar-week me-1"></i> Calendario</a></li>
-            <li class="nav-item"><a class="nav-link text-primary fw-bold" href="../docentes/mensajes.php"><i
-                  class="bi bi-envelope-fill me-1"></i> Mensajes
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/dashboard.php">
+                <span class="bg-primary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-speedometer2 small"></i>
+                </span> Inicio</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../calificaciones/calificaciones.php">
+                <span class="bg-success text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-pencil-square small"></i>
+                </span> Capturar Notas</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../calificaciones/ver_calificaciones.php">
+                <span class="bg-info text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-clock-history small"></i>
+                </span> Historial</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/mis_alumnos.php">
+                <span class="bg-warning text-dark rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-person-lines-fill small"></i>
+                </span> Mis Alumnos</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/mi_calendario.php">
+                <span class="bg-danger text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-calendar-week small"></i>
+                </span> Calendario</a></li>
+            <li class="nav-item"><a class="nav-link text-primary fw-bold d-flex align-items-center" href="../docentes/mensajes.php">
+                <span class="bg-primary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-envelope-fill small"></i>
+                </span> Mensajes
                 <?php if (isset($unread_mensajes_docente) && $unread_mensajes_docente > 0): ?>
                   <span class="badge bg-danger rounded-pill ms-1 shadow-sm"><?php echo $unread_mensajes_docente; ?></span>
                 <?php endif; ?>
               </a></li>
-            <li class="nav-item"><a class="nav-link" href="../docentes/pasar_lista.php"><i
-                  class="bi bi-clipboard-check me-1"></i> Pasar Lista</a></li>
-            <li class="nav-item"><a class="nav-link" href="../docentes/reporte_asistencia.php"><i
-                  class="bi bi-file-earmark-bar-graph me-1"></i> Reporte Asist.</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/pasar_lista.php">
+                <span class="bg-secondary text-white rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-clipboard-check small"></i>
+                </span> Pasar Lista</a></li>
+            <li class="nav-item"><a class="nav-link d-flex align-items-center" href="../docentes/reporte_asistencia.php">
+                <span class="bg-info text-dark rounded-circle p-1 d-inline-flex justify-content-center align-items-center me-2" style="width: 28px; height: 28px;">
+                    <i class="bi bi-file-earmark-bar-graph small"></i>
+                </span> Reporte Asist.</a></li>
 
             <li class="nav-item ms-lg-3 d-flex align-items-center">
               <span class="text-light me-3 d-flex align-items-center gap-2">

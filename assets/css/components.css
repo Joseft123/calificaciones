@@ -166,3 +166,23 @@
     color: #fff;
     border-color: #8db5e3;
 }
+
+/* Premium Icon Buttons (Navbars) */
+.premium-icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center justify-content-center;
+    transition: all 0.3s ease;
+}
+
+.premium-icon-btn i {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.premium-icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}

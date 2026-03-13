@@ -54,11 +54,11 @@ $res_materias = $conexion->query($sql_materias);
             <div class="container-fluid px-2">
                 <div class="d-flex align-items-center w-100 justify-content-between">
                     <div class="d-flex align-items-center">
-                        <a href="dashboard.php" class="btn btn-outline-secondary btn-sm rounded-circle me-3 shadow-sm" title="Volver al Inicio">
+                        <a href="dashboard.php" class="btn btn-outline-secondary btn-sm rounded-circle me-3 shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" title="Volver al Inicio">
                             <i class="bi bi-arrow-left"></i>
                         </a>
-                        <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3"
-                             style="width: 45px; height: 45px; font-size: 1.5rem;">
+                        <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm premium-icon-btn"
+                             style="font-size: 1.2rem;">
                             📅
                         </div>
                         <div>
