@@ -5,12 +5,10 @@ session_start();
 if (isset($_SESSION['id_usuario'])) {
     header("Location: calificaciones/dashboard.php");
     exit();
-}
-elseif (isset($_SESSION['id_docente'])) {
+} elseif (isset($_SESSION['id_docente'])) {
     header("Location: docentes/dashboard.php");
     exit();
-}
-elseif (isset($_SESSION['id_alumno'])) {
+} elseif (isset($_SESSION['id_alumno'])) {
     header("Location: calificaciones/mis_calificaciones.php");
     exit();
 }
@@ -20,6 +18,7 @@ $redirect_url = "auth/login.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +29,8 @@ $redirect_url = "auth/login.php";
         body {
             margin: 0;
             padding: 0;
-            background: #0f172a; /* Fondo dark moderno (Slate 900) */
+            background: #0f172a;
+            /* Fondo dark moderno (Slate 900) */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,7 +39,8 @@ $redirect_url = "auth/login.php";
             font-family: 'Inter', 'Segoe UI', sans-serif;
             overflow: hidden;
             flex-direction: column;
-            position: relative; /* Para que las coordenadas absolutas se basen en el body */
+            position: relative;
+            /* Para que las coordenadas absolutas se basen en el body */
         }
 
         /* Canvas de partículas de fondo */
@@ -86,16 +87,38 @@ $redirect_url = "auth/login.php";
             backdrop-filter: blur(4px);
         }
 
-        .cube__face--front  { transform: rotateY(  0deg) translateZ(50px); }
-        .cube__face--right  { transform: rotateY( 90deg) translateZ(50px); }
-        .cube__face--back   { transform: rotateY(180deg) translateZ(50px); }
-        .cube__face--left   { transform: rotateY(-90deg) translateZ(50px); }
-        .cube__face--top    { transform: rotateX( 90deg) translateZ(50px); }
-        .cube__face--bottom { transform: rotateX(-90deg) translateZ(50px); }
+        .cube__face--front {
+            transform: rotateY(0deg) translateZ(50px);
+        }
+
+        .cube__face--right {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        .cube__face--back {
+            transform: rotateY(180deg) translateZ(50px);
+        }
+
+        .cube__face--left {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        .cube__face--top {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        .cube__face--bottom {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
 
         @keyframes rotateCube {
-            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
         }
 
         /* Contenedor de Textos y Barra */
@@ -114,7 +137,7 @@ $redirect_url = "auth/login.php";
             text-transform: uppercase;
             font-weight: 600;
             color: #e2e8f0;
-            text-shadow: 0 0 10px rgba(56,189,248,0.5);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
             margin-bottom: 12px;
             min-height: 20px;
             transition: opacity 0.2s ease-in-out;
@@ -127,7 +150,7 @@ $redirect_url = "auth/login.php";
             background: rgba(15, 23, 42, 0.8);
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5) inset, 0 0 5px rgba(56,189,248,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset, 0 0 5px rgba(56, 189, 248, 0.1);
             border: 1px solid rgba(56, 189, 248, 0.2);
             position: relative;
         }
@@ -137,7 +160,7 @@ $redirect_url = "auth/login.php";
             width: 0%;
             background: linear-gradient(90deg, #0284c7, #38bdf8);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(56,189,248,0.8);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
             /* Transición suave para que no brinque bruscamente */
             transition: width 0.1s linear;
         }
@@ -155,7 +178,7 @@ $redirect_url = "auth/login.php";
             position: absolute;
             width: 350px;
             height: 350px;
-            background: radial-gradient(circle, rgba(14,165,233,0.3) 0%, rgba(15,23,42,0) 70%);
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, rgba(15, 23, 42, 0) 70%);
             z-index: 1;
             filter: blur(40px);
             top: 50%;
@@ -169,12 +192,13 @@ $redirect_url = "auth/login.php";
         }
     </style>
 </head>
+
 <body>
     <!-- Canvas de partículas al fondo -->
     <canvas id="particles-canvas"></canvas>
-    
+
     <div class="glow"></div>
-    
+
     <div class="scene">
         <div class="cube">
             <div class="cube__face cube__face--front">🏫</div>
@@ -204,10 +228,10 @@ $redirect_url = "auth/login.php";
             "Un momento por favor...",
             "Iniciando..."
         ];
-        
+
         const dynamicText = document.getElementById('dynamic-text');
         let phraseIndex = 0;
-        
+
         // Cambiar el texto cada 400ms aproximadamente
         const textInterval = setInterval(() => {
             dynamicText.style.opacity = 0;
@@ -222,9 +246,9 @@ $redirect_url = "auth/login.php";
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         let progress = 0;
-        
+
         // La animación entera dura unos 2200ms
-        const totalDuration = 2000; 
+        const totalDuration = 2000;
         const tickRate = 20; // ms
         const increment = 100 / (totalDuration / tickRate);
 
@@ -246,7 +270,7 @@ $redirect_url = "auth/login.php";
         // --- 3. Efecto de Partículas de Fondo ---
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
-        
+
         // Igualar tamaño al de la ventana
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -256,7 +280,7 @@ $redirect_url = "auth/login.php";
         resizeCanvas(); // Llenar al principio
 
         const particlesArray = [];
-        const numberOfParticles = 50; // Cantidad de "estrellas" o puntos
+        const numberOfParticles = 1000; // Cantidad de "estrellas" o puntos
 
         class Particle {
             constructor() {
@@ -270,7 +294,7 @@ $redirect_url = "auth/login.php";
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                
+
                 // Rebotar en los bordes
                 if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
@@ -313,8 +337,9 @@ $redirect_url = "auth/login.php";
         // Redirigir asegurando que la animación de fade-out (de 0.5s) termine suavemente
         setTimeout(() => {
             window.location.href = "<?php echo $redirect_url; ?>";
-        }, 2800); 
+        }, 2800);
 
     </script>
 </body>
+
 </html>
