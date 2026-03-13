@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    VALUES ($id_padre, 'Padre', $id_destinatario, 'Docente', $id_alumno, '$asunto', '$mensaje', '$fecha', 0)";
 
     if ($conexion->query($sql_insert)) {
-        header("Location: mensajes_enviados.php?msg=enviado");
+        header("Location: mensajes.php?msg=enviado");
         exit();
     } else {
         $mensaje_alerta = 'Error al enviar el mensaje: ' . $conexion->error;
@@ -100,11 +100,14 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3 d-flex align-items-center">
-                        <span class="text-light me-3 fw-medium">👋 Hola,
-                            <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
+                        <span class="text-light me-3 fw-medium d-flex align-items-center gap-2">
+                            <?php if (!empty($_SESSION['foto_perfil'])): ?>
+                                <img src="../assets/uploads/perfiles/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" alt="Perfil" class="rounded-circle border border-2 border-white shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                            <?php else: ?> 👋 <?php endif; ?>
+                            Hola, <?php echo htmlspecialchars($_SESSION['nombre_padre']); ?>
                         </span>
-                        <a class="btn btn-outline-light btn-sm me-2" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
-                        <button class="btn btn-outline-light btn-sm me-2" id="btnThemeToggle" title="Modo Visual">
+                        <a class="btn btn-outline-light btn-sm me-2 rounded-circle shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" href="../auth/mi_perfil.php" title="Configurar Mi Perfil"><i class="bi bi-person-gear mb-1"></i></a>
+                        <button class="btn btn-outline-light btn-sm me-2 rounded-circle shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" id="btnThemeToggle" title="Modo Visual">
                             <span id="themeIcon">🌙</span>
                         </button>
                     </li>
