@@ -84,7 +84,8 @@ $redirect_url = "auth/login.php";
             justify-content: center;
             font-size: 32px;
             color: #38bdf8;
-            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
         }
 
         .cube__face--front {

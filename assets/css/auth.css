@@ -56,7 +56,8 @@ body.auth-alumno {
     width: 100%;
     max-width: 450px;
     position: relative;
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
