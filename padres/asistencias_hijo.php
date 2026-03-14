@@ -58,11 +58,11 @@ $res_materias = $conexion->query($sql_materias);
     <div class="container py-4">
 
         <!-- Navbar Superior Estilo Floating -->
-        <nav class="navbar navbar-expand-lg navbar-dark floating-nav mx-auto mb-4 bg-white border shadow-sm animate-fade-in">
+        <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto mb-4 border shadow-sm animate-fade-in">
             <div class="container-fluid px-2">
                 <div class="d-flex align-items-center w-100 justify-content-between">
                     <div class="d-flex align-items-center">
-                        <a href="dashboard.php" class="btn btn-outline-secondary btn-sm rounded-circle me-3 shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" title="Volver al Inicio">
+                        <a href="dashboard.php" class="btn btn-outline-light btn-sm rounded-circle me-3 shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" title="Volver al Inicio">
                             <i class="bi bi-arrow-left"></i>
                         </a>
                         <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm premium-icon-btn"
@@ -70,8 +70,8 @@ $res_materias = $conexion->query($sql_materias);
                              <?php echo strtoupper(substr($alumno['nombre'], 0, 1)); ?>
                         </div>
                         <div>
-                            <h5 class="m-0 fw-bold text-primary">Asistencias - <?php echo htmlspecialchars($alumno['nombre']); ?></h5>
-                            <span class="text-secondary small fw-medium"><?php echo htmlspecialchars($alumno['nivel'] . ' | ' . $alumno['grado'] . 'º ' . $alumno['grupo']); ?></span>
+                            <h5 class="m-0 fw-bold text-white">Asistencias - <?php echo htmlspecialchars($alumno['nombre']); ?></h5>
+                            <span class="text-white opacity-75 small fw-medium"><?php echo htmlspecialchars($alumno['nivel'] . ' | ' . $alumno['grado'] . 'º ' . $alumno['grupo']); ?></span>
                         </div>
                     </div>
                 </div>
@@ -96,11 +96,11 @@ $res_materias = $conexion->query($sql_materias);
                     if ($porcentaje < 60) $color_class = 'danger';
                 ?>
                     <div class="col-md-6 col-lg-4 animate-fade-in" style="animation-delay: <?php echo $delay; ?>s;">
-                        <div class="card h-100 border-0 shadow-sm interactive-card border-start border-4 border-<?php echo $color_class; ?> rounded-4 p-3 relative overflow-hidden">
+                        <div class="card h-100 border-0 shadow-sm interactive-card border-start border-4 border-<?php echo $color_class; ?> rounded-4 p-3 position-relative overflow-hidden">
                             
                             <!-- Icono de fondo marca de agua -->
                             <i class="bi bi-journal-check position-absolute text-<?php echo $color_class; ?> opacity-10" 
-                               style="font-size: 8rem; right: -20px; bottom: -20px; z-index: 0;"></i>
+                               style="font-size: 6rem; right: -15px; bottom: -15px; z-index: 0;"></i>
                             
                             <div class="card-body position-relative z-1">
                                 <div class="d-flex justify-content-between align-items-start mb-3">

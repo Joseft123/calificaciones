@@ -14,7 +14,7 @@ $id_ciclo_actual = getCicloActivo($conexion);
 $mensaje_alerta = '';
 $tipo_alerta = '';
 
-// Obtener cantidad de mensajes no leÃ­dos
+// Obtener cantidad de mensajes no leídos
 $unread_mensajes_padre = 0;
 $stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Padre' AND leido = 0");
 $stmt_unread->bind_param("i", $id_padre);
@@ -24,7 +24,7 @@ if ($res_unread) {
     $unread_mensajes_padre = $res_unread->fetch_assoc()['total'];
 }
 
-// Procesar envÃ­o de formulario
+// Procesar envío de formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_destinatario = intval($_POST['destinatario']);
     $id_alumno = !empty($_POST['alumno']) ? intval($_POST['alumno']) : "NULL";
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mensaje = $conexion->real_escape_string(trim($_POST['mensaje']));
     $fecha = date('Y-m-d H:i:s');
 
-    // El Padre le envÃ­a al Docente
+    // El Padre le envía al Docente
     $sql_insert = "INSERT INTO mensajes (id_remitente, tipo_remitente, id_destinatario, tipo_destinatario, id_alumno, asunto, mensaje, fecha_envio, leido) 
                    VALUES ($id_padre, 'Padre', $id_destinatario, 'Docente', $id_alumno, '$asunto', '$mensaje', '$fecha', 0)";
 
@@ -84,7 +84,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
 
     <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto">
         <div class="container-fluid px-2">
-            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -151,7 +151,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                                         <?php foreach ($destinatarios as $dest): ?>
                                             <option value="<?php echo $dest['id_docente']; ?>"
                                                 data-alumno="<?php echo $dest['id_alumno']; ?>">
-                                                <?php echo htmlspecialchars($dest['docente_nombre'] . ' ' . $dest['docente_apellidos']) . ' â€” ' . htmlspecialchars($dest['nombre_materia']) . ' (Alumno/a: ' . htmlspecialchars($dest['alumno_nombre']) . ')'; ?>
+                                                <?php echo htmlspecialchars($dest['docente_nombre'] . ' ' . $dest['docente_apellidos']) . ' — ' . htmlspecialchars($dest['nombre_materia']) . ' (Alumno/a: ' . htmlspecialchars($dest['alumno_nombre']) . ')'; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     <?php else: ?>
@@ -163,7 +163,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                                     comunicarte.</div>
                             </div>
 
-                            <!-- Campo oculto para pasar el ID del alumno automÃ¡ticamente -->
+                            <!-- Campo oculto para pasar el ID del alumno automáticamente -->
                             <input type="hidden" name="alumno" id="alumno_oculto" value="">
 
                             <div class="mb-4">
@@ -172,7 +172,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                                         class="text-danger">*</span></label>
                                 <input type="text" name="asunto"
                                     class="form-control border-start-0 border-top-0 border-end-0 rounded-0 shadow-none px-0"
-                                    style="border-width: 2px;" placeholder="Â¿De quÃ© trata este mensaje corto?" required
+                                    style="border-width: 2px;" placeholder="¿De qué trata este mensaje corto?" required
                                     maxlength="200">
                                 <div class="invalid-feedback">Por favor, escribe un asunto.</div>
                             </div>
@@ -183,9 +183,9 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                                         class="text-danger">*</span></label>
                                 <textarea name="mensaje"
                                     class="form-control rounded-4 shadow-sm p-4 bg-body-tertiary border-0" rows="6"
-                                    placeholder="Escribe tu mensaje o inquietud para el maestro. SerÃ¡ recibido en su bandeja interna."
+                                    placeholder="Escribe tu mensaje o inquietud para el maestro. Será recibido en su bandeja interna."
                                     required></textarea>
-                                <div class="invalid-feedback">El cuerpo del mensaje no puede estar vacÃ­o.</div>
+                                <div class="invalid-feedback">El cuerpo del mensaje no puede estar vacío.</div>
                             </div>
 
                             <div class="d-flex justify-content-end mt-5 pt-3 border-top">
@@ -219,7 +219,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
             document.getElementById('alumno_oculto').value = id_alumno_asociado;
         }
 
-        // ValidaciÃ³n Bootstrap
+        // Validación Bootstrap
         (() => {
             'use strict'
             const forms = document.querySelectorAll('.needs-validation')

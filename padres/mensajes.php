@@ -308,11 +308,8 @@ $resultado_outbox = $stmt_out->get_result();
 </body>
 </html>
 <?php
-$stmt_inb->close();
-$stmt_out->close();
-$conexion->close();
-?>>
-<?php
-$stmt->close();
-$conexion->close();
+if(isset($stmt_unread)) $stmt_unread->close();
+if(isset($stmt_inb)) $stmt_inb->close();
+if(isset($stmt_out)) $stmt_out->close();
+if(isset($conexion)) $conexion->close();
 ?>

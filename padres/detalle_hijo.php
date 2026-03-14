@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Validar inicio de sesiÃ³n del Padre
+// Validar inicio de sesión del Padre
 if (!isset($_SESSION['id_padre'])) {
     header("Location: ../auth/login_padre.php");
     exit();
@@ -13,7 +13,7 @@ include '../includes/funciones_ciclo.php';
 $id_padre = intval($_SESSION['id_padre']);
 $id_ciclo_actual = getCicloActivo($conexion);
 
-// Obtener cantidad de mensajes no leÃ­dos
+// Obtener cantidad de mensajes no leídos
 $unread_mensajes_padre = 0;
 $stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Padre' AND leido = 0");
 $stmt_unread->bind_param("i", $id_padre);
@@ -47,7 +47,7 @@ $res_materias = $conexion->query($sql_materias);
 $materias = [];
 if ($res_materias) {
     while ($mat = $res_materias->fetch_assoc()) {
-        // Obtener la calificaciÃ³n de esta materia (bloque/periodo 1 por ahora o promedio)
+        // Obtener la calificación de esta materia (bloque/periodo 1 por ahora o promedio)
         $sql_calif = "SELECT calificacion FROM calificaciones WHERE id_alumno = $id_hijo AND id_materia = {$mat['id_materia']} ORDER BY periodo DESC LIMIT 1";
         $res_calif = $conexion->query($sql_calif);
         $mat['calificacion'] = ($res_calif && $res_calif->num_rows > 0) ? round($res_calif->fetch_assoc()['calificacion'], 2) : 'S/C';
@@ -119,14 +119,14 @@ $res_asistencias = $conexion->query($sql_asistencias);
                             <span class="badge bg-secondary rounded-pill px-3 fw-normal fs-6 text-white"><i
                                     class="bi bi-building me-1"></i><?php echo $hijo['nivel']; ?></span>
                             <span class="badge bg-info text-dark rounded-pill px-3 fw-normal fs-6"><i
-                                    class="bi bi-people-fill me-1"></i><?php echo $hijo['grado'] . 'Âº ' . $hijo['grupo']; ?></span>
+                                    class="bi bi-people-fill me-1"></i><?php echo $hijo['grado'] . 'º ' . $hijo['grupo']; ?></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PestaÃ±as de NavegaciÃ³n -->
+        <!-- Pestañas de Navegación -->
         <ul class="nav nav-pills mb-4 animate-fade-in" id="pills-tab" role="tablist" style="animation-delay: 0.2s;">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active px-4 rounded-pill" id="pills-calif-tab" data-bs-toggle="pill"
@@ -142,7 +142,7 @@ $res_asistencias = $conexion->query($sql_asistencias);
             </li>
         </ul>
 
-        <!-- Contenido de PestaÃ±as -->
+        <!-- Contenido de Pestañas -->
         <div class="tab-content animate-fade-in" id="pills-tabContent" style="animation-delay: 0.3s;">
 
             <!-- Tab Calificaciones -->
@@ -169,7 +169,7 @@ $res_asistencias = $conexion->query($sql_asistencias);
                                             </div>
                                             <div class="text-muted"
                                                 style="font-size: 0.70rem; text-transform: uppercase; letter-spacing: 1px;">
-                                                EvaluaciÃ³n</div>
+                                                Evaluación</div>
                                         </div>
                                     </div>
                                 </div>

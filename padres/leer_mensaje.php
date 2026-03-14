@@ -16,14 +16,14 @@ if ($id_mensaje === 0) {
     exit();
 }
 
-// Obtener cantidad de mensajes no leÃ­dos
+// Obtener cantidad de mensajes no leídos
 $unread_mensajes_padre = 0;
 $stmt_unread = $conexion->prepare("SELECT COUNT(*) as total FROM mensajes WHERE id_destinatario = ? AND tipo_destinatario = 'Padre' AND leido = 0");
 $stmt_unread->bind_param("i", $id_padre);
 $stmt_unread->execute();
 $res_unread = $stmt_unread->get_result();
 if ($res_unread) {
-    // Si estamos abriendo un mensaje y es para nosotros y no estÃ¡ leÃ­do, descontamos 1 (porque se marcarÃ¡ como leÃ­do ahora)
+    // Si estamos abriendo un mensaje y es para nosotros y no está leído, descontamos 1 (porque se marcará como leído ahora)
     $unread_mensajes_padre = $res_unread->fetch_assoc()['total'];
 }
 
@@ -78,13 +78,13 @@ if ($resultado->num_rows === 0) {
 $msg = $resultado->fetch_assoc();
 $es_inbox = ($msg['id_destinatario'] == $id_padre && $msg['tipo_destinatario'] == 'Padre');
 
-// Marcar como leÃ­do si es un mensaje de entrada
+// Marcar como leído si es un mensaje de entrada
 if ($es_inbox && $msg['leido'] == 0) {
     $stmt_upd = $conexion->prepare("UPDATE mensajes SET leido = 1 WHERE id_mensaje = ?");
     $stmt_upd->bind_param("i", $id_mensaje);
     $stmt_upd->execute();
     $stmt_upd->close();
-    // Actualizar el contador de no leÃ­dos ya que este se acaba de mostrar
+    // Actualizar el contador de no leídos ya que este se acaba de mostrar
     if ($unread_mensajes_padre > 0)
         $unread_mensajes_padre--;
 }
@@ -180,7 +180,7 @@ if ($es_inbox && $msg['leido'] == 0) {
 
     <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto mb-4 bg-success shadow-sm">
         <div class="container-fluid px-2">
-            <a class="navbar-brand fw-bold" href="dashboard.php">ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ Portal Familiar</a>
+            <a class="navbar-brand fw-bold" href="dashboard.php">👨‍👩‍👧‍👦 Portal Familiar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPadre">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -331,7 +331,7 @@ if ($es_inbox && $msg['leido'] == 0) {
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        // ValidaciÃ³n Bootstrap
+        // Validación Bootstrap
         (() => {
             'use strict'
             const forms = document.querySelectorAll('.needs-validation')
