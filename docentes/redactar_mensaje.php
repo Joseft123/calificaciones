@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    VALUES ($id_docente, 'Docente', $id_destinatario, 'Padre', $id_alumno, '$asunto', '$mensaje', '$fecha', 0)";
 
     if ($conexion->query($sql_insert)) {
-        header("Location: mensajes_enviados.php?msg=enviado");
+        header("Location: mensajes.php#outbox-pane");
         exit();
     } else {
         $mensaje_alerta = 'Error al enviar el mensaje: ' . $conexion->error;
