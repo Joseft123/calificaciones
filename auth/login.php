@@ -77,6 +77,10 @@ $csrf_token = generar_token_csrf();
                 class="text-decoration-none text-info fw-medium d-inline-block mb-3 px-3 py-2 rounded-pill bg-info bg-opacity-10 transition-all hover-scale">
                 <i class="bi bi-person-workspace me-1"></i> Soy Docente
             </a>
+            <a href="login_padre.php"
+                class="text-decoration-none text-warning fw-medium d-inline-block mb-3 px-3 py-2 ms-2 rounded-pill bg-warning bg-opacity-10 transition-all hover-scale">
+                <i class="bi bi-people-fill me-1"></i> Portal Padres
+            </a>
             <br>
             <a href="login_alumno.php"
                 class="text-decoration-none text-success fw-medium d-inline-block px-3 py-2 rounded-pill bg-success bg-opacity-10">
