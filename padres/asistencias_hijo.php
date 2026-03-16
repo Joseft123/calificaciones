@@ -57,29 +57,51 @@ $res_materias = $conexion->query($sql_materias);
 
     <div class="container py-4">
 
-        <!-- Navbar Superior Estilo Floating -->
-        <nav class="navbar navbar-expand-lg navbar-dark floating-nav floating-nav-success mx-auto mb-4 border shadow-sm animate-fade-in">
-            <div class="container-fluid px-2">
-                <div class="d-flex align-items-center w-100 justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <a href="dashboard.php" class="btn btn-outline-light btn-sm rounded-circle me-3 shadow-sm premium-icon-btn d-flex justify-content-center align-items-center" title="Volver al Inicio">
-                            <i class="bi bi-arrow-left"></i>
-                        </a>
-                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm premium-icon-btn"
-                             style="font-size: 1.2rem;">
-                             <?php echo strtoupper(substr($alumno['nombre'], 0, 1)); ?>
+        <!-- Botón Volver (Estilizado) -->
+        <div class="mb-4 animate-fade-in">
+            <a href="dashboard.php" class="btn btn-link text-decoration-none text-secondary p-0">
+                <i class="bi bi-arrow-left me-2"></i>Volver al Resumen Familiar
+            </a>
+        </div>
+
+        <!-- Header Alumno (Premium Gradient Card) -->
+        <div class="card shadow border-0 rounded-4 overflow-hidden mb-5 animate-fade-in"
+            style="background: linear-gradient(135deg, #198754 0%, #157347 100%); color: white;">
+            <div class="card-body p-4 p-md-5 position-relative">
+                <div class="row align-items-center position-relative" style="z-index: 2;">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-white text-success rounded-circle d-flex justify-content-center align-items-center fs-2 fw-bold shadow-sm me-3"
+                                style="width: 65px; height: 65px;">
+                                <?php echo strtoupper(substr($alumno['nombre'], 0, 1)); ?>
+                            </div>
+                            <div>
+                                <h1 class="display-6 fw-bold mb-0"><?php echo htmlspecialchars($alumno['nombre']); ?></h1>
+                                <p class="fs-5 opacity-75 mb-0"><?php echo htmlspecialchars($alumno['apellidos']); ?></p>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="m-0 fw-bold text-white">Asistencias - <?php echo htmlspecialchars($alumno['nombre']); ?></h5>
-                            <span class="text-white opacity-75 small fw-medium"><?php echo htmlspecialchars($alumno['nivel'] . ' | ' . $alumno['grado'] . 'º ' . $alumno['grupo']); ?></span>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 fw-normal fs-6">
+                                <i class="bi bi-building me-1"></i><?php echo $alumno['nivel']; ?>
+                            </span>
+                            <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 fw-normal fs-6">
+                                <i class="bi bi-people-fill me-1"></i><?php echo $alumno['grado'] . 'º ' . $alumno['grupo']; ?>
+                            </span>
                         </div>
                     </div>
                 </div>
+                <!-- Icono de fondo decorativo -->
+                <i class="bi bi-calendar-check text-white opacity-10"
+                    style="font-size: 10rem; position: absolute; right: 20px; top: -30px; z-index: 1;"></i>
             </div>
-        </nav>
+        </div>
+
+        <h4 class="fw-bold mb-4 text-body animate-fade-in" style="animation-delay: 0.1s;">
+            <i class="bi bi-journal-check text-success me-2"></i>Asistencia por Materia
+        </h4>
 
         <?php if ($res_materias && $res_materias->num_rows > 0): ?>
-            <div class="row g-4">
+            <div class="row g-4 mb-5">
                 <?php 
                 $delay = 0.2;
                 while ($fila = $res_materias->fetch_assoc()): 
@@ -87,49 +109,51 @@ $res_materias = $conexion->query($sql_materias);
                     $presentes = $fila['presentes'];
                     $retardos = $fila['retardos'];
                     $faltas = $fila['faltas'];
-                    
-                    // Cálculo de porcentaje: (Presentes + Mitad de Retardos) / Total
                     $porcentaje = ($total > 0) ? (($presentes + ($retardos * 0.5)) / $total) * 100 : 0;
                     
-                    $color_class = 'primary';
-                    if ($porcentaje < 80) $color_class = 'warning';
-                    if ($porcentaje < 60) $color_class = 'danger';
+                    $color_class = 'success';
+                    if ($porcentaje < 85) $color_class = 'warning';
+                    if ($porcentaje < 75) $color_class = 'danger';
                 ?>
                     <div class="col-md-6 col-lg-4 animate-fade-in" style="animation-delay: <?php echo $delay; ?>s;">
-                        <div class="card h-100 border-0 shadow-sm interactive-card border-start border-4 border-<?php echo $color_class; ?> rounded-4 p-3 position-relative overflow-hidden">
-                            
-                            <!-- Icono de fondo marca de agua -->
-                            <i class="bi bi-journal-check position-absolute text-<?php echo $color_class; ?> opacity-10" 
-                               style="font-size: 6rem; right: -15px; bottom: -15px; z-index: 0;"></i>
-                            
-                            <div class="card-body position-relative z-1">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h5 class="card-title fw-bold text-truncate pe-2 m-0 text-body" title="<?php echo htmlspecialchars($fila['nombre_materia']); ?>">
+                        <div class="card h-100 border-0 shadow-sm interactive-card rounded-4 overflow-hidden">
+                            <div class="card-body p-4">
+                                <div class="mb-4">
+                                    <h5 class="fw-bold text-body mb-1 text-truncate" title="<?php echo htmlspecialchars($fila['nombre_materia']); ?>">
                                         <?php echo htmlspecialchars($fila['nombre_materia']); ?>
                                     </h5>
-                                    <span class="badge bg-<?php echo ($color_class == 'warning') ? 'warning text-dark' : $color_class; ?> fs-6 rounded-pill px-3 py-2 shadow-sm">
-                                        <?php echo number_format($porcentaje, 1); ?>%
-                                    </span>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-secondary small fw-medium">Asistencia General</span>
+                                        <span class="fw-bold text-<?php echo $color_class; ?>"><?php echo number_format($porcentaje, 1); ?>%</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px; background-color: rgba(0,0,0,0.05);">
+                                        <div class="progress-bar bg-<?php echo $color_class; ?> rounded-pill" 
+                                             role="progressbar" 
+                                             style="width: <?php echo $porcentaje; ?>%" 
+                                             aria-valuenow="<?php echo $porcentaje; ?>" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100"></div>
+                                    </div>
                                 </div>
                                 
-                                <div class="row text-center mt-4">
+                                <div class="row g-0 text-center bg-light rounded-4 p-3 font-monospace">
                                     <div class="col-4 border-end">
-                                        <div class="fs-4 fw-bold text-success"><?php echo $presentes; ?></div>
-                                        <div class="small text-muted"><i class="bi bi-check-lg"></i> Asist.</div>
+                                        <div class="small text-muted mb-1" style="font-size: 0.75rem;">PR</div>
+                                        <div class="fw-bold text-success fs-5"><?php echo $presentes; ?></div>
                                     </div>
                                     <div class="col-4 border-end">
-                                        <div class="fs-4 fw-bold text-warning text-dark"><?php echo $retardos; ?></div>
-                                        <div class="small text-muted"><i class="bi bi-clock-history"></i> Ret.</div>
+                                        <div class="small text-muted mb-1" style="font-size: 0.75rem;">RE</div>
+                                        <div class="fw-bold text-warning fs-5"><?php echo $retardos; ?></div>
                                     </div>
                                     <div class="col-4">
-                                        <div class="fs-4 fw-bold text-danger"><?php echo $faltas; ?></div>
-                                        <div class="small text-muted"><i class="bi bi-x-lg"></i> Faltas</div>
+                                        <div class="small text-muted mb-1" style="font-size: 0.75rem;">FA</div>
+                                        <div class="fw-bold text-danger fs-5"><?php echo $faltas; ?></div>
                                     </div>
                                 </div>
                                 
-                                <div class="mt-4 text-center">
-                                    <span class="text-secondary small fw-medium">
-                                        <i class="bi bi-calendar3 me-1"></i> Clases impartidas en la materia: <?php echo $total; ?>
+                                <div class="mt-3 text-center">
+                                    <span class="text-muted small">
+                                        <i class="bi bi-info-circle me-1"></i><?php echo $total; ?> clases registradas
                                     </span>
                                 </div>
                             </div>
@@ -141,28 +165,39 @@ $res_materias = $conexion->query($sql_materias);
                 ?>
             </div>
             
-            <div class="col-12 mt-5 animate-fade-in" style="animation-delay: 1s;">
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="card-body p-4 p-md-5 text-center" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-                         <h6 class="fw-bold mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i> Reglamento de Asistencia</h6>
-                         <p class="text-muted mb-0 mx-auto" style="max-width: 600px;">
-                            Le recordamos que el porcentaje de asistencia se calcula incluyendo los retardos. <strong>Dos retardos</strong> equivalen a una falta oficial. Mantener la asistencia del alumno por encima del 80% es requisito fundamental para la acreditación de la materia según el reglamento escolar.
+            <!-- Reglamento Box (Premium Alert) -->
+            <div class="col-12 animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background-color: rgba(25, 135, 84, 0.03); border-left: 4px solid #198754 !important;">
+                    <div class="card-body p-4 p-md-5">
+                         <div class="d-flex align-items-center mb-3">
+                             <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
+                                 <i class="bi bi-info-lg"></i>
+                             </div>
+                             <h6 class="fw-bold m-0 text-success">Reglamento de Asistencia Escolar</h6>
+                         </div>
+                         <p class="text-muted mb-0 lh-lg">
+                            Le recordamos que el porcentaje de asistencia se calcula incluyendo los retardos. <strong>Dos retardos</strong> equivalen a una falta oficial en el registro mensual. Mantener la asistencia del alumno por encima del <strong>80%</strong> es un requisito fundamental para la acreditación académica de cada materia según el reglamento vigente de la institución.
                          </p>
                     </div>
                 </div>
             </div>
             
         <?php else: ?>
-            <div class='text-center p-5 mx-auto animate-fade-in' style='animation-delay: 0.2s; max-width: 600px; background: var(--bs-tertiary-bg); border-radius: 12px; border: 2px dashed #ced4da;'>
-                <div style='font-size: 4rem; opacity: 0.5; margin-bottom: 1rem;'>📭</div>
-                <h4 class='text-secondary fw-bold mb-3'>Sin registro de asistencias</h4>
-                <p class='text-muted mb-0'>Aún no se ha registrado ninguna asistencia en las materias de este alumno durante el ciclo escolar vigente.</p>
+            <div class="card border-0 shadow-sm rounded-4 p-5 text-center animate-fade-in">
+                <div class="mb-4">
+                    <i class="bi bi-calendar-x text-muted opacity-25" style="font-size: 5rem;"></i>
+                </div>
+                <h4 class="text-secondary fw-bold mb-3">Sin registro de asistencias</h4>
+                <p class="text-muted mb-0 mx-auto" style="max-width: 500px;">
+                    Aún no se ha registrado ninguna asistencia en las materias de este alumno durante el ciclo escolar vigente. Por favor, consulte más tarde.
+                </p>
             </div>
         <?php endif; ?>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
 </body>
-
 </html>
+<?php $conexion->close(); ?>
