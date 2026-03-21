@@ -347,6 +347,31 @@ if ($es_inbox && $msg['leido'] == 0) {
         })()
     </script>
 
+    <!-- Intervalo de polling para tiempo real en chat -->
+    <script>
+        setInterval(() => {
+            fetch(window.location.href)
+                .then(res => res.text())
+                .then(html => {
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
+                    
+                    // Actualizar Burbuja y estados de lectura
+                    const currentChat = document.getElementById('chatWindow');
+                    const newChat = doc.getElementById('chatWindow');
+                    if(currentChat && newChat && currentChat.innerHTML !== newChat.innerHTML) {
+                        currentChat.innerHTML = newChat.innerHTML;
+                    }
+                    
+                    // Actualizar Badges en Navbar
+                    const navLink = document.querySelector('a[href="mensajes.php"]');
+                    const newNavLink = doc.querySelector('a[href="mensajes.php"]');
+                    if(navLink && newNavLink && navLink.innerHTML !== newNavLink.innerHTML) {
+                        navLink.innerHTML = newNavLink.innerHTML;
+                    }
+                })
+                .catch(err => console.error('Error polling chat:', err));
+        }, 5000);
+    </script>
 </body>
 
 </html>

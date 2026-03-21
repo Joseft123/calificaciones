@@ -304,6 +304,46 @@ $conexion->close();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/main.js"></script>
 
+    <!-- Intervalo de polling para tiempo real -->
+    <script>
+        setInterval(() => {
+            fetch(window.location.href)
+                .then(res => res.text())
+                .then(html => {
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
+                    
+                    // Actualizar Inbox
+                    const inboxSelector = '#inbox-pane tbody';
+                    const currentInbox = document.querySelector(inboxSelector);
+                    const newInbox = doc.querySelector(inboxSelector);
+                    if(currentInbox && newInbox && currentInbox.innerHTML !== newInbox.innerHTML) {
+                        currentInbox.innerHTML = newInbox.innerHTML;
+                    }
+                    
+                    // Actualizar Outbox
+                    const outboxSelector = '#outbox-pane tbody';
+                    const currentOutbox = document.querySelector(outboxSelector);
+                    const newOutbox = doc.querySelector(outboxSelector);
+                    if(currentOutbox && newOutbox && currentOutbox.innerHTML !== newOutbox.innerHTML) {
+                        currentOutbox.innerHTML = newOutbox.innerHTML;
+                    }
+                    
+                    // Actualizar Badges en Navbar y Tab
+                    const navLink = document.querySelector('a[href="mensajes.php"]');
+                    const newNavLink = doc.querySelector('a[href="mensajes.php"]');
+                    if(navLink && newNavLink && navLink.innerHTML !== newNavLink.innerHTML) {
+                        navLink.innerHTML = newNavLink.innerHTML;
+                    }
+                    
+                    const inboxTab = document.querySelector('#inbox-tab');
+                    const newInboxTab = doc.querySelector('#inbox-tab');
+                    if(inboxTab && newInboxTab && inboxTab.innerHTML !== newInboxTab.innerHTML) {
+                        inboxTab.innerHTML = newInboxTab.innerHTML;
+                    }
+                })
+                .catch(err => console.error('Error polling mensajes:', err));
+        }, 5000);
+    </script>
 </body>
 
 </html>
