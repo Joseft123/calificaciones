@@ -56,11 +56,14 @@ include '../includes/header.php';
 ?>
 
 <div class="container animate-fade-in" style="animation-delay: 0.1s;">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-envelope-fill text-primary me-2"></i>Centro de Mensajes</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4 gap-3">
+        <h3 class="fw-bold mb-0 text-body d-flex align-items-center">
+            <div class="bg-primary bg-gradient text-white rounded-circle d-inline-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 48px; height: 48px; font-size: 1.4rem;">
+                <i class="bi bi-chat-dots-fill"></i>
+            </div> Centro de Mensajes
+        </h3>
         <div>
-            <a href="redactar_mensaje.php" class="btn btn-primary shadow-sm rounded-pill px-4 hover-scale"><i
-                    class="bi bi-pencil-square me-2"></i>Redactar Mensaje</a>
+            <a href="redactar_mensaje.php" class="btn btn-primary shadow-sm rounded-pill px-4 hover-scale"><i class="bi bi-pencil-square me-2"></i>Redactar Mensaje</a>
         </div>
     </div>
 
@@ -72,20 +75,20 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 
-    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-        <div class="card-header bg-white pt-3 pb-0 border-bottom-0">
-            <ul class="nav nav-tabs nav-fill border-0" id="mensajesTab" role="tablist">
+    <div class="card shadow border-0 rounded-4 overflow-hidden bg-transparent">
+        <div class="card-header bg-body border-bottom-0 pt-4 px-4 pb-0 rounded-top-4 shadow-sm z-1 position-relative">
+            <ul class="nav nav-tabs nav-fill fw-bold" id="mensajesTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active rounded-top-3 fw-bold text-secondary" id="inbox-tab" data-bs-toggle="tab" data-bs-target="#inbox-pane" type="button" role="tab" aria-controls="inbox-pane" aria-selected="true">
-                        <i class="bi bi-inbox-fill me-2"></i>Bandeja de Entrada
+                    <button class="nav-link active rounded-top-3 fw-bold text-primary" id="inbox-tab" data-bs-toggle="tab" data-bs-target="#inbox-pane" type="button" role="tab" aria-controls="inbox-pane" aria-selected="true" style="border-bottom-width: 3px !important; border-bottom-color: var(--bs-primary) !important;">
+                        <i class="bi bi-inbox-fill me-2 fs-5 align-middle"></i> Bandeja de Entrada
                         <?php if ($unread_mensajes_docente > 0): ?>
-                            <span class="badge bg-danger rounded-pill ms-2"><?php echo $unread_mensajes_docente; ?></span>
+                            <span class="badge bg-danger rounded-pill ms-2 shadow-sm"><?php echo $unread_mensajes_docente; ?></span>
                         <?php endif; ?>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link rounded-top-3 fw-bold text-secondary" id="outbox-tab" data-bs-toggle="tab" data-bs-target="#outbox-pane" type="button" role="tab" aria-controls="outbox-pane" aria-selected="false">
-                        <i class="bi bi-send-fill me-2"></i>Enviados
+                        <i class="bi bi-send-fill me-2 fs-5 align-middle"></i> Enviados
                     </button>
                 </li>
             </ul>
@@ -96,129 +99,100 @@ include '../includes/header.php';
                 
                 <!-- TAB INBOX -->
                 <div class="tab-pane fade show active" id="inbox-pane" role="tabpanel" aria-labelledby="inbox-tab" tabindex="0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle m-0 mensajes-table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="ps-4 py-3" style="width: 50px;"></th>
-                                    <th class="py-3 text-secondary fw-semibold">De (Padre/Tutor)</th>
-                                    <th class="py-3 text-secondary fw-semibold">Asunto</th>
-                                    <th class="py-3 text-secondary fw-semibold">Fecha</th>
-                                    <th class="text-center pe-4 py-3 text-secondary fw-semibold">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($resultado_inbox->num_rows > 0): ?>
-                                    <?php while ($msg = $resultado_inbox->fetch_assoc()): ?>
-                                        <tr class="<?php echo $msg['leido'] == 0 ? 'bg-primary bg-opacity-10 fw-bold' : ''; ?> cursor-pointer transition-all">
-                                            <td class="ps-4 text-center text-primary">
-                                                <?php if ($msg['leido'] == 0): ?>
-                                                    <i class="bi bi-envelope-fill fs-5" title="No Leído"></i>
-                                                <?php else: ?>
-                                                    <i class="bi bi-envelope-open text-muted fs-5" title="Leído"></i>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-primary bg-gradient text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm"
-                                                        style="width: 38px; height: 38px; font-size: 1rem; font-weight: bold;">
-                                                        <?php echo strtoupper(substr($msg['remitente_nombre'], 0, 1)); ?>
-                                                    </div>
-                                                    <span class="<?php echo $msg['leido'] == 0 ? 'text-primary' : 'text-body fw-medium'; ?>">
-                                                        <?php echo htmlspecialchars($msg['remitente_nombre']); ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($msg['asunto']); ?>
-                                            </td>
-                                            <td class="text-muted small">
-                                                <?php echo date('d \d\e M Y', strtotime($msg['fecha_envio'])); ?><br>
-                                                <?php echo date('h:i A', strtotime($msg['fecha_envio'])); ?>
-                                            </td>
-                                            <td class="text-center pe-4">
-                                                <a href="leer_mensaje.php?id=<?php echo $msg['id_mensaje']; ?>"
-                                                    class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-medium">Leer</a>
-                                            </td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center text-muted p-5 bg-light">
-                                            <div class="py-4">
-                                                <div class="bg-body shadow-sm rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px;">
-                                                    <i class="bi bi-inbox fs-1 text-secondary"></i>
-                                                </div>
-                                                <h5 class="fw-bold">No tienes mensajes recibidos</h5>
-                                                <p class="mb-0 text-secondary">Aquí aparecerán los mensajes que te envíen los padres de familia.</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                    <div class="p-3 bg-body-tertiary custom-scroll rounded-bottom-4" style="max-height: 65vh; overflow-y: auto;" id="inbox-list">
+                        <?php if ($resultado_inbox->num_rows > 0): ?>
+                            <?php while ($msg = $resultado_inbox->fetch_assoc()): ?>
+                                <div class="message-card d-flex align-items-center p-3 mb-3 rounded-4 bg-body shadow-sm position-relative transition-all" onclick="window.location='leer_mensaje.php?id=<?php echo $msg['id_mensaje']; ?>'">
+                                    
+                                    <!-- Unread dot -->
+                                    <div class="msg-status me-3">
+                                        <?php if ($msg['leido'] == 0): ?>
+                                            <div class="status-dot bg-primary rounded-circle shadow-sm" title="No Leído"></div>
+                                        <?php else: ?>
+                                            <div class="status-dot border border-2 border-muted rounded-circle opacity-50" title="Leído"></div>
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <!-- Avatar -->
+                                    <div class="msg-avatar bg-gradient-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 flex-shrink-0 fw-bold shadow-sm">
+                                        <?php echo strtoupper(substr($msg['remitente_nombre'], 0, 1)); ?>
+                                    </div>
+                                    
+                                    <!-- Content -->
+                                    <div class="msg-content flex-grow-1 min-w-0">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                            <h6 class="mb-0 fw-bold <?php echo $msg['leido'] == 0 ? 'text-primary' : 'text-body'; ?> text-truncate">
+                                                <?php echo htmlspecialchars($msg['remitente_nombre']); ?>
+                                                <span class="badge bg-primary bg-opacity-10 text-primary fw-normal ms-2 small rounded-pill px-2">Padre/Tutor</span>
+                                            </h6>
+                                            <small class="text-muted ms-2 flex-shrink-0 fw-medium">
+                                                <?php echo date('d M, h:i a', strtotime($msg['fecha_envio'])); ?>
+                                            </small>
+                                        </div>
+                                        <p class="mb-0 text-truncate <?php echo $msg['leido'] == 0 ? 'fw-bold text-body-emphasis' : 'text-secondary'; ?>">
+                                            <?php echo htmlspecialchars($msg['asunto']); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <div class="empty-state text-center p-5 rounded-4 bg-body shadow-sm border-0 my-3">
+                                <div class="icon-circle bg-primary bg-opacity-10 text-primary mx-auto mb-3">
+                                    <i class="bi bi-inbox fs-1"></i>
+                                </div>
+                                <h5 class="fw-bold text-body">Bandeja Vacía</h5>
+                                <p class="text-muted mb-0">No tienes mensajes recibidos de los padres.</p>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <!-- TAB OUTBOX -->
                 <div class="tab-pane fade" id="outbox-pane" role="tabpanel" aria-labelledby="outbox-tab" tabindex="0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle m-0 mensajes-table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="ps-4 py-3" style="width: 50px;"></th>
-                                    <th class="py-3 text-secondary fw-semibold">Para (Padre/Tutor)</th>
-                                    <th class="py-3 text-secondary fw-semibold">Asunto</th>
-                                    <th class="py-3 text-secondary fw-semibold">Fecha</th>
-                                    <th class="text-center pe-4 py-3 text-secondary fw-semibold">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($resultado_outbox->num_rows > 0): ?>
-                                    <?php while ($msg = $resultado_outbox->fetch_assoc()): ?>
-                                        <tr class="cursor-pointer transition-all">
-                                            <td class="ps-4 text-center">
-                                                <i class="bi bi-send text-secondary fs-5" title="Enviado"></i>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="bg-secondary bg-gradient text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm"
-                                                        style="width: 38px; height: 38px; font-size: 1rem; font-weight: bold;">
-                                                        <?php echo strtoupper(substr($msg['destinatario_nombre'], 0, 1)); ?>
-                                                    </div>
-                                                    <span class="text-body fw-medium">
-                                                        <?php echo htmlspecialchars($msg['destinatario_nombre']); ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($msg['asunto']); ?>
-                                            </td>
-                                            <td class="text-muted small">
-                                                <?php echo date('d \d\e M Y', strtotime($msg['fecha_envio'])); ?><br>
-                                                <?php echo date('h:i A', strtotime($msg['fecha_envio'])); ?>
-                                            </td>
-                                            <td class="text-center pe-4">
-                                                <a href="leer_mensaje.php?id=<?php echo $msg['id_mensaje']; ?>"
-                                                    class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium">Ver</a>
-                                            </td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center text-muted p-5 bg-light">
-                                            <div class="py-4">
-                                                <div class="bg-body shadow-sm rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 80px; height: 80px;">
-                                                    <i class="bi bi-send fs-1 text-secondary"></i>
-                                                </div>
-                                                <h5 class="fw-bold">No tienes mensajes enviados</h5>
-                                                <p class="mb-0 text-secondary">Aquí aparecerán los mensajes que envíes a los padres.</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                    <div class="p-3 bg-body-tertiary custom-scroll rounded-bottom-4" style="max-height: 65vh; overflow-y: auto;" id="outbox-list">
+                        <?php if ($resultado_outbox->num_rows > 0): ?>
+                            <?php while ($msg = $resultado_outbox->fetch_assoc()): ?>
+                                <div class="message-card d-flex align-items-center p-3 mb-3 rounded-4 bg-body shadow-sm position-relative transition-all" onclick="window.location='leer_mensaje.php?id=<?php echo $msg['id_mensaje']; ?>'">
+                                    
+                                    <!-- Read status icon -->
+                                    <div class="msg-status me-3 text-center" style="width: 24px;">
+                                        <?php if ($msg['leido'] == 1): ?>
+                                            <i class="bi bi-check-all text-primary fs-5" title="Visto por el Padre"></i>
+                                        <?php else: ?>
+                                            <i class="bi bi-check2 text-muted fs-5 opacity-75" title="Enviado"></i>
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <!-- Avatar -->
+                                    <div class="msg-avatar bg-gradient-secondary text-white rounded-circle d-flex justify-content-center align-items-center me-3 flex-shrink-0 fw-bold shadow-sm">
+                                        <?php echo strtoupper(substr($msg['destinatario_nombre'], 0, 1)); ?>
+                                    </div>
+                                    
+                                    <!-- Content -->
+                                    <div class="msg-content flex-grow-1 min-w-0">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                            <h6 class="mb-0 fw-bold text-body text-truncate">
+                                                Para: <?php echo htmlspecialchars($msg['destinatario_nombre']); ?>
+                                            </h6>
+                                            <small class="text-muted ms-2 flex-shrink-0 fw-medium">
+                                                <?php echo date('d M, h:i a', strtotime($msg['fecha_envio'])); ?>
+                                            </small>
+                                        </div>
+                                        <p class="mb-0 text-truncate text-secondary">
+                                            <?php echo htmlspecialchars($msg['asunto']); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <div class="empty-state text-center p-5 rounded-4 bg-body shadow-sm border-0 my-3">
+                                <div class="icon-circle bg-secondary bg-opacity-10 text-secondary mx-auto mb-3">
+                                    <i class="bi bi-send-x fs-1"></i>
+                                </div>
+                                <h5 class="fw-bold text-body">Sin Enviados</h5>
+                                <p class="text-muted mb-0">No has enviado ningún mensaje a los padres.</p>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -228,14 +202,54 @@ include '../includes/header.php';
 </div>
 
 <style>
-    .cursor-pointer {
+    .message-card {
         cursor: pointer;
+        border: 1px solid transparent !important;
+        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
-    .mensajes-table tbody tr:hover {
-        background-color: rgba(var(--bs-primary-rgb), 0.03) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    .message-card:hover {
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 0.5rem 1.5rem rgba(13, 110, 253, 0.15) !important;
+        border-color: rgba(13, 110, 253, 0.2) !important;
+        z-index: 2;
+    }
+    .status-dot {
+        width: 12px;
+        height: 12px;
+    }
+    .msg-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+    }
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+    }
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Custom Scrollbar */
+    .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+        background: rgba(13, 110, 253, 0.2); 
+        border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+        background: rgba(13, 110, 253, 0.4); 
     }
 
     .nav-tabs .nav-link {
@@ -244,34 +258,19 @@ include '../includes/header.php';
         padding: 1rem 1.5rem;
         transition: all 0.3s ease;
     }
-    
     .nav-tabs .nav-link:hover {
         background-color: var(--bs-light);
         color: var(--bs-primary);
         border-color: transparent;
     }
-    
     .nav-tabs .nav-link.active {
         color: var(--bs-primary) !important;
-        border-bottom: 3px solid var(--bs-primary);
         background-color: transparent;
     }
 </style>
 
 <script>
-    // Hacer toda la fila clickeable hacia leer_mensaje
     document.addEventListener("DOMContentLoaded", function () {
-        const rows = document.querySelectorAll("tbody tr.cursor-pointer");
-        rows.forEach(row => {
-            row.addEventListener("click", function (e) {
-                // Prevenir que haga doble click si ya pinchó el botón
-                if (e.target.tagName !== 'A' && !e.target.closest('a')) {
-                    const link = this.querySelector("a.btn-outline-primary, a.btn-outline-secondary");
-                    if (link) window.location.href = link.href;
-                }
-            });
-        });
-        
         // Mantener la pestaña activa si hay un hash en la URL
         var hash = window.location.hash;
         if (hash) {
@@ -279,15 +278,29 @@ include '../includes/header.php';
             if (tabOption) {
                 var tab = new bootstrap.Tab(tabOption);
                 tab.show();
+                
+                // Active styles update needed on initial load if hash is present
+                document.querySelectorAll('.nav-tabs .nav-link').forEach(t => {
+                    t.style.borderBottomWidth = '0';
+                });
+                tabOption.style.borderBottomWidth = '3px';
+                tabOption.style.borderBottomColor = 'var(--bs-primary)';
             }
         }
         
-        // Actualizar hash al cambiar de pestaña para refrescar página y volver a la misma tab
+        // Actualizar hash al cambiar de pestaña
         var tabButtons = document.querySelectorAll('button[data-bs-toggle="tab"]');
         tabButtons.forEach(function(btn) {
             btn.addEventListener('shown.bs.tab', function (e) {
                 var target = e.target.getAttribute('data-bs-target');
                 window.location.hash = target;
+                
+                // Active link styles
+                document.querySelectorAll('.nav-tabs .nav-link').forEach(t => {
+                    t.style.borderBottomWidth = '0';
+                });
+                e.target.style.borderBottomWidth = '3px';
+                e.target.style.borderBottomColor = 'var(--bs-primary)';
             });
         });
     });
@@ -313,7 +326,7 @@ $conexion->close();
                     const doc = new DOMParser().parseFromString(html, 'text/html');
                     
                     // Actualizar Inbox
-                    const inboxSelector = '#inbox-pane tbody';
+                    const inboxSelector = '#inbox-list';
                     const currentInbox = document.querySelector(inboxSelector);
                     const newInbox = doc.querySelector(inboxSelector);
                     if(currentInbox && newInbox && currentInbox.innerHTML !== newInbox.innerHTML) {
@@ -321,7 +334,7 @@ $conexion->close();
                     }
                     
                     // Actualizar Outbox
-                    const outboxSelector = '#outbox-pane tbody';
+                    const outboxSelector = '#outbox-list';
                     const currentOutbox = document.querySelector(outboxSelector);
                     const newOutbox = doc.querySelector(outboxSelector);
                     if(currentOutbox && newOutbox && currentOutbox.innerHTML !== newOutbox.innerHTML) {

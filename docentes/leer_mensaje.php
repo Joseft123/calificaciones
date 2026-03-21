@@ -80,45 +80,50 @@ include '../includes/header.php';
 
 <style>
     .chat-container {
-        max-height: 60vh;
+        max-height: 55vh;
         overflow-y: auto;
         scroll-behavior: smooth;
+        padding: 1.5rem !important;
+        background-color: var(--bs-tertiary-bg) !important;
+        background-image: radial-gradient(var(--bs-border-color) 1px, transparent 1px);
+        background-size: 20px 20px;
     }
 
     /* Estilos Burbujas Chat */
     .chat-bubble {
-        max-width: 80%;
+        max-width: 85%;
         padding: 1rem 1.25rem;
-        border-radius: 1.5rem;
+        border-radius: 1.2rem;
         position: relative;
-        box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
-        margin-bottom: 1rem;
+        box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.05);
+        margin-bottom: 1.2rem;
         line-height: 1.5;
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
 
     .chat-bubble-received {
-        background-color: var(--bs-white);
-        border: 1px solid rgba(0,0,0,0.05);
-        border-top-left-radius: 0.25rem;
+        background-color: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-bottom-left-radius: 0.25rem;
         color: var(--bs-body-color);
     }
 
     .chat-bubble-sent {
-        background-color: var(--bs-primary);
+        background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
         color: white;
-        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
         margin-left: auto;
+        box-shadow: 0 0.25rem 0.5rem rgba(13, 110, 253, 0.2);
     }
 
     .chat-meta {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         margin-top: 0.5rem;
-        opacity: 0.8;
+        opacity: 0.9;
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 
     .chat-bubble-sent .chat-meta {
@@ -134,8 +139,7 @@ include '../includes/header.php';
         width: 6px;
     }
     .chat-container::-webkit-scrollbar-track {
-        background: rgba(0,0,0,0.02);
-        border-radius: 10px;
+        background: transparent;
     }
     .chat-container::-webkit-scrollbar-thumb {
         background: rgba(13, 110, 253, 0.2); 
@@ -145,9 +149,34 @@ include '../includes/header.php';
         background: rgba(13, 110, 253, 0.4); 
     }
 
+    .reply-box {
+        background: var(--bs-body-bg);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--bs-border-color) !important;
+    }
+
     .reply-box textarea {
         resize: none;
         border-radius: 1.5rem;
+        background-color: var(--bs-tertiary-bg) !important;
+        color: var(--bs-body-color) !important;
+        transition: all 0.2s ease;
+    }
+    .reply-box textarea:focus {
+        background-color: var(--bs-body-bg) !important;
+        color: var(--bs-body-color) !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        border-color: #0d6efd;
+    }
+    
+    .chat-header {
+        background: var(--bs-body-bg);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--bs-border-color) !important;
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
     }
 </style>
 
@@ -179,8 +208,8 @@ include '../includes/header.php';
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden mb-4 d-flex flex-column" style="height: 75vh;">
                 
                 <!-- Header Chat -->
-                <div class="card-header bg-white p-3 border-bottom d-flex align-items-center shadow-sm z-1">
-                    <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm flex-shrink-0" style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: bold;">
+                <div class="card-header chat-header p-3 d-flex align-items-center shadow-sm z-1">
+                    <div class="bg-gradient-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm flex-shrink-0" style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: bold;">
                         <?php echo strtoupper(substr($msg['padre_nombre'], 0, 1)); ?>
                     </div>
                     <div class="d-flex flex-column w-100">
@@ -196,7 +225,7 @@ include '../includes/header.php';
                 </div>
 
                 <!-- Cuerpo Chat (Mensajes Históricos / Actual) -->
-                <div class="card-body p-4 chat-container bg-light d-flex flex-column" id="chatWindow">
+                <div class="card-body p-4 chat-container bg-body-tertiary d-flex flex-column" id="chatWindow">
                     
                     <div class="text-center mb-4">
                         <span class="badge bg-secondary bg-opacity-25 text-secondary rounded-pill px-3 py-1 fw-normal shadow-sm">
@@ -220,7 +249,7 @@ include '../includes/header.php';
 
                 <!-- Input de Respuesta (Fijado abajo) -->
                 <?php if ($es_inbox): ?>
-                    <div class="card-footer bg-white p-3 border-top reply-box z-1 shadow-sm">
+                    <div class="card-footer bg-body p-3 border-top reply-box z-1 shadow-sm">
                         <form action="leer_mensaje.php?id=<?php echo $id_mensaje; ?>" method="POST" class="needs-validation m-0 d-flex gap-2" novalidate id="replyForm">
                             <input type="hidden" name="respuesta" value="1">
                             <input type="hidden" name="id_destinatario" value="<?php echo $msg['id_remitente']; ?>">
@@ -228,7 +257,7 @@ include '../includes/header.php';
                             <input type="hidden" name="asunto_original" value="<?php echo htmlspecialchars($msg['asunto']); ?>">
 
                             <div class="flex-grow-1 position-relative">
-                                <textarea name="respuesta_texto" id="replyTextarea" class="form-control form-control-lg bg-light border-0 px-4 py-3" rows="1" style="max-height: 120px; overflow-y: auto;" placeholder="Escribe un mensaje de respuesta..." required></textarea>
+                                <textarea name="respuesta_texto" id="replyTextarea" class="form-control form-control-lg bg-body-tertiary border-0 px-4 py-3" rows="1" style="max-height: 120px; overflow-y: auto;" placeholder="Escribe un mensaje de respuesta..." required></textarea>
                             </div>
                             <div class="d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary rounded-circle shadow-sm hover-scale d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;" title="Enviar Respuesta">

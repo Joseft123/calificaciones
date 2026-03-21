@@ -120,10 +120,15 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
         <div class="row justify-content-center">
             <div class="col-lg-9 col-xl-8">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="bi bi-pencil-square text-success me-2"></i>Escribir Mensaje al Docente</h2>
-                    <a href="mensajes.php" class="btn btn-outline-secondary rounded-pill px-4"><i
-                            class="bi bi-x-lg me-1"></i>Cancelar</a>
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                    <h3 class="fw-bold mb-0 text-body d-flex align-items-center">
+                        <div class="bg-success bg-gradient text-white rounded-circle d-inline-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 48px; height: 48px; font-size: 1.4rem;">
+                            <i class="bi bi-pencil-square"></i>
+                        </div> Escribir Mensaje
+                    </h3>
+                    <a href="mensajes.php" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm hover-scale d-flex align-items-center">
+                        <i class="bi bi-arrow-left me-2"></i>Volver a Mensajes
+                    </a>
                 </div>
 
                 <?php if ($mensaje_alerta): ?>
@@ -135,7 +140,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
                     </div>
                 <?php endif; ?>
 
-                <div class="card shadow-sm border-0 rounded-4">
+                <div class="card shadow-lg border-0 rounded-4 bg-body">
                     <div class="card-body p-4 p-md-5">
                         <form action="redactar_mensaje.php" method="POST" class="needs-validation" novalidate>
 
@@ -190,7 +195,7 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
 
                             <div class="d-flex justify-content-end mt-5 pt-3 border-top">
                                 <button type="submit"
-                                    class="btn btn-success btn-lg rounded-pill px-5 shadow-sm hover-scale fw-bold">
+                                    class="btn bg-gradient-success text-white btn-lg rounded-pill px-5 shadow hover-scale fw-bold border-0">
                                     Enviar Mensaje <i class="bi bi-send-fill ms-2"></i>
                                 </button>
                             </div>
@@ -207,6 +212,12 @@ if ($resultado_docentes && $resultado_docentes->num_rows > 0) {
         .form-select:focus {
             border-color: var(--bs-success) !important;
             box-shadow: none !important;
+        }
+        .bg-gradient-success {
+            background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+        }
+        .card {
+            transition: all 0.3s ease;
         }
     </style>
 
