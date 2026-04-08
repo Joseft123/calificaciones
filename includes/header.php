@@ -148,6 +148,15 @@ if (session_status() == PHP_SESSION_NONE) {
                     <i class="bi bi-megaphone-fill small"></i>
                 </span> Avisos</a></li>
 
+            <?php if (defined('ESTADO_LICENCIA') && ESTADO_LICENCIA === 'Prueba'): ?>
+            <li class="nav-item ms-lg-2 d-flex align-items-center me-2">
+                <a href="../auth/activar_licencia.php" class="btn btn-sm d-flex align-items-center" style="background: rgba(239, 68, 68, 0.15); border: 1px dashed rgba(239, 68, 68, 0.6); color: #fecaca; font-size: 0.75rem; border-radius: 20px; white-space: nowrap; font-weight: bold; box-shadow: 0 0 10px rgba(239,68,68,0.2);">
+                    <i class="bi bi-shield-exclamation me-1 text-danger fs-6"></i> 
+                    Prueba: <?php echo DIAS_TRIAL_RESTANTES; ?> días
+                </a>
+            </li>
+            <?php endif; ?>
+
             <li class="nav-item ms-lg-3 d-flex align-items-center">
               <span class="text-light me-3 d-flex align-items-center gap-2">
                 <?php if (!empty($_SESSION['foto_perfil'])): ?>
